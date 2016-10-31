@@ -1,0 +1,12 @@
+version: '2'
+services:
+    getreviews-postgresql:
+        container_name: getreviews-postgresql
+        image: postgres:9.5.4
+        # volumes:
+        #     - ~/volumes/jhipster/GetReviews/postgresql/:/var/lib/postgresql/
+        environment:
+            - POSTGRES_USER=GetReviews
+            - POSTGRES_PASSWORD=
+        ports:
+            - 5432:5432
