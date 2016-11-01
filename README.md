@@ -8,7 +8,7 @@
 * run "vagrant up" in GetReviews folder
 * vagrant ssh
 
-setup postgresql
+### setup postgresql
 
 * sudo apt-get update 
 * sudo apt-get -y install postgresql postgresql-contrib
@@ -18,13 +18,15 @@ setup postgresql
 * sudo vim /etc/postgresql/9.5/main/postgresql.conf
 ** listen_addresses = '*'
 * sudo -u postgres createuser GetReviews
-* sudo -u postgres -i
 * sudo /etc/init.d/postgresql restart
 
-start GetReviews
+* Add postgres to PgAdmin on your host
+* In PgAdmin create database GetReviews with owner GetReviews
+
+### start GetReviews
 
 * cd /vagrant
-* ? ./gradlew installGulp
+* ./gradlew npmInstall
 * ./gradlew
 
 
