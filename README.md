@@ -28,7 +28,7 @@
 * cd /vagrant
 * ./gradlew npmInstall
 * ./gradlew
-
+* open http://localhost:8080/ in browser on your host
 
 ## JHipster manual
 
