@@ -1,5 +1,35 @@
 # GetReviews
 
+## GetReviews Setup
+
+* Setup ViertualBox
+* https://www.vagrantup.com/
+* clone GetReviews
+* run "vagrant up" in GetReviews folder
+* vagrant ssh
+
+setup postgresql
+
+* sudo apt-get update 
+* sudo apt-get -y install postgresql postgresql-contrib
+* sudo vim /etc/postgresql/9.5/main/pg_hba.conf
+** set all from "md5", "peer" to "trust"
+** add "host    all             all             all                     trust"
+* sudo vim /etc/postgresql/9.5/main/postgresql.conf
+** listen_addresses = '*'
+* sudo -u postgres createuser GetReviews
+* sudo -u postgres -i
+* sudo /etc/init.d/postgresql restart
+
+start GetReviews
+
+* cd /vagrant
+* ? ./gradlew installGulp
+* ./gradlew
+
+
+## JHipster manual
+
 This application was generated using JHipster 3.9.1, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v3.9.1](https://jhipster.github.io/documentation-archive/v3.9.1).
 
 ## Development
