@@ -90,7 +90,7 @@ public class ReviewResource {
     public List<Review> getAllReviews() {
         log.debug("REST request to get all Reviews");
         List<Review> reviews = (List<Review>) reviewRepository.findAll();
-
+//
 //        ArrayList<Review> reviews = new ArrayList<>();
 //        Review review = new Review();
 //        review.setId(1001L);

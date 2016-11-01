@@ -1,0 +1,23 @@
+{
+    "getReviewsApp": {
+        "item" : {
+            "home": {
+                "title": "Items",
+                "createLabel": "Создать новый Item",
+                "createOrEditLabel": "Создать или отредактировать Item",
+                "search": "Найти Item"
+            },
+            "created": "Новый Item создан с идентификатором {{ param }}",
+            "updated": "Item обновлен с идентификатором {{ param }}",
+            "deleted": "Item удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Item {{ id }}?"
+            },
+            "detail": {
+                "title": "Item"
+            },
+            "name": "Name",
+            "description": "Description"
+        }
+    }
+}
