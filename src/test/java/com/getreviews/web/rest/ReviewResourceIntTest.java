@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GetReviewsApp.class)
 public class ReviewResourceIntTest {
-//
+
 //    private static final String DEFAULT_TEXT = "AAAAA";
 //    private static final String UPDATED_TEXT = "BBBBB";
 //

@@ -17,7 +17,8 @@
                 "title": "Review"
             },
             "text": "Text",
-            "rating": "Rating"
+            "rating": "Rating",
+            "item": "Item"
         }
     }
 }

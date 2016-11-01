@@ -27,6 +27,9 @@ public class Review implements Serializable {
     @Column(name = "rating")
     private Float rating;
 
+    @ManyToOne
+    private Item item;
+
     public Long getId() {
         return id;
     }
@@ -61,6 +64,19 @@ public class Review implements Serializable {
         this.rating = rating;
     }
 
+    public Item getItem() {
+        return item;
+    }
+
+    public Review item(Item item) {
+        this.item = item;
+        return this;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -88,5 +104,12 @@ public class Review implements Serializable {
             ", text='" + text + "'" +
             ", rating='" + rating + "'" +
             '}';
+    }
+
+    public Long getItemId() {
+        if(item == null)
+            return null;
+
+        return item.getId();
     }
 }

@@ -12,6 +12,10 @@
         <dd>
             <span>{{vm.review.rating}}</span>
         </dd>
+        <dt><span data-translate="getReviewsApp.review.item">Item</span></dt>
+        <dd>
+            <a ui-sref="item-detail({id:vm.review.item.id})">{{vm.review.item.name}}</a>
+        </dd>
     </dl>
 
     <button type="submit"

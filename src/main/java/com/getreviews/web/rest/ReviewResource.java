@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,14 +89,6 @@ public class ReviewResource {
     public List<Review> getAllReviews() {
         log.debug("REST request to get all Reviews");
         List<Review> reviews = (List<Review>) reviewRepository.findAll();
-//
-//        ArrayList<Review> reviews = new ArrayList<>();
-//        Review review = new Review();
-//        review.setId(1001L);
-//        review.setText("Test");
-//        reviews.add(review);
-
-
         return reviews;
     }
 

@@ -22,12 +22,22 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public <S extends Review> S save(S entity) {
-        return null;
+
+        int result = this.jdbcTemplate.update(
+            "insert into review (text, rating, item_id) values (?, ?, ?)",
+            entity.getText(), entity.getRating(), entity.getItemId());
+
+        entity.setId((long) result);
+        return entity;
     }
 
     @Override
     public <S extends Review> Iterable<S> save(Iterable<S> entities) {
-        return null;
+
+
+        throw new RuntimeException("EXC2");
+
+//        return entities;
     }
 
     @Override

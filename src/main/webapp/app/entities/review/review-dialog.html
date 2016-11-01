@@ -26,6 +26,12 @@
                      />
         </div>
 
+        <div class="form-group">
+            <label data-translate="getReviewsApp.review.item" for="field_item">Item</label>
+            <select class="form-control" id="field_item" name="item" ng-model="vm.review.item" ng-options="item as item.name for item in vm.items track by item.id">
+                <option value=""></option>
+            </select>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
