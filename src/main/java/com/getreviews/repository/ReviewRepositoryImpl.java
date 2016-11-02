@@ -19,6 +19,15 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+    private RowMapper<Review> rowMapper = new RowMapper<Review>() {
+        public Review mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Review review = new Review();
+            review.setId(rs.getLong("id"));
+            review.setText(rs.getString("text"));
+            review.setRating(rs.getFloat("rating"));
+            return review;
+        }
+    };
 
     @Override
     public <S extends Review> S save(S entity) {
@@ -42,7 +51,10 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public Review findOne(Long aLong) {
-        return null;
+        Review review = jdbcTemplate.queryForObject("select id, text, rating, item_id " +
+                "from review WHERE id=?",
+            new Object[]{aLong} , rowMapper);
+        return review;
     }
 
     @Override
@@ -52,23 +64,9 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public List<Review> findAll() {
-//        ArrayList<Review> reviews = new ArrayList<>();
-//        Review review = new Review();
-//        review.setId(1002L);
-//        review.setText("Test");
-//        reviews.add(review);
-
         List<Review> reviews = jdbcTemplate.query(
             "select id, text, rating from review",
-            new RowMapper<Review>() {
-                public Review mapRow(ResultSet rs, int rowNum) throws SQLException {
-                    Review review = new Review();
-                    review.setId(rs.getLong("id"));
-                    review.setText(rs.getString("text"));
-                    review.setRating(rs.getFloat("rating"));
-                    return review;
-                }
-            });
+            rowMapper);
 
         return reviews;
     }
