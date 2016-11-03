@@ -27,6 +27,7 @@
 
 * cd /vagrant
 * ./gradlew npmInstall
+* npm install --no-bin-links (for Windows)
 * ./gradlew
 * open http://localhost:8080/ in browser on your host
 
