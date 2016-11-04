@@ -1,0 +1,31 @@
+
+<div>
+    <h2><span data-translate="getReviewsApp.client.detail.title">Client</span> {{vm.client.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="getReviewsApp.client.fullname">Fullname</span></dt>
+        <dd>
+            <span>{{vm.client.fullname}}</span>
+        </dd>
+        <dt><span data-translate="getReviewsApp.client.nickname">Nickname</span></dt>
+        <dd>
+            <span>{{vm.client.nickname}}</span>
+        </dd>
+        <dt><span data-translate="getReviewsApp.client.ext_or_int">Ext Or Int</span></dt>
+        <dd>
+            <span>{{vm.client.ext_or_int}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="client-detail.edit({id:vm.client.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

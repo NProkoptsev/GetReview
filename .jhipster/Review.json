@@ -2,10 +2,22 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipName": "item",
+            "relationshipName": "ReviewSource",
+            "otherEntityName": "source",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "ReviewClient",
+            "otherEntityName": "review",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "ReviewItem",
             "otherEntityName": "item",
             "relationshipType": "many-to-one",
-            "otherEntityField": "name"
+            "otherEntityField": "id"
         }
     ],
     "fields": [

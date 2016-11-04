@@ -17,7 +17,8 @@
                 "title": "Item"
             },
             "name": "Name",
-            "description": "Description"
+            "description": "Description",
+            "ItemImage": "Item Image"
         }
     }
 }

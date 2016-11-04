@@ -11,4 +11,5 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 public interface ItemRepository extends JpaRepository<Item,Long> {
+
 }

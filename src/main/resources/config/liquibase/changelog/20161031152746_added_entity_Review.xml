@@ -29,7 +29,15 @@
                 <constraints nullable="true" />
             </column>
             
-            <column name="item_id" type="bigint">
+            <column name="review_source_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="review_client_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="review_item_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

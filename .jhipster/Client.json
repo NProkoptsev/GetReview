@@ -1,0 +1,23 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "fullname",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "nickname",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "ext_or_int",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20161104145538",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "client",
+    "pagination": "no"
+}

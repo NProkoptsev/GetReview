@@ -1,0 +1,24 @@
+{
+    "getReviewsApp": {
+        "source" : {
+            "home": {
+                "title": "Sources",
+                "createLabel": "Создать новый Source",
+                "createOrEditLabel": "Создать или отредактировать Source",
+                "search": "Найти Source"
+            },
+            "created": "Новый Source создан с идентификатором {{ param }}",
+            "updated": "Source обновлен с идентификатором {{ param }}",
+            "deleted": "Source удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Source {{ id }}?"
+            },
+            "detail": {
+                "title": "Source"
+            },
+            "url": "Url",
+            "name": "Name",
+            "description": "Description"
+        }
+    }
+}

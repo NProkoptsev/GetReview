@@ -27,7 +27,7 @@ import java.util.Optional;
 public class ReviewResource {
 
     private final Logger log = LoggerFactory.getLogger(ReviewResource.class);
-
+        
     @Inject
     private ReviewRepository reviewRepository;
 
@@ -88,7 +88,7 @@ public class ReviewResource {
     @Timed
     public List<Review> getAllReviews() {
         log.debug("REST request to get all Reviews");
-        List<Review> reviews = (List<Review>) reviewRepository.findAll();
+        List<Review> reviews = reviewRepository.findAll();
         return reviews;
     }
 

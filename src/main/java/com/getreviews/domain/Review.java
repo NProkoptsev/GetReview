@@ -28,7 +28,13 @@ public class Review implements Serializable {
     private Float rating;
 
     @ManyToOne
-    private Item item;
+    private Source reviewSource;
+
+    @ManyToOne
+    private Review reviewClient;
+
+    @ManyToOne
+    private Item reviewItem;
 
     public Long getId() {
         return id;
@@ -64,17 +70,43 @@ public class Review implements Serializable {
         this.rating = rating;
     }
 
-    public Item getItem() {
-        return item;
+    public Source getReviewSource() {
+        return reviewSource;
     }
 
-    public Review item(Item item) {
-        this.item = item;
+    public Review reviewSource(Source source) {
+        this.reviewSource = source;
         return this;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setReviewSource(Source source) {
+        this.reviewSource = source;
+    }
+
+    public Review getReviewClient() {
+        return reviewClient;
+    }
+
+    public Review reviewClient(Review review) {
+        this.reviewClient = review;
+        return this;
+    }
+
+    public void setReviewClient(Review review) {
+        this.reviewClient = review;
+    }
+
+    public Item getReviewItem() {
+        return reviewItem;
+    }
+
+    public Review reviewItem(Item item) {
+        this.reviewItem = item;
+        return this;
+    }
+
+    public void setReviewItem(Item item) {
+        this.reviewItem = item;
     }
 
     @Override
@@ -104,12 +136,5 @@ public class Review implements Serializable {
             ", text='" + text + "'" +
             ", rating='" + rating + "'" +
             '}';
-    }
-
-    public Long getItemId() {
-        if(item == null)
-            return null;
-
-        return item.getId();
     }
 }

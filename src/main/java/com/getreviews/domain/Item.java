@@ -1,10 +1,13 @@
 package com.getreviews.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -26,6 +29,11 @@ public class Item implements Serializable {
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "item")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Image> itemImages = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -59,6 +67,31 @@ public class Item implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Image> getItemImages() {
+        return itemImages;
+    }
+
+    public Item itemImages(Set<Image> images) {
+        this.itemImages = images;
+        return this;
+    }
+
+    public Item addItemImage(Image image) {
+        itemImages.add(image);
+        image.setItem(this);
+        return this;
+    }
+
+    public Item removeItemImage(Image image) {
+        itemImages.remove(image);
+        image.setItem(null);
+        return this;
+    }
+
+    public void setItemImages(Set<Image> images) {
+        this.itemImages = images;
     }
 
     @Override

@@ -1,0 +1,24 @@
+{
+    "getReviewsApp": {
+        "client" : {
+            "home": {
+                "title": "Clients",
+                "createLabel": "Create a new Client",
+                "createOrEditLabel": "Create or edit a Client",
+                "search": "Search for Client"
+            },
+            "created": "A new Client is created with identifier {{ param }}",
+            "updated": "A Client is updated with identifier {{ param }}",
+            "deleted": "A Client is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Client {{ id }}?"
+            },
+            "detail": {
+                "title": "Client"
+            },
+            "fullname": "Fullname",
+            "nickname": "Nickname",
+            "ext_or_int": "Ext Or Int"
+        }
+    }
+}

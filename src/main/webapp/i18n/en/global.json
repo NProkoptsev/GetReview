@@ -9,6 +9,10 @@
                 "main": "Entities",
                 "review": "Review",
                 "item": "Item",
+                "images": "Images",
+                "client": "Client",
+                "source": "Source",
+                "image": "Image",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

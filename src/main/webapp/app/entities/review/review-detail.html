@@ -12,9 +12,17 @@
         <dd>
             <span>{{vm.review.rating}}</span>
         </dd>
-        <dt><span data-translate="getReviewsApp.review.item">Item</span></dt>
+        <dt><span data-translate="getReviewsApp.review.ReviewSource">Review Source</span></dt>
         <dd>
-            <a ui-sref="item-detail({id:vm.review.item.id})">{{vm.review.item.name}}</a>
+            <a ui-sref="source-detail({id:vm.review.reviewSource.id})">{{vm.review.reviewSource.id}}</a>
+        </dd>
+        <dt><span data-translate="getReviewsApp.review.ReviewClient">Review Client</span></dt>
+        <dd>
+            <a ui-sref="review-detail({id:vm.review.reviewClient.id})">{{vm.review.reviewClient.id}}</a>
+        </dd>
+        <dt><span data-translate="getReviewsApp.review.ReviewItem">Review Item</span></dt>
+        <dd>
+            <a ui-sref="item-detail({id:vm.review.reviewItem.id})">{{vm.review.reviewItem.id}}</a>
         </dd>
     </dl>
 

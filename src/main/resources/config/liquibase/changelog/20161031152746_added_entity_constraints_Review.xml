@@ -8,9 +8,21 @@
     -->
     <changeSet id="20161031152746-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="item_id"
+        <addForeignKeyConstraint baseColumnNames="review_source_id"
                                  baseTableName="review"
-                                 constraintName="fk_review_item_id"
+                                 constraintName="fk_review_review_source_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="source"/>
+
+        <addForeignKeyConstraint baseColumnNames="review_client_id"
+                                 baseTableName="review"
+                                 constraintName="fk_review_review_client_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="review"/>
+
+        <addForeignKeyConstraint baseColumnNames="review_item_id"
+                                 baseTableName="review"
+                                 constraintName="fk_review_review_item_id"
                                  referencedColumnNames="id"
                                  referencedTableName="item"/>
 

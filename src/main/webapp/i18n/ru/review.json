@@ -18,7 +18,9 @@
             },
             "text": "Text",
             "rating": "Rating",
-            "item": "Item"
+            "ReviewSource": "Review Source",
+            "ReviewClient": "Review Client",
+            "ReviewItem": "Review Item"
         }
     }
 }

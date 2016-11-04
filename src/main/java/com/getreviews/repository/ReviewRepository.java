@@ -11,6 +11,6 @@ import java.util.List;
  * Spring Data JPA repository for the Review entity.
  */
 @SuppressWarnings("unused")
-public interface ReviewRepository extends CrudRepository<Review,Long> {
+public interface ReviewRepository extends JpaRepository<Review,Long> {
 
 }

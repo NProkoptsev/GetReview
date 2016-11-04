@@ -27,7 +27,7 @@ import java.util.Optional;
 public class ItemResource {
 
     private final Logger log = LoggerFactory.getLogger(ItemResource.class);
-
+        
     @Inject
     private ItemRepository itemRepository;
 
@@ -127,4 +127,5 @@ public class ItemResource {
         itemRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("item", id.toString())).build();
     }
+
 }
