@@ -14,6 +14,13 @@
         </dd>
     </dl>
 
+    <div>{{vm.test}}</div>
+    <!--test-->
+
+    <div ng-repeat="review in vm.reviews">
+        {{review.text}}
+    </div>
+
     <button type="submit"
             ui-sref="{{ vm.previousState }}"
             class="btn btn-info">
