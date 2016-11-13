@@ -19,8 +19,12 @@
         // vm.reviews.push({text:"test1"});
         // vm.reviews.push({text:"test2"});
 
-        Review.query(function(result) {
-            vm.reviews = result;
+        // Review.query(function(result) {
+        //     vm.reviews = result;
+        // });
+
+        Item.reviews({id : $stateParams.id}, function (result) {
+           vm.reviews = result;
         });
 
         var unsubscribe = $rootScope.$on('getReviewsApp:itemUpdate', function(event, result) {

@@ -134,12 +134,15 @@ public class ReviewResource {
     )
     @Timed
     public List<Review> getReviewsByItem(@PathVariable Long itemId){
-        ArrayList<Review> reviews = new ArrayList<>();
-        Review review = new Review();
-        review.setId(1002L);
-        review.setText("Test");
-        reviews.add(review);
 
-        return reviews;
+        return reviewRepository.findByItemId(itemId);
+
+//        ArrayList<Review> reviews = new ArrayList<>();
+//        Review review = new Review();
+//        review.setId(1002L);
+//        review.setText("Test");
+//        reviews.add(review);
+
+//        return reviews;
     }
 }

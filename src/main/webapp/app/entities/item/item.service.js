@@ -7,7 +7,7 @@
     Item.$inject = ['$resource'];
 
     function Item ($resource) {
-        var resourceUrl =  'api/items/:id';
+        var resourceUrl =  'api/items/:id/:subResource';
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},
@@ -20,7 +20,12 @@
                     return data;
                 }
             },
-            'update': { method:'PUT' }
+            'update': { method:'PUT' },
+            'reviews': {
+                params: {subResource: 'reviews'},
+                method: 'GET',
+                isArray: true
+            }
         });
     }
 })();

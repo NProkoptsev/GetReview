@@ -13,4 +13,5 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface ReviewRepository extends CrudRepository<Review,Long> {
 
+    List<Review> findByItemId(Long itemId);
 }
