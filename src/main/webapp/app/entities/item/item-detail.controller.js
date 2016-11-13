@@ -14,14 +14,8 @@
 
         vm.item = entity;
         vm.previousState = previousState.name;
-        vm.test = "OutputTest";
-        vm.reviews = [];
-        // vm.reviews.push({text:"test1"});
-        // vm.reviews.push({text:"test2"});
 
-        // Review.query(function(result) {
-        //     vm.reviews = result;
-        // });
+        vm.reviews = [];
 
         Item.reviews({id : $stateParams.id}, function (result) {
            vm.reviews = result;

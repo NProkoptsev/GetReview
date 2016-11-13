@@ -13,8 +13,8 @@
 
 spring:
     profiles:
-        active: dev
-        include: swagger
+        active: dev, fast
+#        include: swagger
     devtools:
         restart:
             enabled: true
@@ -22,6 +22,7 @@ spring:
             enabled: false # we use gulp + BrowserSync for livereload
     jackson:
         serialization.indent_output: true
+        serialization.write_dates_as_timestamps: false
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:postgresql://localhost:5432/GetReviews
