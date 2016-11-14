@@ -16,8 +16,8 @@
             "detail": {
                 "title": "Review"
             },
-            "text": "Text",
             "rating": "Rating",
+            "text": "Text",
             "source": "Source",
             "client": "Client",
             "item": "Item"

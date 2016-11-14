@@ -21,11 +21,11 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="text" type="varchar(255)">
+            <column name="rating" type="${floatType}">
                 <constraints nullable="true" />
             </column>
 
-            <column name="rating" type="${floatType}">
+            <column name="text" type="varchar(10000)">
                 <constraints nullable="true" />
             </column>
 

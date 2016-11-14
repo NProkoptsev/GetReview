@@ -19,8 +19,8 @@
             <thead>
                 <tr>
                     <th><span data-translate="global.field.id">ID</span></th>
-                    <th><span data-translate="getReviewsApp.review.text">Text</span></th>
                     <th><span data-translate="getReviewsApp.review.rating">Rating</span></th>
+                    <th><span data-translate="getReviewsApp.review.text">Text</span></th>
                     <th><span data-translate="getReviewsApp.review.source">Source</span></th>
                     <th><span data-translate="getReviewsApp.review.client">Client</span></th>
                     <th><span data-translate="getReviewsApp.review.item">Item</span></th>
@@ -30,8 +30,8 @@
             <tbody>
                 <tr ng-repeat="review in vm.reviews track by review.id">
                     <td><a ui-sref="review-detail({id:review.id})">{{review.id}}</a></td>
-                    <td>{{review.text}}</td>
                     <td>{{review.rating}}</td>
+                    <td>{{review.text}}</td>
                     <td>
                         <a ui-sref="source-detail({id:review.source.id})">{{review.source.id}}</a>
                     </td>

@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -21,7 +22,8 @@ public class Review implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "text")
+    @Size(max = 10000)
+    @Column(name = "text", length = 10000)
     private String text;
 
     @Column(name = "rating")
@@ -44,19 +46,6 @@ public class Review implements Serializable {
         this.id = id;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Review text(String text) {
-        this.text = text;
-        return this;
-    }
-
     public Float getRating() {
         return rating;
     }
@@ -67,6 +56,19 @@ public class Review implements Serializable {
 
     public Review rating(Float rating) {
         this.rating = rating;
+        return this;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Review text(String text) {
+        this.text = text;
         return this;
     }
 
@@ -133,8 +135,8 @@ public class Review implements Serializable {
     public String toString() {
         return "Review{" +
             "id=" + id +
-            ", text='" + text + "'" +
             ", rating='" + rating + "'" +
+            ", text='" + text + "'" +
             '}';
     }
 }

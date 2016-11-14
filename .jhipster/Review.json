@@ -22,12 +22,16 @@
     ],
     "fields": [
         {
-            "fieldName": "text",
-            "fieldType": "String"
-        },
-        {
             "fieldName": "rating",
             "fieldType": "Float"
+        },
+        {
+            "fieldName": "text",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "10000"
         }
     ],
     "changelogDate": "20161031152746",

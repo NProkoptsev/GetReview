@@ -1,5 +1,4 @@
-
-<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
@@ -14,16 +13,23 @@
                     ng-model="vm.review.id" readonly />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="getReviewsApp.review.text" for="field_text">Text</label>
-            <input type="text" class="form-control" name="text" id="field_text"
-                    ng-model="vm.review.text"
-                     />
-        </div>
-        <div class="form-group">
             <label class="control-label" data-translate="getReviewsApp.review.rating" for="field_rating">Rating</label>
             <input type="number" class="form-control" name="rating" id="field_rating"
                     ng-model="vm.review.rating"
                      />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="getReviewsApp.review.text" for="field_text">Text</label>
+            <input type="text" class="form-control" name="text" id="field_text"
+                   ng-model="vm.review.text"
+                   ng-maxlength="10000"/>
+            <div ng-show="editForm.text.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.text.$error.maxlength" data-translate="entity.validation.maxlength"
+                   translate-value-max="10000">
+                    This field cannot be longer than 10000 characters.
+                </p>
+            </div>
         </div>
 
         <div class="form-group">

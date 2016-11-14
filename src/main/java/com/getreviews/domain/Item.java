@@ -5,6 +5,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -27,7 +28,8 @@ public class Item implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
+    @Size(max = 10000)
+    @Column(name = "description", length = 10000)
     private String description;
 
     @OneToMany(mappedBy = "item")
@@ -39,6 +41,14 @@ public class Item implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Review> reviews = new HashSet<>();
+
+    public static Item create(Long id, String name, String description) {
+        Item item = new Item();
+        item.setId(id);
+        item.setName(name);
+        item.setDescription(description);
+        return item;
+    }
 
     public Long getId() {
         return id;
