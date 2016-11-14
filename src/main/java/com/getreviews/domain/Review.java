@@ -14,6 +14,7 @@ import java.util.Objects;
 /**
  * A Review.
  */
+
 @Entity
 @Table(name = "review")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -32,6 +33,15 @@ public class Review implements Serializable {
     @Column(name = "rating")
     private Float rating;
 
+    @ManyToOne
+    private Source source = Source.stub();
+
+    @ManyToOne
+    private Client client;
+
+    @ManyToOne
+    private Item item;
+
 
     //TODO should be some other structure - current User is only for internal
     //TODO implement saving
@@ -45,17 +55,6 @@ public class Review implements Serializable {
     //from some new base class Entity
     private Date createdDate = new Date(); //Just as stub
     private Date updatedDate = new Date(); //
-
-    private Source source = Source.stub();
-
-    @ManyToOne
-    private Source source;
-
-    @ManyToOne
-    private Client client;
-
-    @ManyToOne
-    private Item item;
 
     public Long getId() {
         return id;
@@ -129,15 +128,6 @@ public class Review implements Serializable {
         this.item = item;
         return this;
     }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -152,14 +142,6 @@ public class Review implements Serializable {
 
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
-    }
-
-    public Source getSource() {
-        return source;
-    }
-
-    public void setSource(Source source) {
-        this.source = source;
     }
 
     @Override

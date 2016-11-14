@@ -31,6 +31,9 @@
 * ./gradlew
 * open http://localhost:8080/ in browser on your host
 
+### possible solution for gradle errors
+* rm /home/vagrant/.gradle/caches -r -f
+
 ## JHipster manual
 
 This application was generated using JHipster 3.9.1, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v3.9.1](https://jhipster.github.io/documentation-archive/v3.9.1).

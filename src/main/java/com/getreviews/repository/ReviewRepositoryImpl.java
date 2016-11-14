@@ -130,7 +130,16 @@ public class ReviewRepositoryImpl implements ReviewRepository {
         List<Review> reviews = jdbcTemplate.query(
             "select id, text, rating from review where item_id = ?",
             new Object[]{itemId},
-            rowMapper);
+            new RowMapper<Review>() {
+                @Override
+                public Review mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    Review review = new Review();
+                    review.setId(rs.getLong("id"));
+                    review.setText(rs.getString("text"));
+                    review.setRating(rs.getFloat("rating"));
+                    return review;
+                }
+            });
 
         return reviews;
     }
