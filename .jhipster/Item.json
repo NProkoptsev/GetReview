@@ -2,8 +2,14 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipName": "ItemImage",
+            "relationshipName": "image",
             "otherEntityName": "image",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "item"
+        },
+        {
+            "relationshipName": "review",
+            "otherEntityName": "review",
             "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "item"
         }

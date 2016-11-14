@@ -7,8 +7,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A Item.
@@ -33,7 +33,12 @@ public class Item implements Serializable {
     @OneToMany(mappedBy = "item")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Image> itemImages = new HashSet<>();
+    private Set<Image> images = new HashSet<>();
+
+    @OneToMany(mappedBy = "item")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Review> reviews = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -47,17 +52,21 @@ public class Item implements Serializable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Item name(String name) {
         this.name = name;
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Item description(String description) {
@@ -65,33 +74,54 @@ public class Item implements Serializable {
         return this;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public Set<Image> getImages() {
+        return images;
     }
 
-    public Set<Image> getItemImages() {
-        return itemImages;
+    public void setImages(Set<Image> images) {
+        this.images = images;
     }
 
-    public Item itemImages(Set<Image> images) {
-        this.itemImages = images;
+    public Item images(Set<Image> images) {
+        this.images = images;
         return this;
     }
 
-    public Item addItemImage(Image image) {
-        itemImages.add(image);
+    public Item addImage(Image image) {
+        images.add(image);
         image.setItem(this);
         return this;
     }
 
-    public Item removeItemImage(Image image) {
-        itemImages.remove(image);
+    public Item removeImage(Image image) {
+        images.remove(image);
         image.setItem(null);
         return this;
     }
 
-    public void setItemImages(Set<Image> images) {
-        this.itemImages = images;
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public Item reviews(Set<Review> reviews) {
+        this.reviews = reviews;
+        return this;
+    }
+
+    public Item addReview(Review review) {
+        reviews.add(review);
+        review.setItem(this);
+        return this;
+    }
+
+    public Item removeReview(Review review) {
+        reviews.remove(review);
+        review.setItem(null);
+        return this;
     }
 
     @Override

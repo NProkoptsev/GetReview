@@ -28,13 +28,13 @@ public class Review implements Serializable {
     private Float rating;
 
     @ManyToOne
-    private Source reviewSource;
+    private Source source;
 
     @ManyToOne
-    private Review reviewClient;
+    private Client client;
 
     @ManyToOne
-    private Item reviewItem;
+    private Item item;
 
     public Long getId() {
         return id;
@@ -48,17 +48,21 @@ public class Review implements Serializable {
         return text;
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
+
     public Review text(String text) {
         this.text = text;
         return this;
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public Float getRating() {
         return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
     }
 
     public Review rating(Float rating) {
@@ -66,47 +70,43 @@ public class Review implements Serializable {
         return this;
     }
 
-    public void setRating(Float rating) {
-        this.rating = rating;
+    public Source getSource() {
+        return source;
     }
 
-    public Source getReviewSource() {
-        return reviewSource;
+    public void setSource(Source source) {
+        this.source = source;
     }
 
-    public Review reviewSource(Source source) {
-        this.reviewSource = source;
+    public Review source(Source source) {
+        this.source = source;
         return this;
     }
 
-    public void setReviewSource(Source source) {
-        this.reviewSource = source;
+    public Client getClient() {
+        return client;
     }
 
-    public Review getReviewClient() {
-        return reviewClient;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public Review reviewClient(Review review) {
-        this.reviewClient = review;
+    public Review client(Client client) {
+        this.client = client;
         return this;
     }
 
-    public void setReviewClient(Review review) {
-        this.reviewClient = review;
+    public Item getItem() {
+        return item;
     }
 
-    public Item getReviewItem() {
-        return reviewItem;
+    public void setItem(Item item) {
+        this.item = item;
     }
 
-    public Review reviewItem(Item item) {
-        this.reviewItem = item;
+    public Review item(Item item) {
+        this.item = item;
         return this;
-    }
-
-    public void setReviewItem(Item item) {
-        this.reviewItem = item;
     }
 
     @Override

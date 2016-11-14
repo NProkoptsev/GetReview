@@ -1,11 +1,7 @@
 package com.getreviews.repository;
 
 import com.getreviews.domain.Review;
-
-import org.springframework.data.jpa.repository.*;
-import org.springframework.data.repository.CrudRepository;
-
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Spring Data JPA repository for the Review entity.

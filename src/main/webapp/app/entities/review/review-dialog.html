@@ -27,20 +27,23 @@
         </div>
 
         <div class="form-group">
-            <label data-translate="getReviewsApp.review.ReviewSource" for="field_ReviewSource">Review Source</label>
-            <select class="form-control" id="field_ReviewSource" name="ReviewSource" ng-model="vm.review.reviewSource" ng-options="source as source.id for source in vm.sources track by source.id">
+            <label data-translate="getReviewsApp.review.source" for="field_source">Source</label>
+            <select class="form-control" id="field_source" name="source" ng-model="vm.review.source"
+                    ng-options="source as source.id for source in vm.sources track by source.id">
                 <option value=""></option>
             </select>
         </div>
         <div class="form-group">
-            <label data-translate="getReviewsApp.review.ReviewClient" for="field_ReviewClient">Review Client</label>
-            <select class="form-control" id="field_ReviewClient" name="ReviewClient" ng-model="vm.review.reviewClient" ng-options="review as review.id for review in vm.reviews track by review.id">
+            <label data-translate="getReviewsApp.review.client" for="field_client">Client</label>
+            <select class="form-control" id="field_client" name="client" ng-model="vm.review.client"
+                    ng-options="client as client.id for client in vm.clients track by client.id">
                 <option value=""></option>
             </select>
         </div>
         <div class="form-group">
-            <label data-translate="getReviewsApp.review.ReviewItem" for="field_ReviewItem">Review Item</label>
-            <select class="form-control" id="field_ReviewItem" name="ReviewItem" ng-model="vm.review.reviewItem" ng-options="item as item.id for item in vm.items track by item.id">
+            <label data-translate="getReviewsApp.review.item" for="field_item">Item</label>
+            <select class="form-control" id="field_item" name="item" ng-model="vm.review.item"
+                    ng-options="item as item.id for item in vm.items track by item.id">
                 <option value=""></option>
             </select>
         </div>

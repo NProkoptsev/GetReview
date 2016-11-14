@@ -5,9 +5,9 @@
         .module('getReviewsApp')
         .controller('ReviewDetailController', ReviewDetailController);
 
-    ReviewDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Review', 'Source', 'Item'];
+    ReviewDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Review', 'Source', 'Client', 'Item'];
 
-    function ReviewDetailController($scope, $rootScope, $stateParams, previousState, entity, Review, Source, Item) {
+    function ReviewDetailController($scope, $rootScope, $stateParams, previousState, entity, Review, Source, Client, Item) {
         var vm = this;
 
         vm.review = entity;

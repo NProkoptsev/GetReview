@@ -5,14 +5,15 @@
         .module('getReviewsApp')
         .controller('ImageDialogController', ImageDialogController);
 
-    ImageDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Image'];
+    ImageDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Image', 'Item'];
 
-    function ImageDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Image) {
+    function ImageDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, Image, Item) {
         var vm = this;
 
         vm.image = entity;
         vm.clear = clear;
         vm.save = save;
+        vm.items = Item.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

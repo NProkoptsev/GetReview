@@ -18,7 +18,8 @@
             },
             "name": "Name",
             "description": "Description",
-            "ItemImage": "Item Image"
+            "image": "Image",
+            "review": "Review"
         }
     }
 }

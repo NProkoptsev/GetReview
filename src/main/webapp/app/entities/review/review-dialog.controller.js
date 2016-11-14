@@ -5,16 +5,16 @@
         .module('getReviewsApp')
         .controller('ReviewDialogController', ReviewDialogController);
 
-    ReviewDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Review', 'Source', 'Item'];
+    ReviewDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Review', 'Source', 'Client', 'Item'];
 
-    function ReviewDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Review, Source, Item) {
+    function ReviewDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, Review, Source, Client, Item) {
         var vm = this;
 
         vm.review = entity;
         vm.clear = clear;
         vm.save = save;
         vm.sources = Source.query();
-        vm.reviews = Review.query();
+        vm.clients = Client.query();
         vm.items = Item.query();
 
         $timeout(function (){

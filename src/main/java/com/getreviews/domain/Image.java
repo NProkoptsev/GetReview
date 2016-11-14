@@ -24,7 +24,9 @@ public class Image implements Serializable {
     @Column(name = "url")
     private String url;
 
+    @ManyToOne
     private Item item;
+
     public Long getId() {
         return id;
     }
@@ -37,13 +39,26 @@ public class Image implements Serializable {
         return url;
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public Image url(String url) {
         this.url = url;
         return this;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public Image item(Item item) {
+        this.item = item;
+        return this;
     }
 
     @Override
@@ -72,9 +87,5 @@ public class Image implements Serializable {
             "id=" + id +
             ", url='" + url + "'" +
             '}';
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
     }
 }
