@@ -1,18 +1,28 @@
 
 <div>
-    <h2><span data-translate="getReviewsApp.item.detail.title">Item</span> {{vm.item.id}}</h2>
+    <h2>{{vm.item.name}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><span data-translate="getReviewsApp.item.name">Name</span></dt>
-        <dd>
-            <span>{{vm.item.name}}</span>
-        </dd>
         <dt><span data-translate="getReviewsApp.item.description">Description</span></dt>
         <dd>
             <span>{{vm.item.description}}</span>
         </dd>
     </dl>
+
+    <h3>Reviews:</h3>
+
+    <div class="panel panel-default" ng-repeat="review in vm.reviews" style="margin: 10px">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-5">{{review.author.firstName+" "+review.author.lastName}}</div>
+                <div class="col-md-3">Source: {{review.source.name}}</div>
+                <div class="col-md-4">Added: {{review.createdDate}}</div>
+            </div>
+            <div class="h4">{{review.rating}}</div>
+            <div>{{review.text}}</div>
+        </div>
+    </div>
 
     <button type="submit"
             ui-sref="{{ vm.previousState }}"

@@ -124,4 +124,14 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     public void deleteAll() {
         this.jdbcTemplate.update("delete from review");
     }
+
+    @Override
+    public List<Review> findByItemId(Long itemId) {
+        List<Review> reviews = jdbcTemplate.query(
+            "select id, text, rating from review where item_id = ?",
+            new Object[]{itemId},
+            rowMapper);
+
+        return reviews;
+    }
 }

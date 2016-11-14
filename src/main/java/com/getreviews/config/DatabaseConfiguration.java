@@ -3,6 +3,7 @@ package com.getreviews.config;
 import com.getreviews.config.liquibase.AsyncSpringLiquibase;
 
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
+import com.getreviews.repository.ReviewRepository;
 import liquibase.integration.spring.SpringLiquibase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ import javax.inject.Inject;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableJpaRepositories("com.getreviews.repository")
+@EnableJpaRepositories(value = "com.getreviews.repository")
 @EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")
 @EnableTransactionManagement
 public class DatabaseConfiguration {

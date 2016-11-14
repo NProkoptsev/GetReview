@@ -1,5 +1,6 @@
 package com.getreviews.domain;
 
+<<<<<<< HEAD
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -13,6 +14,18 @@ import java.util.Objects;
 @Entity
 @Table(name = "source")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+=======
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.io.Serializable;
+
+/**
+ * Created by vansickle on 13/11/16.
+ */
+@Entity
+>>>>>>> e977217172be16aee029014f5add4e4bdbe8234a
 public class Source implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,6 +34,7 @@ public class Source implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+<<<<<<< HEAD
     @Column(name = "url")
     private String url;
 
@@ -51,19 +65,27 @@ public class Source implements Serializable {
         this.url = url;
     }
 
+=======
+    private String name;
+
+>>>>>>> e977217172be16aee029014f5add4e4bdbe8234a
     public String getName() {
         return name;
     }
 
+<<<<<<< HEAD
     public Source name(String name) {
         this.name = name;
         return this;
     }
 
+=======
+>>>>>>> e977217172be16aee029014f5add4e4bdbe8234a
     public void setName(String name) {
         this.name = name;
     }
 
+<<<<<<< HEAD
     public String getDescription() {
         return description;
     }
@@ -105,5 +127,11 @@ public class Source implements Serializable {
             ", name='" + name + "'" +
             ", description='" + description + "'" +
             '}';
+=======
+    public static Source stub() {
+        Source source = new Source();
+        source.name = "Ozon.ru";
+        return source;
+>>>>>>> e977217172be16aee029014f5add4e4bdbe8234a
     }
 }

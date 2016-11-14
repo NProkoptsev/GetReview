@@ -2,10 +2,13 @@ package com.getreviews.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -28,6 +31,22 @@ public class Review implements Serializable {
 
     @Column(name = "rating")
     private Float rating;
+
+
+    //TODO should be some other structure - current User is only for internal
+    //TODO implement saving
+    private User author = User.johnDoe();
+
+    //TODO implement saving
+    //e.g. implementation option, see @CreateDate and @LastModifiedDate
+    // in http://docs.spring.io/spring-data/jpa/docs/1.4.1.RELEASE/reference/html/jpa.repositories.html
+    //another option - generate in DBMS on update (may be as trigger may be as sequence)
+    //TODO may be better to add createdDate and updatedDate to all entities via inherit all entities
+    //from some new base class Entity
+    private Date createdDate = new Date(); //Just as stub
+    private Date updatedDate = new Date(); //
+
+    private Source source = Source.stub();
 
     @ManyToOne
     private Source source;
@@ -109,6 +128,38 @@ public class Review implements Serializable {
     public Review item(Item item) {
         this.item = item;
         return this;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public Source getSource() {
+        return source;
+    }
+
+    public void setSource(Source source) {
+        this.source = source;
     }
 
     @Override

@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -127,4 +128,20 @@ public class ReviewResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("review", id.toString())).build();
     }
 
+    @RequestMapping(value = "/items/{itemId}/reviews",
+    method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Timed
+    public List<Review> getReviewsByItem(@PathVariable Long itemId){
+
+        return reviewRepository.findByItemId(itemId);
+
+//        ArrayList<Review> reviews = new ArrayList<>();
+//        Review review = new Review();
+//        review.setId(1002L);
+//        review.setText("Test");
+//        reviews.add(review);
+
+//        return reviews;
+    }
 }
