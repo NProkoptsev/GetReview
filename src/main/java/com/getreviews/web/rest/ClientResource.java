@@ -27,7 +27,7 @@ import java.util.Optional;
 public class ClientResource {
 
     private final Logger log = LoggerFactory.getLogger(ClientResource.class);
-        
+
     @Inject
     private ClientRepository clientRepository;
 
@@ -88,7 +88,7 @@ public class ClientResource {
     @Timed
     public List<Client> getAllClients() {
         log.debug("REST request to get all Clients");
-        List<Client> clients = clientRepository.findAll();
+        List<Client> clients = (List)clientRepository.findAll();
         return clients;
     }
 
