@@ -59,7 +59,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     @Override
     public <S extends Review> S save(S entity) {
 
-        int result = this.jdbcTemplate.update(
+        int result = jdbcTemplate.update(
             "insert into review (text, rating, source_id, client_id, item_id) values (?, ?, ?, ?, ?)",
             entity.getText(), entity.getRating(), entity.getSource().getId(), entity.getClient().getId(), entity.getItem().getId());
 
@@ -107,12 +107,12 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public void delete(Long aLong) {
-        this.jdbcTemplate.update("delete from review where id = ?", aLong);
+        jdbcTemplate.update("delete from review where id = ?", aLong);
     }
 
     @Override
     public void delete(Review entity) {
-        this.jdbcTemplate.update("delete from review where id = ?", entity.getId());
+        jdbcTemplate.update("delete from review where id = ?", entity.getId());
     }
 
     @Override
@@ -122,7 +122,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public void deleteAll() {
-        this.jdbcTemplate.update("delete from review");
+        jdbcTemplate.update("delete from review");
     }
 
     @Override

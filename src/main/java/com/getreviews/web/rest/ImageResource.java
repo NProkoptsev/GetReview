@@ -27,7 +27,7 @@ import java.util.Optional;
 public class ImageResource {
 
     private final Logger log = LoggerFactory.getLogger(ImageResource.class);
-        
+
     @Inject
     private ImageRepository imageRepository;
 
@@ -88,7 +88,7 @@ public class ImageResource {
     @Timed
     public List<Image> getAllImages() {
         log.debug("REST request to get all Images");
-        List<Image> images = imageRepository.findAll();
+        List<Image> images = (List<Image>)imageRepository.findAll();
         return images;
     }
 

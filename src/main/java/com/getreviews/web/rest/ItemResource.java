@@ -87,7 +87,7 @@ public class ItemResource {
     @Timed
     public List<Item> getAllItems() {
         log.debug("REST request to get all Items");
-        List<Item> items = itemRepository.findAll();
+        List<Item> items = (List<Item>)itemRepository.findAll();
         return items;
     }
 

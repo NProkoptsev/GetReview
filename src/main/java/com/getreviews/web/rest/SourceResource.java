@@ -27,7 +27,7 @@ import java.util.Optional;
 public class SourceResource {
 
     private final Logger log = LoggerFactory.getLogger(SourceResource.class);
-        
+
     @Inject
     private SourceRepository sourceRepository;
 
@@ -88,7 +88,7 @@ public class SourceResource {
     @Timed
     public List<Source> getAllSources() {
         log.debug("REST request to get all Sources");
-        List<Source> sources = sourceRepository.findAll();
+        List<Source> sources = (List<Source>)sourceRepository.findAll();
         return sources;
     }
 
