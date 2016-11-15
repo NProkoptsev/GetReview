@@ -58,10 +58,11 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public <S extends Review> S save(S entity) {
-
         int result = this.jdbcTemplate.update(
-            "insert into review (text, rating, source_id, client_id, item_id) values (?, ?, ?, ?, ?)",
-            entity.getText(), entity.getRating(), entity.getSource().getId(), entity.getClient().getId(), entity.getItem().getId());
+            "insert into review (text, rating, source_id, client_id, item_id)" +
+                    " values (?, ?, ?, ?, ?)",
+            entity.getText(), entity.getRating(), entity.getSource().getId(),
+            entity.getClient().getId(), entity.getItem().getId());
 
         entity.setId((long) result);
         return entity;
