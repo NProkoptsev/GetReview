@@ -19,27 +19,27 @@
             <thead>
                 <tr>
                     <th><span data-translate="global.field.id">ID</span></th>
-                    <th><span data-translate="getReviewsApp.review.text">Text</span></th>
                     <th><span data-translate="getReviewsApp.review.rating">Rating</span></th>
-                    <th><span data-translate="getReviewsApp.review.ReviewSource">Review Source</span></th>
-                    <th><span data-translate="getReviewsApp.review.ReviewClient">Review Client</span></th>
-                    <th><span data-translate="getReviewsApp.review.ReviewItem">Review Item</span></th>
+                    <th><span data-translate="getReviewsApp.review.text">Text</span></th>
+                    <th><span data-translate="getReviewsApp.review.source">Source</span></th>
+                    <th><span data-translate="getReviewsApp.review.client">Client</span></th>
+                    <th><span data-translate="getReviewsApp.review.item">Item</span></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="review in vm.reviews track by review.id">
                     <td><a ui-sref="review-detail({id:review.id})">{{review.id}}</a></td>
-                    <td>{{review.text}}</td>
                     <td>{{review.rating}}</td>
+                    <td>{{review.text}}</td>
                     <td>
-                        <a ui-sref="source-detail({id:review.reviewSource.id})">{{review.reviewSource.id}}</a>
+                        <a ui-sref="source-detail({id:review.source.id})">{{review.source.id}}</a>
                     </td>
                     <td>
-                        <a ui-sref="review-detail({id:review.reviewClient.id})">{{review.reviewClient.id}}</a>
+                        <a ui-sref="client-detail({id:review.client.id})">{{review.client.id}}</a>
                     </td>
                     <td>
-                        <a ui-sref="item-detail({id:review.reviewItem.id})">{{review.reviewItem.id}}</a>
+                        <a ui-sref="item-detail({id:review.item.id})">{{review.item.id}}</a>
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">

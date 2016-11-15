@@ -16,11 +16,11 @@
             "detail": {
                 "title": "Review"
             },
-            "text": "Text",
             "rating": "Rating",
-            "ReviewSource": "Review Source",
-            "ReviewClient": "Review Client",
-            "ReviewItem": "Review Item"
+            "text": "Text",
+            "source": "Source",
+            "client": "Client",
+            "item": "Item"
         }
     }
 }

@@ -2,18 +2,17 @@ package com.getreviews.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.getreviews.domain.Item;
-
 import com.getreviews.repository.ItemRepository;
 import com.getreviews.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -27,7 +26,7 @@ import java.util.Optional;
 public class ItemResource {
 
     private final Logger log = LoggerFactory.getLogger(ItemResource.class);
-        
+
     @Inject
     private ItemRepository itemRepository;
 
@@ -42,7 +41,7 @@ public class ItemResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Item> createItem(@RequestBody Item item) throws URISyntaxException {
+    public ResponseEntity<Item> createItem(@Valid @RequestBody Item item) throws URISyntaxException {
         log.debug("REST request to save Item : {}", item);
         if (item.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("item", "idexists", "A new item cannot already have an ID")).body(null);
@@ -66,7 +65,7 @@ public class ItemResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Item> updateItem(@RequestBody Item item) throws URISyntaxException {
+    public ResponseEntity<Item> updateItem(@Valid @RequestBody Item item) throws URISyntaxException {
         log.debug("REST request to update Item : {}", item);
         if (item.getId() == null) {
             return createItem(item);

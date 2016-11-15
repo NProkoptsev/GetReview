@@ -18,7 +18,8 @@
             },
             "fullname": "Fullname",
             "nickname": "Nickname",
-            "ext_or_int": "Ext Or Int"
+            "ext_or_int": "Ext Or Int",
+            "review": "Review"
         }
     }
 }

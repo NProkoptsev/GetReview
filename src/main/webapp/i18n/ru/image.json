@@ -16,7 +16,8 @@
             "detail": {
                 "title": "Image"
             },
-            "url": "Url"
+            "url": "Url",
+            "item": "Item"
         }
     }
 }

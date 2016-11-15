@@ -67,7 +67,7 @@ class ReviewGatlingTest extends Simulation {
             .exec(http("Create new review")
             .post("/api/reviews")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "text":"SAMPLE_TEXT", "rating":null}""")).asJSON
+            .body(StringBody("""{"id":null, "rating":null, "text":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_review_url"))).exitHereIfFailed
             .pause(10)

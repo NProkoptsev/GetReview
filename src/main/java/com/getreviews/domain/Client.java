@@ -1,11 +1,14 @@
 package com.getreviews.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A Client.
@@ -30,6 +33,11 @@ public class Client implements Serializable {
     @Column(name = "ext_or_int")
     private Boolean ext_or_int;
 
+    @OneToMany(mappedBy = "client")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Review> reviews = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -42,26 +50,26 @@ public class Client implements Serializable {
         return fullname;
     }
 
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
     public Client fullname(String fullname) {
         this.fullname = fullname;
         return this;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
     }
 
     public String getNickname() {
         return nickname;
     }
 
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public Client nickname(String nickname) {
         this.nickname = nickname;
         return this;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
     public Boolean isExt_or_int() {
@@ -75,6 +83,31 @@ public class Client implements Serializable {
 
     public void setExt_or_int(Boolean ext_or_int) {
         this.ext_or_int = ext_or_int;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public Client reviews(Set<Review> reviews) {
+        this.reviews = reviews;
+        return this;
+    }
+
+    public Client addReview(Review review) {
+        reviews.add(review);
+        review.setClient(this);
+        return this;
+    }
+
+    public Client removeReview(Review review) {
+        reviews.remove(review);
+        review.setClient(null);
+        return this;
     }
 
     @Override

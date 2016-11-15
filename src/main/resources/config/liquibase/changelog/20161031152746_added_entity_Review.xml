@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <databaseChangeLog
-    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <property name="now" value="now()" dbms="mysql,h2"/>
@@ -21,28 +21,28 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="text" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            
             <column name="rating" type="${floatType}">
                 <constraints nullable="true" />
             </column>
-            
-            <column name="review_source_id" type="bigint">
+
+            <column name="text" type="varchar(10000)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="review_client_id" type="bigint">
+            <column name="source_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
-            <column name="review_item_id" type="bigint">
+            <column name="client_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="item_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
-        
+
     </changeSet>
 </databaseChangeLog>

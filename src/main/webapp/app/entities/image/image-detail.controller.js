@@ -5,9 +5,9 @@
         .module('getReviewsApp')
         .controller('ImageDetailController', ImageDetailController);
 
-    ImageDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Image'];
+    ImageDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Image', 'Item'];
 
-    function ImageDetailController($scope, $rootScope, $stateParams, previousState, entity, Image) {
+    function ImageDetailController($scope, $rootScope, $stateParams, previousState, entity, Image, Item) {
         var vm = this;
 
         vm.image = entity;

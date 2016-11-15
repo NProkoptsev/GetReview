@@ -2,18 +2,17 @@ package com.getreviews.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.getreviews.domain.Review;
-
 import com.getreviews.repository.ReviewRepository;
 import com.getreviews.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -27,7 +26,7 @@ import java.util.Optional;
 public class ReviewResource {
 
     private final Logger log = LoggerFactory.getLogger(ReviewResource.class);
-        
+
     @Inject
     private ReviewRepository reviewRepository;
 
@@ -42,7 +41,7 @@ public class ReviewResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Review> createReview(@RequestBody Review review) throws URISyntaxException {
+    public ResponseEntity<Review> createReview(@Valid @RequestBody Review review) throws URISyntaxException {
         log.debug("REST request to save Review : {}", review);
         if (review.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("review", "idexists", "A new review cannot already have an ID")).body(null);
@@ -66,7 +65,7 @@ public class ReviewResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Review> updateReview(@RequestBody Review review) throws URISyntaxException {
+    public ResponseEntity<Review> updateReview(@Valid @RequestBody Review review) throws URISyntaxException {
         log.debug("REST request to update Review : {}", review);
         if (review.getId() == null) {
             return createReview(review);
@@ -88,7 +87,7 @@ public class ReviewResource {
     @Timed
     public List<Review> getAllReviews() {
         log.debug("REST request to get all Reviews");
-        List<Review> reviews = reviewRepository.findAll();
+        List<Review> reviews = (List<Review>) reviewRepository.findAll();
         return reviews;
     }
 

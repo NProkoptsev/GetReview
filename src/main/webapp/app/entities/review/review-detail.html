@@ -4,25 +4,25 @@
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><span data-translate="getReviewsApp.review.text">Text</span></dt>
-        <dd>
-            <span>{{vm.review.text}}</span>
-        </dd>
         <dt><span data-translate="getReviewsApp.review.rating">Rating</span></dt>
         <dd>
             <span>{{vm.review.rating}}</span>
         </dd>
-        <dt><span data-translate="getReviewsApp.review.ReviewSource">Review Source</span></dt>
+        <dt><span data-translate="getReviewsApp.review.text">Text</span></dt>
         <dd>
-            <a ui-sref="source-detail({id:vm.review.reviewSource.id})">{{vm.review.reviewSource.id}}</a>
+            <span>{{vm.review.text}}</span>
         </dd>
-        <dt><span data-translate="getReviewsApp.review.ReviewClient">Review Client</span></dt>
+        <dt><span data-translate="getReviewsApp.review.source">Source</span></dt>
         <dd>
-            <a ui-sref="review-detail({id:vm.review.reviewClient.id})">{{vm.review.reviewClient.id}}</a>
+            <a ui-sref="source-detail({id:vm.review.source.id})">{{vm.review.source.id}}</a>
         </dd>
-        <dt><span data-translate="getReviewsApp.review.ReviewItem">Review Item</span></dt>
+        <dt><span data-translate="getReviewsApp.review.client">Client</span></dt>
         <dd>
-            <a ui-sref="item-detail({id:vm.review.reviewItem.id})">{{vm.review.reviewItem.id}}</a>
+            <a ui-sref="client-detail({id:vm.review.client.id})">{{vm.review.client.id}}</a>
+        </dd>
+        <dt><span data-translate="getReviewsApp.review.item">Item</span></dt>
+        <dd>
+            <a ui-sref="item-detail({id:vm.review.item.id})">{{vm.review.item.id}}</a>
         </dd>
     </dl>
 

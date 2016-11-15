@@ -4,7 +4,7 @@ describe('Controller Tests', function() {
 
     describe('Image Management Detail Controller', function() {
         var $scope, $rootScope;
-        var MockEntity, MockPreviousState, MockImage;
+        var MockEntity, MockPreviousState, MockImage, MockItem;
         var createController;
 
         beforeEach(inject(function($injector) {
@@ -13,6 +13,7 @@ describe('Controller Tests', function() {
             MockEntity = jasmine.createSpy('MockEntity');
             MockPreviousState = jasmine.createSpy('MockPreviousState');
             MockImage = jasmine.createSpy('MockImage');
+            MockItem = jasmine.createSpy('MockItem');
             
 
             var locals = {
@@ -20,7 +21,8 @@ describe('Controller Tests', function() {
                 '$rootScope': $rootScope,
                 'entity': MockEntity,
                 'previousState': MockPreviousState,
-                'Image': MockImage
+                'Image': MockImage,
+                'Item': MockItem
             };
             createController = function() {
                 $injector.get('$controller')("ImageDetailController", locals);

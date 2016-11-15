@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -21,20 +22,21 @@ public class Review implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "text")
+    @Size(max = 10000)
+    @Column(name = "text", length = 10000)
     private String text;
 
     @Column(name = "rating")
     private Float rating;
 
     @ManyToOne
-    private Source reviewSource;
+    private Source source;
 
     @ManyToOne
-    private Review reviewClient;
+    private Client client;
 
     @ManyToOne
-    private Item reviewItem;
+    private Item item;
 
     public Long getId() {
         return id;
@@ -44,21 +46,12 @@ public class Review implements Serializable {
         this.id = id;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public Review text(String text) {
-        this.text = text;
-        return this;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public Float getRating() {
         return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
     }
 
     public Review rating(Float rating) {
@@ -66,47 +59,56 @@ public class Review implements Serializable {
         return this;
     }
 
-    public void setRating(Float rating) {
-        this.rating = rating;
+    public String getText() {
+        return text;
     }
 
-    public Source getReviewSource() {
-        return reviewSource;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public Review reviewSource(Source source) {
-        this.reviewSource = source;
+    public Review text(String text) {
+        this.text = text;
         return this;
     }
 
-    public void setReviewSource(Source source) {
-        this.reviewSource = source;
+    public Source getSource() {
+        return source;
     }
 
-    public Review getReviewClient() {
-        return reviewClient;
+    public void setSource(Source source) {
+        this.source = source;
     }
 
-    public Review reviewClient(Review review) {
-        this.reviewClient = review;
+    public Review source(Source source) {
+        this.source = source;
         return this;
     }
 
-    public void setReviewClient(Review review) {
-        this.reviewClient = review;
+    public Client getClient() {
+        return client;
     }
 
-    public Item getReviewItem() {
-        return reviewItem;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public Review reviewItem(Item item) {
-        this.reviewItem = item;
+    public Review client(Client client) {
+        this.client = client;
         return this;
     }
 
-    public void setReviewItem(Item item) {
-        this.reviewItem = item;
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public Review item(Item item) {
+        this.item = item;
+        return this;
     }
 
     @Override
@@ -133,8 +135,8 @@ public class Review implements Serializable {
     public String toString() {
         return "Review{" +
             "id=" + id +
-            ", text='" + text + "'" +
             ", rating='" + rating + "'" +
+            ", text='" + text + "'" +
             '}';
     }
 }

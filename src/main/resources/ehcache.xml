@@ -36,7 +36,7 @@
     <cache name="com.getreviews.domain.User.persistentTokens"
            timeToLiveSeconds="3600">
     </cache>
-    
+
     <cache name="com.getreviews.domain.Review"
         timeToLiveSeconds="3600">
     </cache>
@@ -45,33 +45,32 @@
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="com.getreviews.domain.Images"
-        timeToLiveSeconds="3600">
-    </cache>
-
     <cache name="com.getreviews.domain.Client"
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="com.getreviews.domain.Client.reviewClients"
-        timeToLiveSeconds="3600">
-    </cache>
 
     <cache name="com.getreviews.domain.Source"
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="com.getreviews.domain.Source.reviewSources"
-        timeToLiveSeconds="3600">
-    </cache>
 
     <cache name="com.getreviews.domain.Image"
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="com.getreviews.domain.Item.itemImages"
-        timeToLiveSeconds="3600">
+    <cache name="com.getreviews.domain.Item.images"
+           timeToLiveSeconds="3600">
     </cache>
+
+    <cache name="com.getreviews.domain.Item.reviews"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.getreviews.domain.Client.reviews"
+           timeToLiveSeconds="3600">
+    </cache>
+
 
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>
