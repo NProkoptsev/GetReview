@@ -43,7 +43,8 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public Page<Item> findAll(Pageable pageable) {
-        List<Item> items = jdbcTemplate.query("select id, name, description from item limit 10000", rowMapper);
+        List<Item> items = jdbcTemplate.query("select id, name, description from item limit ? offset ?", rowMapper,
+            pageable.getPageSize(), pageable.getPageNumber()*pageable.getPageSize());
         Page<Item> page = new PageImpl<Item>(items, pageable, count());
         return page;
     }
