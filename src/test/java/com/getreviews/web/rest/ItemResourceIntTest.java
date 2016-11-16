@@ -1,16 +1,19 @@
 package com.getreviews.web.rest;
 
 import com.getreviews.GetReviewsApp;
+
 import com.getreviews.domain.Item;
 import com.getreviews.repository.ItemRepository;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,7 +26,6 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -58,6 +60,16 @@ public class ItemResourceIntTest {
 
     private Item item;
 
+    @PostConstruct
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        ItemResource itemResource = new ItemResource();
+        ReflectionTestUtils.setField(itemResource, "itemRepository", itemRepository);
+        this.restItemMockMvc = MockMvcBuilders.standaloneSetup(itemResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setMessageConverters(jacksonMessageConverter).build();
+    }
+
     /**
      * Create an entity for this test.
      *
@@ -69,16 +81,6 @@ public class ItemResourceIntTest {
                 .name(DEFAULT_NAME)
                 .description(DEFAULT_DESCRIPTION);
         return item;
-    }
-
-    @PostConstruct
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-        ItemResource itemResource = new ItemResource();
-        ReflectionTestUtils.setField(itemResource, "itemRepository", itemRepository);
-        this.restItemMockMvc = MockMvcBuilders.standaloneSetup(itemResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     @Before

@@ -2,6 +2,9 @@ package com.getreviews.repository;
 
 import com.getreviews.domain.Item;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -36,6 +39,13 @@ public class ItemRepositoryImpl implements ItemRepository {
     @Override
     public <S extends Item> Iterable<S> save(Iterable<S> entities) {
         return null;
+    }
+
+    @Override
+    public Page<Item> findAll(Pageable pageable) {
+        List<Item> items = jdbcTemplate.query("select id, name, description from item limit 10000", rowMapper);
+        Page<Item> page = new PageImpl<Item>(items, pageable, count());
+        return page;
     }
 
     @Override

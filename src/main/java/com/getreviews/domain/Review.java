@@ -37,15 +37,11 @@ public class Review implements Serializable {
     private Source source = Source.stub();
 
     @ManyToOne
-    private Client client;
+    private Client client = Client.johnDoe();
 
     @ManyToOne
     private Item item;
 
-
-    //TODO should be some other structure - current User is only for internal
-    //TODO implement saving
-    private User author = User.johnDoe();
 
     //TODO implement saving
     //e.g. implementation option, see @CreateDate and @LastModifiedDate

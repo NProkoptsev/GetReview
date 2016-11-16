@@ -2,10 +2,15 @@ package com.getreviews.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.getreviews.domain.Item;
+
 import com.getreviews.repository.ItemRepository;
 import com.getreviews.web.rest.util.HeaderUtil;
+import com.getreviews.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +31,7 @@ import java.util.Optional;
 public class ItemResource {
 
     private final Logger log = LoggerFactory.getLogger(ItemResource.class);
-
+        
     @Inject
     private ItemRepository itemRepository;
 
@@ -79,16 +84,20 @@ public class ItemResource {
     /**
      * GET  /items : get all the items.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of items in body
+     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @RequestMapping(value = "/items",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Item> getAllItems() {
-        log.debug("REST request to get all Items");
-        List<Item> items = (List<Item>)itemRepository.findAll();
-        return items;
+    public ResponseEntity<List<Item>> getAllItems(Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Items");
+        Page<Item> page = itemRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/items");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**

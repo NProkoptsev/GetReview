@@ -19,6 +19,8 @@ import java.util.Set;
 public class Client implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    public static final boolean INTERNAL = false;
+    public static final boolean EXTERNAL = true;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -138,5 +140,12 @@ public class Client implements Serializable {
             ", nickname='" + nickname + "'" +
             ", ext_or_int='" + ext_or_int + "'" +
             '}';
+    }
+    public static Client johnDoe() {
+        Client client = new Client();
+        client.fullname = "John Doe";
+        client.nickname = "JD";
+        client.ext_or_int = EXTERNAL;
+        return client;
     }
 }

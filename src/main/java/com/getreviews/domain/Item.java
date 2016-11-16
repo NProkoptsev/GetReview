@@ -5,11 +5,11 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
+import java.util.Objects;
 
 /**
  * A Item.
@@ -42,14 +42,6 @@ public class Item implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Review> reviews = new HashSet<>();
 
-    public static Item create(Long id, String name, String description) {
-        Item item = new Item();
-        item.setId(id);
-        item.setName(name);
-        item.setDescription(description);
-        return item;
-    }
-
     public Long getId() {
         return id;
     }
@@ -62,21 +54,17 @@ public class Item implements Serializable {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Item name(String name) {
         this.name = name;
         return this;
     }
 
-    public String getDescription() {
-        return description;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String getDescription() {
+        return description;
     }
 
     public Item description(String description) {
@@ -84,12 +72,12 @@ public class Item implements Serializable {
         return this;
     }
 
-    public Set<Image> getImages() {
-        return images;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setImages(Set<Image> images) {
-        this.images = images;
+    public Set<Image> getImages() {
+        return images;
     }
 
     public Item images(Set<Image> images) {
@@ -109,12 +97,12 @@ public class Item implements Serializable {
         return this;
     }
 
-    public Set<Review> getReviews() {
-        return reviews;
+    public void setImages(Set<Image> images) {
+        this.images = images;
     }
 
-    public void setReviews(Set<Review> reviews) {
-        this.reviews = reviews;
+    public Set<Review> getReviews() {
+        return reviews;
     }
 
     public Item reviews(Set<Review> reviews) {
@@ -132,6 +120,10 @@ public class Item implements Serializable {
         reviews.remove(review);
         review.setItem(null);
         return this;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override

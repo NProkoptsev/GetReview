@@ -32,5 +32,5 @@
     "dto": "no",
     "service": "no",
     "entityTableName": "item",
-    "pagination": "no"
+    "pagination": "pagination"
 }
