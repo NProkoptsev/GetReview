@@ -2,6 +2,9 @@ package com.getreviews.repository;
 
 import com.getreviews.domain.Client;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -30,6 +33,14 @@ public class ClientRepositoryImpl implements ClientRepository {
             return client;
         }
     };
+
+    @Override
+    public Page<Client> findAll(Pageable pageable) {
+            List<Client> items = jdbcTemplate.query("select id, fullname, nickname, ext_or_int from client limit ? offset ?", rowMapper,
+                pageable.getPageSize(), pageable.getPageNumber()*pageable.getPageSize());
+            Page<Client> page = new PageImpl<Client>(items, pageable, count());
+            return page;
+    }
 
     @Override
     public <S extends Client> S save(S entity) {
@@ -70,7 +81,7 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public long count() {
-        return 0;
+        return jdbcTemplate.queryForObject("select count(*) from client", Long.class) ;
     }
 
     @Override

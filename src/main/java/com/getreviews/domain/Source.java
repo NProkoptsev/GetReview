@@ -116,9 +116,4 @@ public class Source implements Serializable {
             ", description='" + description + "'" +
             '}';
     }
-    public static Source stub() {
-        Source source = new Source();
-        source.name = "Ozon.ru";
-        return source;
-    }
 }

@@ -17,11 +17,11 @@
     <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
-                <tr>
-                    <th><span data-translate="global.field.id">ID</span></th>
-                    <th><span data-translate="getReviewsApp.client.fullname">Fullname</span></th>
-                    <th><span data-translate="getReviewsApp.client.nickname">Nickname</span></th>
-                    <th><span data-translate="getReviewsApp.client.ext_or_int">Ext Or Int</span></th>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="fullname"><span data-translate="getReviewsApp.client.fullname">Fullname</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="nickname"><span data-translate="getReviewsApp.client.nickname">Nickname</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="ext_or_int"><span data-translate="getReviewsApp.client.ext_or_int">Ext Or Int</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -56,5 +56,9 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
     </div>
 </div>

@@ -141,11 +141,4 @@ public class Client implements Serializable {
             ", ext_or_int='" + ext_or_int + "'" +
             '}';
     }
-    public static Client johnDoe() {
-        Client client = new Client();
-        client.fullname = "John Doe";
-        client.nickname = "JD";
-        client.ext_or_int = EXTERNAL;
-        return client;
-    }
 }

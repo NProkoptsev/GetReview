@@ -38,5 +38,5 @@
     "dto": "no",
     "service": "no",
     "entityTableName": "review",
-    "pagination": "no"
+    "pagination": "pagination"
 }

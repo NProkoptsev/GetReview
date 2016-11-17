@@ -5,8 +5,11 @@ import com.getreviews.domain.Client;
 
 import com.getreviews.repository.ClientRepository;
 import com.getreviews.web.rest.util.HeaderUtil;
+import com.getreviews.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +30,7 @@ import java.util.Optional;
 public class ClientResource {
 
     private final Logger log = LoggerFactory.getLogger(ClientResource.class);
-
+        
     @Inject
     private ClientRepository clientRepository;
 
@@ -80,16 +83,20 @@ public class ClientResource {
     /**
      * GET  /clients : get all the clients.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of clients in body
+     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @RequestMapping(value = "/clients",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Client> getAllClients() {
-        log.debug("REST request to get all Clients");
-        List<Client> clients = (List)clientRepository.findAll();
-        return clients;
+    public ResponseEntity<List<Client>> getAllClients(Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Clients");
+        Page<Client> page = clientRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/clients");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**

@@ -4,6 +4,9 @@ import com.getreviews.domain.Image;
 import com.getreviews.domain.Item;
 import com.getreviews.domain.Source;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -59,6 +62,14 @@ public class ImageRepositoryImpl implements ImageRepository {
     public Iterable<Image> findAll() {
         List<Image> images = jdbcTemplate.query("select id, url, item_id from image", rowMapper);
         return images;
+    }
+
+    @Override
+    public Page<Image> findAll(Pageable pageable) {
+        List<Image> items = jdbcTemplate.query("select id, url, item_id from image limit ? offset ?", rowMapper,
+            pageable.getPageSize(), pageable.getPageNumber()*pageable.getPageSize());
+        Page<Image> page = new PageImpl<Image>(items, pageable, count());
+        return page;
     }
 
     @Override
