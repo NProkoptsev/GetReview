@@ -78,7 +78,11 @@ public class Review implements Serializable {
     }
 
     public void setText(String text) {
-        this.text = text;
+        if (text != null) {
+            this.text = text;    
+        } else {
+            this.text = " ";
+        }
     }
 
     public Review text(String text) {

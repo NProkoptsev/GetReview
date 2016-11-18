@@ -1,6 +1,8 @@
 package com.getreviews.repository;
 
 import com.getreviews.domain.Client;
+import com.getreviews.domain.Source;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -91,6 +93,55 @@ public class ClientRepositoryImpl implements ClientRepository {
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public Client findOne(Client example) {
+        List<Client> src = findAll(example);
+        
+        if (src.size() == 0) {
+            return null;
+        } else {
+            return src.get(0);
+        }
+    }
+
+    @Override
+    public List<Client> findAll(Client example) {
+        if (example == null) {
+            return null;
+        }
+        
+        boolean noFieldsSpecified = true;
+        StringBuilder q = new StringBuilder(
+                "select id, fullname, nickname, ext_or_int from client WHERE ");
+
+        if (example.getId() != null) {
+            q.append("id = " + example.getId());
+            noFieldsSpecified = false;
+        }
+        if (example.getFullname() != null && !example.getFullname().isEmpty()) {
+            if (noFieldsSpecified == false) {
+                q.append(", ");
+            }
+            q.append("fullname = " + example.getFullname());
+            noFieldsSpecified = false;
+        }
+        if (example.getNickname() != null && !example.getNickname().isEmpty()) {
+            if (noFieldsSpecified == false) {
+                q.append(", ");
+            }
+            q.append("nickname = '" + example.getNickname() + "'");
+            noFieldsSpecified = false;
+        }
+        if (noFieldsSpecified == false) {
+            q.append(", ");
+        }
+        q.append("ext_or_int = " + example.isExt_or_int());
+        noFieldsSpecified = false;
+        
+        List<Client> cls = jdbcTemplate.query(q.toString(), rowMapper);
+        return cls;
     }
 }
 

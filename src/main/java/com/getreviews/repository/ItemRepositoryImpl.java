@@ -1,6 +1,8 @@
 package com.getreviews.repository;
 
 import com.getreviews.domain.Item;
+import com.getreviews.domain.Source;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -95,5 +97,90 @@ public class ItemRepositoryImpl implements ItemRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update("delete from item");
+    }
+    
+    
+    /**
+     * Find the source object by the given example.
+     * @param example
+     * @return
+     */
+    @Override
+    public List<Item> findAll(Item example) {  
+        if (example == null) {
+            return null;
+        }
+        
+        boolean noFieldsSpecified = true;
+        StringBuilder q = new StringBuilder(
+                "select id, name, description from item WHERE ");
+
+        if (example.getId() != null) {
+            q.append("id = " + example.getId());
+            noFieldsSpecified = false;
+        }
+        if (example.getName() != null && !example.getName().isEmpty()) {
+            if (noFieldsSpecified == false) {
+                q.append(", ");
+            }
+            q.append("name = '" + example.getName() + "'");
+            noFieldsSpecified = false;
+        }
+        if (example.getDescription() != null && !example.getDescription().isEmpty()) {
+            if (noFieldsSpecified == false) {
+                q.append(", ");
+            }
+            q.append("description = '" + example.getDescription() + "'");
+            noFieldsSpecified = false;
+        }
+        
+        List<Item> items = jdbcTemplate.query(q.toString(), rowMapper);
+        return items;
+    }
+    
+    
+    /**
+     * Find the source object by the given example.
+     * @param example
+     * @return
+     */
+    @Override
+    public Item findOne(Item example) {  
+        List<Item> src = findAll(example);
+        
+        if (src.size() == 0) {
+            return null;
+        } else {
+            return src.get(0);
+        }
+    }
+
+    @Override
+    public List<Item> findAllLike(Item example) {
+        if (example == null) {
+            return null;
+        }
+        
+        boolean noFieldsSpecified = true;
+        StringBuilder q = new StringBuilder(
+                "select id, name, description from item WHERE ");
+
+        if (example.getName() != null && !example.getName().isEmpty()) {
+            if (noFieldsSpecified == false) {
+                q.append(", ");
+            }
+            q.append("name LIKE '%" + example.getName() + "%'");
+            noFieldsSpecified = false;
+        }
+        if (example.getDescription() != null && !example.getDescription().isEmpty()) {
+            if (noFieldsSpecified == false) {
+                q.append(", ");
+            }
+            q.append("description LIKE '%" + example.getDescription() + "%'");
+            noFieldsSpecified = false;
+        }
+        
+        List<Item> items = jdbcTemplate.query(q.toString(), rowMapper);
+        return items;
     }
 }

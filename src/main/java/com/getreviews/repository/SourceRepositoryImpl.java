@@ -3,6 +3,7 @@ package com.getreviews.repository;
 import com.getreviews.domain.Item;
 import com.getreviews.domain.Source;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -42,9 +43,66 @@ public class SourceRepositoryImpl implements SourceRepository {
 
     @Override
     public Source findOne(Long aLong) {
-        Source source = jdbcTemplate.queryForObject("select id, url, name, description from source WHERE id=?",
-            new Object[]{aLong}, rowMapper);
+        Source source = jdbcTemplate.queryForObject(
+                "select id, url, name, description from source WHERE id=?",
+                new Object[]{aLong}, rowMapper);
         return source;
+    }
+    
+    
+    /**
+     * Find the source object by the given example.
+     * @param example
+     * @return
+     */
+    @Override
+    public List<Source> findAll(Source example) {  
+        if (example == null) {
+            return null;
+        }
+        
+        boolean noFieldsSpecified = true;
+        StringBuilder q = new StringBuilder(
+                "select id, url, name, description from source WHERE ");
+
+        if (example.getId() != null) {
+            q.append("id = " + example.getId());
+            noFieldsSpecified = false;
+        }
+        if (example.getUrl() != null && !example.getUrl().isEmpty()) {
+            if (noFieldsSpecified == false) {
+                q.append(", ");
+            }
+            q.append("url = " + example.getUrl());
+            noFieldsSpecified = false;
+        }
+        if (example.getName() != null && !example.getName().isEmpty()) {
+            if (noFieldsSpecified == false) {
+                q.append(", ");
+            }
+            q.append("name = '" + example.getName() + "'");
+            noFieldsSpecified = false;
+        }
+        
+        List<Source> src = jdbcTemplate.query(q.toString(), rowMapper);
+        return src;
+    }
+    
+    
+    /**
+     * Find the source object by the given example.
+     * @param example
+     * @return
+     */
+    @Override
+    public Source findOne(Source example) {  
+        List<Source> src = findAll(example);
+        
+        if (src.size() == 0) {
+            return null;
+        } else {
+            return src.get(0);
+        }
     }
 
     @Override

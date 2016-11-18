@@ -1,6 +1,7 @@
 package com.getreviews.repository;
 
 import com.getreviews.domain.Item;
+import com.getreviews.domain.Source;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,4 +16,10 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface ItemRepository extends CrudRepository<Item,Long> {
     public Page<Item> findAll(Pageable pageable);
+    
+    public Item findOne(Item example);
+    
+    public List<Item> findAll(Item example);
+    
+    public List<Item> findAllLike(Item example);
 }

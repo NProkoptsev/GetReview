@@ -181,6 +181,8 @@ dependencies {
     compile "org.postgresql:postgresql"
     compile "fr.ippon.spark.metrics:metrics-spark-reporter:${metrics_spark_reporter_version}"
     compile "org.mapstruct:mapstruct-jdk8:${mapstruct_version}"
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.10.1'
+    compile group: 'org.glassfish', name: 'javax.json', version: '1.0.4'
     testCompile "com.jayway.awaitility:awaitility:${awaility_version}"
     testCompile "com.jayway.jsonpath:json-path"
     testCompile "org.springframework.boot:spring-boot-starter-test"

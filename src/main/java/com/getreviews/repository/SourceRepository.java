@@ -12,5 +12,12 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 public interface SourceRepository extends CrudRepository<Source,Long> {
-
+    /**
+     * Find the source object(s) by the given example.
+     * @param example
+     * @return
+     */
+    public Source findOne(Source example);
+    
+    public List<Source> findAll(Source example);
 }
