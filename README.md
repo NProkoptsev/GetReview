@@ -50,15 +50,15 @@ Import preserialized pack of objects:
 Grab objects from Ozon (online):
 /grabber/ozon - default categories will be grabbed online
 GET-parameters:
-cat=<catid> - grab the item from the specified category
-depth=<int> - if category is specified, amount of pages from this category to be grabbed
-start=<itemid>&finifh=<itemid> - should be specified both, the range of items' ids to be parsed
+cat=catid - grab the item from the specified category. catid (int) can be copied from any category page from ozon.ru
+depth=amountOfPages - if category is specified, amount of pages from this category to be grabbed. amountOfPages - any int
+start=itemid&finish=itemid - should be specified both, the range of items' ids to be parsed, itemid should be like: 135000016
 
 Grab objects from Yandex (online):
 /grabber/yandex - category of electronics will be parsed
 GET-parameters:
-cat_name=<rus_name> - name of category to be parsed
-depth=<int> - amount of pages within the category to be parsed (max = 50 due to api limitations)
+cat_name=rus_name - name of category to be parsed
+depth=amountOfPages - amount of pages within the category to be parsed (max = 50 due to api limitations)
 
 
 ## Development
