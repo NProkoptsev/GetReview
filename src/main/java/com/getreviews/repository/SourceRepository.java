@@ -2,6 +2,8 @@ package com.getreviews.repository;
 
 import com.getreviews.domain.Source;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.CrudRepository;
 
@@ -20,4 +22,6 @@ public interface SourceRepository extends CrudRepository<Source,Long> {
     public Source findOne(Source example);
     
     public List<Source> findAll(Source example);
+
+    public Page<Source> findAll(Pageable pageable);
 }

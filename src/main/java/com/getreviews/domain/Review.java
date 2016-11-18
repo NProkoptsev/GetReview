@@ -34,10 +34,10 @@ public class Review implements Serializable {
     private Float rating;
 
     @ManyToOne
-    private Source source = Source.stub();
+    private Source source;
 
     @ManyToOne
-    private Client client = Client.johnDoe();
+    private Client client;
 
     @ManyToOne
     private Item item;

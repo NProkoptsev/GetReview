@@ -1,12 +1,12 @@
 package com.getreviews.repository;
 
 import com.getreviews.domain.Client;
-import com.getreviews.domain.Source;
-
-import org.springframework.data.jpa.repository.*;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.CrudRepository;
 
 /**
  * Spring Data JPA repository for the Client entity.
@@ -17,4 +17,6 @@ public interface ClientRepository extends CrudRepository<Client,Long> {
     public Client findOne(Client example);
     
     public List<Client> findAll(Client example);
+
+    public Page<Client> findAll(Pageable pageable);
 }

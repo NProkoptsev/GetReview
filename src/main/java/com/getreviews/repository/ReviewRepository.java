@@ -1,6 +1,8 @@
 package com.getreviews.repository;
 
 import com.getreviews.domain.Review;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -12,4 +14,5 @@ import java.util.List;
 public interface ReviewRepository extends CrudRepository<Review, Long> {
 
     List<Review> findByItemId(Long itemId);
+    public Page<Review> findAll(Pageable pageable);
 }

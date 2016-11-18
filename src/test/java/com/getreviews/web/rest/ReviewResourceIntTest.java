@@ -1,16 +1,19 @@
 package com.getreviews.web.rest;
 
 import com.getreviews.GetReviewsApp;
+
 import com.getreviews.domain.Review;
 import com.getreviews.repository.ReviewRepository;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,7 +26,6 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -58,19 +60,6 @@ public class ReviewResourceIntTest {
 
     private Review review;
 
-    /**
-     * Create an entity for this test.
-     *
-     * This is a static method, as tests for other entities might also need it,
-     * if they test an entity which requires the current entity.
-     */
-    public static Review createEntity(EntityManager em) {
-        Review review = new Review()
-            .rating(DEFAULT_RATING)
-            .text(DEFAULT_TEXT);
-        return review;
-    }
-
     @PostConstruct
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -79,6 +68,19 @@ public class ReviewResourceIntTest {
         this.restReviewMockMvc = MockMvcBuilders.standaloneSetup(reviewResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
+    }
+
+    /**
+     * Create an entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public static Review createEntity(EntityManager em) {
+        Review review = new Review()
+                .rating(DEFAULT_RATING)
+                .text(DEFAULT_TEXT);
+        return review;
     }
 
     @Before
@@ -117,8 +119,8 @@ public class ReviewResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(review.getId().intValue())))
-            .andExpect(jsonPath("$.[*].rating").value(hasItem(DEFAULT_RATING.doubleValue())))
-            .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())));
+                .andExpect(jsonPath("$.[*].rating").value(hasItem(DEFAULT_RATING.doubleValue())))
+                .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())));
     }
 
     @Test
@@ -154,8 +156,8 @@ public class ReviewResourceIntTest {
         // Update the review
         Review updatedReview = reviewRepository.findOne(review.getId());
         updatedReview
-            .rating(UPDATED_RATING)
-            .text(UPDATED_TEXT);
+                .rating(UPDATED_RATING)
+                .text(UPDATED_TEXT);
 
         restReviewMockMvc.perform(put("/api/reviews")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)

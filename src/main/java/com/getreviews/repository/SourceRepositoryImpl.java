@@ -3,7 +3,9 @@ package com.getreviews.repository;
 import com.getreviews.domain.Item;
 import com.getreviews.domain.Source;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -144,5 +146,13 @@ public class SourceRepositoryImpl implements SourceRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update("delete from source");
+    }
+
+    @Override
+    public Page<Source> findAll(Pageable pageable) {
+        List<Source> items = jdbcTemplate.query("select id, url, name, description from source limit ? offset ?", rowMapper,
+            pageable.getPageSize(), pageable.getPageNumber()*pageable.getPageSize());
+        Page<Source> page = new PageImpl<Source>(items, pageable, count());
+        return page;
     }
 }

@@ -5,8 +5,11 @@ import com.getreviews.domain.Source;
 
 import com.getreviews.repository.SourceRepository;
 import com.getreviews.web.rest.util.HeaderUtil;
+import com.getreviews.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +30,7 @@ import java.util.Optional;
 public class SourceResource {
 
     private final Logger log = LoggerFactory.getLogger(SourceResource.class);
-
+        
     @Inject
     private SourceRepository sourceRepository;
 
@@ -80,16 +83,20 @@ public class SourceResource {
     /**
      * GET  /sources : get all the sources.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of sources in body
+     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @RequestMapping(value = "/sources",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Source> getAllSources() {
-        log.debug("REST request to get all Sources");
-        List<Source> sources = (List<Source>)sourceRepository.findAll();
-        return sources;
+    public ResponseEntity<List<Source>> getAllSources(Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Sources");
+        Page<Source> page = sourceRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/sources");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**

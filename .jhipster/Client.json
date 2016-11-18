@@ -26,5 +26,5 @@
     "dto": "no",
     "service": "no",
     "entityTableName": "client",
-    "pagination": "no"
+    "pagination": "pagination"
 }

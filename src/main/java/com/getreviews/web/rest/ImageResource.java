@@ -5,8 +5,11 @@ import com.getreviews.domain.Image;
 
 import com.getreviews.repository.ImageRepository;
 import com.getreviews.web.rest.util.HeaderUtil;
+import com.getreviews.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +30,7 @@ import java.util.Optional;
 public class ImageResource {
 
     private final Logger log = LoggerFactory.getLogger(ImageResource.class);
-
+        
     @Inject
     private ImageRepository imageRepository;
 
@@ -80,16 +83,20 @@ public class ImageResource {
     /**
      * GET  /images : get all the images.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of images in body
+     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @RequestMapping(value = "/images",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Image> getAllImages() {
-        log.debug("REST request to get all Images");
-        List<Image> images = (List<Image>)imageRepository.findAll();
-        return images;
+    public ResponseEntity<List<Image>> getAllImages(Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Images");
+        Page<Image> page = imageRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/images");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**

@@ -17,13 +17,13 @@
     <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
-                <tr>
-                    <th><span data-translate="global.field.id">ID</span></th>
-                    <th><span data-translate="getReviewsApp.review.rating">Rating</span></th>
-                    <th><span data-translate="getReviewsApp.review.text">Text</span></th>
-                    <th><span data-translate="getReviewsApp.review.source">Source</span></th>
-                    <th><span data-translate="getReviewsApp.review.client">Client</span></th>
-                    <th><span data-translate="getReviewsApp.review.item">Item</span></th>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="rating"><span data-translate="getReviewsApp.review.rating">Rating</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="text"><span data-translate="getReviewsApp.review.text">Text</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="source.id"><span data-translate="getReviewsApp.review.source">Source</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="client.id"><span data-translate="getReviewsApp.review.client">Client</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="item.id"><span data-translate="getReviewsApp.review.item">Item</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -66,5 +66,9 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
     </div>
 </div>

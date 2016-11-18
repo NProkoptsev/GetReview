@@ -19,5 +19,5 @@
     "dto": "no",
     "service": "no",
     "entityTableName": "source",
-    "pagination": "no"
+    "pagination": "pagination"
 }
