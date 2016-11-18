@@ -138,3 +138,10 @@ Desktop.ini
 .eslintcache
 
 .vagrant
+
+
+######################
+# Grabber
+######################
+grabber/GrabberOzon/html/*
+grabber/GrabberYandex/json/*
