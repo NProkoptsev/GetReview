@@ -73,14 +73,14 @@ public class SourceRepositoryImpl implements SourceRepository {
         }
         if (example.getUrl() != null && !example.getUrl().isEmpty()) {
             if (noFieldsSpecified == false) {
-                q.append(", ");
+                q.append(" AND ");
             }
             q.append("url = " + example.getUrl());
             noFieldsSpecified = false;
         }
         if (example.getName() != null && !example.getName().isEmpty()) {
             if (noFieldsSpecified == false) {
-                q.append(", ");
+                q.append(" AND ");
             }
             q.append("name = '" + example.getName() + "'");
             noFieldsSpecified = false;

@@ -308,6 +308,7 @@ public class Grabber {
     // SaveTo methods - the bridge between grabber's object model and
     // application's object model
     public Item saveToItem(dmd.project.objects.Item obj) {
+        boolean itemExisted = false;
         Item item = new Item();
         item.setName(obj.getName());
         List<Item> similiarItems = itemRepository.findAllLike(item);
@@ -323,20 +324,23 @@ public class Grabber {
             item.setName(obj.getName());
             item.setDescription(obj.getDescription());
             item = itemRepository.save(item);
+        } else {
+            itemExisted = true;
         }
         // Images
-        Set<Image> images = new HashSet<>();
-        for (String imgUrl : obj.getImages()) {
-            Image img = saveToImage(imgUrl, item);
-            images.add(img);
+        if (itemExisted == false) {
+            Set<Image> images = new HashSet<>();
+            for (String imgUrl : obj.getImages()) {
+                Image img = saveToImage(imgUrl, item);
+                images.add(img);
+            }
+            item.setImages(images);
         }
-        item.setImages(images);
-        
         // Reviews
         Set<Review> reviews = new HashSet<>();
         for (dmd.project.objects.Review r : obj.getReviews()) {
             try {
-                Review review = saveToReview(r, item);
+                Review review = saveToReview(r, item, itemExisted);
                 if (review != null) {
                     reviews.add(review);
                 }
@@ -361,6 +365,12 @@ public class Grabber {
     
     public Review saveToReview(
             dmd.project.objects.Review r, Item item) {
+        return saveToReview(r, item, false);
+    }
+    
+    
+    public Review saveToReview(dmd.project.objects.Review r,
+            Item item, boolean itemExisted) {
         Review review = new Review();
         review.setItem(item);
         review.setRating((float) r.getGrade());
@@ -380,27 +390,34 @@ public class Grabber {
         review.setText(text);
         // PROS!
         // CONS!
-        try {
-            review.setCreatedDate(
-                    DateTransformer.transform(r.getDate()));
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
         
-        Client client = saveToClient(r.getAuthor(), item);
-        review.setClient(client);
-        
-        /*Source source = new Source();
-        source.setName(r.getSource().getName());
-        source = sourceRepository.findOne(source);*/
         if (sources.size() == 0) {
             initSources();
         }
         Source source = sources.get(r.getSource().getName());
         review.setSource(source);
         
-        review = reviewRepository.save(review);
-        return review;
+        Review rvw = null;
+        if (itemExisted == true) {
+            rvw = reviewRepository.findOne(review);
+        }
+        if (rvw != null) {
+            review = rvw;
+        
+        } else {
+            Client client = saveToClient(r.getAuthor(), item);
+            review.setClient(client);
+            
+            try {
+                review.setCreatedDate(
+                        DateTransformer.transform(r.getDate()));
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+            
+            review = reviewRepository.save(review);
+         }
+         return review;
     }
     
     

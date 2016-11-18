@@ -148,14 +148,14 @@ public class ItemRepositoryImpl implements ItemRepository {
         }
         if (example.getName() != null && !example.getName().isEmpty()) {
             if (noFieldsSpecified == false) {
-                q.append(", ");
+                q.append(" AND ");
             }
             q.append("name = '" + example.getName() + "'");
             noFieldsSpecified = false;
         }
         if (example.getDescription() != null && !example.getDescription().isEmpty()) {
             if (noFieldsSpecified == false) {
-                q.append(", ");
+                q.append(" AND ");
             }
             q.append("description = '" + example.getDescription() + "'");
             noFieldsSpecified = false;
@@ -193,17 +193,7 @@ public class ItemRepositoryImpl implements ItemRepository {
                 "select id, name, description from item WHERE ");
 
         if (example.getName() != null && !example.getName().isEmpty()) {
-            if (noFieldsSpecified == false) {
-                q.append(", ");
-            }
             q.append("name LIKE '%" + example.getName() + "%'");
-            noFieldsSpecified = false;
-        }
-        if (example.getDescription() != null && !example.getDescription().isEmpty()) {
-            if (noFieldsSpecified == false) {
-                q.append(", ");
-            }
-            q.append("description LIKE '%" + example.getDescription() + "%'");
             noFieldsSpecified = false;
         }
         

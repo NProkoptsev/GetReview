@@ -137,7 +137,8 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public List<Review> findAll() {
-        List<Review> reviews = jdbcTemplate.query("select id, text, rating, source_id, client_id, item_id from review", partialRowMapper);
+        List<Review> reviews = jdbcTemplate.query(
+                "select id, text, rating, source_id, client_id, item_id from review", partialRowMapper);
         return reviews;
     }
 
@@ -186,5 +187,70 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             new Object[]{itemId},
             fullRowMapper);
         return reviews;
+    }
+
+    @Override
+    public Review findOne(Review example) {
+        List<Review> rvs = findAll(example);
+        
+        if (rvs.size() == 0) {
+            return null;
+        } else {
+            return rvs.get(0);
+        }
+    }
+
+    @Override
+    public List<Review> findAll(Review example) {
+        if (example == null) {
+            return null;
+        }
+        
+        boolean noFieldsSpecified = true;
+        StringBuilder q = new StringBuilder(
+                "select id, text, rating, source_id, client_id, item_id from review WHERE ");
+
+        if (example.getId() != null) {
+            q.append("id = " + example.getId());
+            noFieldsSpecified = false;
+        }
+        /*if (example.getText() != null && !example.getText().isEmpty()) {
+            if (noFieldsSpecified == false) {
+                q.append(" AND ");
+            }
+            q.append("text = '" + example.getText() + "'");
+            noFieldsSpecified = false;
+        }*/
+        if (example.getRating() != null) {
+            if (noFieldsSpecified == false) {
+                q.append(" AND ");
+            }
+            q.append("rating = " + example.getRating());
+            noFieldsSpecified = false;
+        }
+        if (example.getSource() != null) {
+            if (noFieldsSpecified == false) {
+                q.append(" AND ");
+            }
+            q.append("source_id = " + example.getSource().getId());
+            noFieldsSpecified = false;
+        }
+        if (example.getClient() != null) {
+            if (noFieldsSpecified == false) {
+                q.append(" AND ");
+            }
+            q.append("client_id = " + example.getClient().getId());
+            noFieldsSpecified = false;
+        }
+        if (example.getItem() != null) {
+            if (noFieldsSpecified == false) {
+                q.append(" AND ");
+            }
+            q.append("item_id = " + example.getItem().getId());
+            noFieldsSpecified = false;
+        }
+        
+        List<Review> rvs = jdbcTemplate.query(q.toString(), partialRowMapper);
+        return rvs;
     }
 }
