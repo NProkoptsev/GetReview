@@ -39,6 +39,7 @@ import com.getreviews.repository.ReviewRepository;
 import com.getreviews.repository.SourceRepository;
 import com.getreviews.security.AuthoritiesConstants;
 
+import dmd.project.grabber.DateTransformer;
 import dmd.project.grabber.Merger;
 import dmd.project.grabber.OzonGrabber;
 import dmd.project.grabber.YandexGrabber;
@@ -104,10 +105,10 @@ public class Grabber {
             @RequestParam(value="import_all", required=false) boolean importAll) {
         String returnMessage = "";
         List<dmd.project.objects.Item> objs = null;
+        initSources();
+        
         if (importAll == false) {
-            try {
-                initSources();
-                
+            try {                
                 // Deserialize
                 FileInputStream fis = new FileInputStream(
                         "grabber" + File.separator + "common_items.ser");
@@ -177,11 +178,16 @@ public class Grabber {
             @RequestParam(value="cat", required=false) String categoryId,
             @RequestParam(value="depth", required=false) Integer depth,
             @RequestParam(value="start", required=false) String startId,
-            @RequestParam(value="finish", required=false) String finishId) {
+            @RequestParam(value="finish", required=false) String finishId,
+            @RequestParam(value="ignore_history", required=false) boolean ignoreHistory) {
         initSources();
         OzonGrabber grabber = new OzonGrabberService(false);
-        grabber.readBrokenLinks();
-        grabber.readNoReviewsList();
+        if (ignoreHistory == true) {
+            System.out.println("History is ignoresd");
+        } else {
+            grabber.readBrokenLinks();
+            grabber.readNoReviewsList();
+        }
         
         if (categoryId == null && startId == null) {
             grabber.fetchItems("1168060", 50); // Смартфоны
@@ -212,7 +218,9 @@ public class Grabber {
             }
         }
         
-        grabber.serialize();
+        if (ignoreHistory == true) {
+            grabber.serialize();
+        }
         
         return ResponseEntity.ok().body("ozon grabber finished its work");
     }
@@ -302,14 +310,20 @@ public class Grabber {
     public Item saveToItem(dmd.project.objects.Item obj) {
         Item item = new Item();
         item.setName(obj.getName());
-        item = itemRepository.findOne(item);
-        if (item == null) {
+        List<Item> similiarItems = itemRepository.findAllLike(item);
+        System.out.println("SIMILIAR ITEMS FOUND: " + similiarItems.size());
+        
+        if (similiarItems.size() == 1) {
+            item = similiarItems.get(0);
+        } else if (similiarItems.size() > 0) {
+            item = itemRepository.findOne(item);
+        }
+        if (similiarItems.size() == 0 || item == null) {
             item = new Item();
             item.setName(obj.getName());
             item.setDescription(obj.getDescription());
             item = itemRepository.save(item);
         }
-     
         // Images
         Set<Image> images = new HashSet<>();
         for (String imgUrl : obj.getImages()) {
@@ -321,9 +335,13 @@ public class Grabber {
         // Reviews
         Set<Review> reviews = new HashSet<>();
         for (dmd.project.objects.Review r : obj.getReviews()) {
-            Review review = saveToReview(r, item);
-            if (review != null) {
-                reviews.add(review);
+            try {
+                Review review = saveToReview(r, item);
+                if (review != null) {
+                    reviews.add(review);
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
             }
         }
         item.setReviews(reviews);
@@ -353,9 +371,21 @@ public class Grabber {
         if (r.getCons() != null) {
             text = text + " " + r.getCons();
         }
-        review.setText(text + " " + r.getOverall());
+        if (r.getOverall() != null) {
+            text = text + " " + r.getOverall();
+        }
+        if (text.isEmpty()) {
+            return null;
+        }
+        review.setText(text);
         // PROS!
         // CONS!
+        try {
+            review.setCreatedDate(
+                    DateTransformer.transform(r.getDate()));
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         
         Client client = saveToClient(r.getAuthor(), item);
         review.setClient(client);
@@ -363,6 +393,9 @@ public class Grabber {
         /*Source source = new Source();
         source.setName(r.getSource().getName());
         source = sourceRepository.findOne(source);*/
+        if (sources.size() == 0) {
+            initSources();
+        }
         Source source = sources.get(r.getSource().getName());
         review.setSource(source);
         

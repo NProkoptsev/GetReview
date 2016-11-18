@@ -8,10 +8,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public class ImageRepositoryImpl implements ImageRepository {
@@ -33,11 +39,27 @@ public class ImageRepositoryImpl implements ImageRepository {
     JdbcTemplate jdbcTemplate;
 
     @Override
-    public <S extends Image> S save(S entity) {
-        int result = jdbcTemplate.update(
-            "insert into image (url, item_id) values (?, ?)",
-            entity.getUrl(), entity.getItem().getId());
-        entity.setId((long) result);
+    public <S extends Image> S save(S entity) {       
+        final String sql = 
+                "insert into image (url, item_id) values (?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        
+        PreparedStatementCreator psCreator = 
+                new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(
+                    Connection con) throws SQLException {
+                PreparedStatement ps = con.prepareStatement(
+                        sql, Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, entity.getUrl());
+                ps.setLong(2, entity.getItem().getId());
+                return ps;
+            }
+        };
+        
+        jdbcTemplate.update(psCreator, keyHolder);
+        
+        entity.setId((long) keyHolder.getKeys().get("id"));
         return entity;
     }
 

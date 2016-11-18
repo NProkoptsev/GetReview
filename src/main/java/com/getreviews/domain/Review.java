@@ -108,6 +108,8 @@ public class Review implements Serializable {
     }
 
     public void setClient(Client client) {
+        System.out.println("CLIENT IS SET UP");
+        System.out.println(client);
         this.client = client;
     }
 

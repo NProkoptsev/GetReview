@@ -8,11 +8,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 
@@ -46,10 +52,27 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public <S extends Client> S save(S entity) {
-        int result = jdbcTemplate.update(
-            "insert into client (fullname, nickname, ext_or_int) values (?, ?, ?)",
-            entity.getFullname(), entity.getNickname(), entity.isExt_or_int());
-        entity.setId((long) result);
+        final String sql = 
+                "insert into client (fullname, nickname, ext_or_int) values (?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        
+        PreparedStatementCreator psCreator = 
+                new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(
+                    Connection con) throws SQLException {
+                PreparedStatement ps = con.prepareStatement(
+                        sql, Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, entity.getFullname());
+                ps.setString(2, entity.getNickname());
+                ps.setBoolean(3, entity.isExt_or_int());
+                return ps;
+            }
+        };
+        
+        jdbcTemplate.update(psCreator, keyHolder);
+        
+        entity.setId((long) keyHolder.getKeys().get("id"));
         return entity;
     }
 
@@ -148,7 +171,8 @@ public class ClientRepositoryImpl implements ClientRepository {
         if (noFieldsSpecified == false) {
             q.append(", ");
         }
-        q.append("ext_or_int = " + example.isExt_or_int());
+        q.append("ext_or_int = " 
+                + String.valueOf(example.isExt_or_int()).toUpperCase());
         noFieldsSpecified = false;
         
         List<Client> cls = jdbcTemplate.query(q.toString(), rowMapper);

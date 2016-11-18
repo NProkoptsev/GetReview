@@ -9,11 +9,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 /**
@@ -80,14 +86,30 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public <S extends Review> S save(S entity) {
-
-        int result = jdbcTemplate.update(
-            "insert into review " 
-            + "(text, rating, source_id, client_id, item_id) values (?, ?, ?, ?, ?)",
-            entity.getText(), entity.getRating(), entity.getSource().getId(),
-            entity.getClient().getId(), entity.getItem().getId());
-
-        entity.setId((long) result);
+        final String sql = 
+                "insert into review (text, rating, source_id, client_id, item_id)"
+                + " values (?, ?, ?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        
+        PreparedStatementCreator psCreator = 
+                new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(
+                    Connection con) throws SQLException {
+                PreparedStatement ps = con.prepareStatement(
+                        sql, Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, entity.getText());
+                ps.setDouble(2, entity.getRating());
+                ps.setLong(3, entity.getSource().getId());
+                ps.setLong(4, entity.getClient().getId());
+                ps.setLong(5, entity.getItem().getId());
+                return ps;
+            }
+        };
+        
+        jdbcTemplate.update(psCreator, keyHolder);
+        
+        entity.setId((long) keyHolder.getKeys().get("id"));
         return entity;
     }
 
