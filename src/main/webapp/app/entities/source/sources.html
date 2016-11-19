@@ -30,7 +30,7 @@
                     <td><a ui-sref="source-detail({id:source.id})">{{source.id}}</a></td>
                     <td>{{source.url}}</td>
                     <td>{{source.name}}</td>
-                    <td>{{source.description}}</td>
+                    <td>{{source.description | words:100 }}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
