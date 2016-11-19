@@ -28,7 +28,7 @@
                 <tr ng-repeat="item in vm.items track by item.id">
                     <td><a ui-sref="item-detail({id:item.id})">{{item.id}}</a></td>
                     <td>{{item.name}}</td>
-                    <td>{{item.description}}</td>
+                    <td>{{item.description | words:100}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
