@@ -37,16 +37,12 @@ public class ItemRepositoryImpl implements ItemRepository {
     JdbcTemplate jdbcTemplate;
     @Override
     public <S extends Item> S save(S entity) {
-        int result = jdbcTemplate.update(
-            "insert into item (name, description) values (?, ?)",
-            entity.getName(), entity.getDescription());
-        entity.setId((long) result);
 
-        final String sql = 
+        final String sql =
                 "insert into item (name, description) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        
-        PreparedStatementCreator psCreator = 
+
+        PreparedStatementCreator psCreator =
                 new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(
@@ -58,9 +54,9 @@ public class ItemRepositoryImpl implements ItemRepository {
                 return ps;
             }
         };
-        
+
         jdbcTemplate.update(psCreator, keyHolder);
-        
+
         entity.setId((long) keyHolder.getKeys().get("id"));
         return entity;
     }
@@ -125,19 +121,19 @@ public class ItemRepositoryImpl implements ItemRepository {
     public void deleteAll() {
         jdbcTemplate.update("delete from item");
     }
-    
-    
+
+
     /**
      * Find the source object by the given example.
      * @param example
      * @return
      */
     @Override
-    public List<Item> findAll(Item example) {  
+    public List<Item> findAll(Item example) {
         if (example == null) {
             return null;
         }
-        
+
         boolean noFieldsSpecified = true;
         StringBuilder q = new StringBuilder(
                 "select id, name, description from item WHERE ");
@@ -160,21 +156,21 @@ public class ItemRepositoryImpl implements ItemRepository {
             q.append("description = '" + example.getDescription() + "'");
             noFieldsSpecified = false;
         }
-        
+
         List<Item> items = jdbcTemplate.query(q.toString(), rowMapper);
         return items;
     }
-    
-    
+
+
     /**
      * Find the source object by the given example.
      * @param example
      * @return
      */
     @Override
-    public Item findOne(Item example) {  
+    public Item findOne(Item example) {
         List<Item> src = findAll(example);
-        
+
         if (src.size() == 0) {
             return null;
         } else {
@@ -187,7 +183,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         if (example == null) {
             return null;
         }
-        
+
         boolean noFieldsSpecified = true;
         StringBuilder q = new StringBuilder(
                 "select id, name, description from item WHERE ");
@@ -196,7 +192,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             q.append("name LIKE '%" + example.getName() + "%'");
             noFieldsSpecified = false;
         }
-        
+
         List<Item> items = jdbcTemplate.query(q.toString(), rowMapper);
         return items;
     }
