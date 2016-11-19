@@ -115,11 +115,7 @@ public class Grabber {
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 objs = (List<dmd.project.objects.Item>) ois.readObject();
                 
-                int COUNT = 0; // need to be deleted - temporary workaraound
                 for (dmd.project.objects.Item obj : objs) {
-                    COUNT++;
-                    if (COUNT == 10) break;
-                    
                     Item item = saveToItem(obj);
                 }
                 returnMessage = objs.size() + " items have been exported";
@@ -218,10 +214,6 @@ public class Grabber {
             }
         }
         
-        if (ignoreHistory == true) {
-            grabber.serialize();
-        }
-        
         return ResponseEntity.ok().body("ozon grabber finished its work");
     }
     
@@ -308,7 +300,7 @@ public class Grabber {
     // SaveTo methods - the bridge between grabber's object model and
     // application's object model
     public Item saveToItem(dmd.project.objects.Item obj) {
-        boolean itemExisted = false;
+        boolean itemExisted = true;
         Item item = new Item();
         item.setName(obj.getName());
         List<Item> similiarItems = itemRepository.findAllLike(item);
@@ -316,17 +308,20 @@ public class Grabber {
         
         if (similiarItems.size() == 1) {
             item = similiarItems.get(0);
-        } else if (similiarItems.size() > 0) {
-            item = itemRepository.findOne(item);
-        }
-        if (similiarItems.size() == 0 || item == null) {
-            item = new Item();
-            item.setName(obj.getName());
-            item.setDescription(obj.getDescription());
-            item = itemRepository.save(item);
         } else {
-            itemExisted = true;
+            item = itemRepository.findOne(item);
+            if (item == null) {
+                // Create and save new item
+                System.out.println("CREATING NEW ITEM");
+                itemExisted = false;
+                
+                item = new Item();
+                item.setName(obj.getName());
+                item.setDescription(obj.getDescription());
+                item = itemRepository.save(item);
+            }
         }
+
         // Images
         if (itemExisted == false) {
             Set<Image> images = new HashSet<>();
@@ -373,6 +368,9 @@ public class Grabber {
             Item item, boolean itemExisted) {
         Review review = new Review();
         review.setItem(item);
+        if (r.getGrade() < 0) {
+            r.setGrade(-1 * r.getGrade());
+        }
         review.setRating((float) r.getGrade());
         String text = "";
         if (r.getPros() != null) {
@@ -429,6 +427,12 @@ public class Grabber {
             client.setNickname("Anonymous");
             client.setExt_or_int(true);
             client = clientRepository.findOne(client);
+            if (client == null) {
+                client = new Client();
+                client.setNickname("Anonymous");
+                client.setExt_or_int(true);
+                client = clientRepository.save(client);
+            }
         
         } else {
             client.setNickname(user.getNickname());

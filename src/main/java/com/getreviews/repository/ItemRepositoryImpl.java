@@ -37,11 +37,6 @@ public class ItemRepositoryImpl implements ItemRepository {
     JdbcTemplate jdbcTemplate;
     @Override
     public <S extends Item> S save(S entity) {
-        int result = jdbcTemplate.update(
-            "insert into item (name, description) values (?, ?)",
-            entity.getName(), entity.getDescription());
-        entity.setId((long) result);
-
         final String sql = 
                 "insert into item (name, description) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -150,14 +145,14 @@ public class ItemRepositoryImpl implements ItemRepository {
             if (noFieldsSpecified == false) {
                 q.append(" AND ");
             }
-            q.append("name = '" + example.getName() + "'");
+            q.append("name = '" + example.getName().replaceAll("'", "\"") + "'");
             noFieldsSpecified = false;
         }
         if (example.getDescription() != null && !example.getDescription().isEmpty()) {
             if (noFieldsSpecified == false) {
                 q.append(" AND ");
             }
-            q.append("description = '" + example.getDescription() + "'");
+            q.append("description = '" + example.getDescription().replaceAll("'", "\"") + "'");
             noFieldsSpecified = false;
         }
         
@@ -193,7 +188,7 @@ public class ItemRepositoryImpl implements ItemRepository {
                 "select id, name, description from item WHERE ");
 
         if (example.getName() != null && !example.getName().isEmpty()) {
-            q.append("name LIKE '%" + example.getName() + "%'");
+            q.append("name LIKE '%" + example.getName().replaceAll("'", "\"") + "%'");
             noFieldsSpecified = false;
         }
         

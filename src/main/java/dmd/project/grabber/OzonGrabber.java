@@ -458,11 +458,11 @@ public class OzonGrabber {
             oos.flush();
             oos.close();
             
-            fos = new FileOutputStream(LOCAL_DIR + "objects.ser");
+/*            fos = new FileOutputStream(LOCAL_DIR + "objects.ser");
             oos = new ObjectOutputStream(fos);
             oos.writeObject(objs);
             oos.flush();
-            oos.close();
+            oos.close();*/
             
         } catch (FileNotFoundException fe) {
             fe.printStackTrace();

@@ -156,20 +156,20 @@ public class ClientRepositoryImpl implements ClientRepository {
         }
         if (example.getFullname() != null && !example.getFullname().isEmpty()) {
             if (noFieldsSpecified == false) {
-                q.append(", ");
+                q.append(" AND ");
             }
             q.append("fullname = " + example.getFullname());
             noFieldsSpecified = false;
         }
         if (example.getNickname() != null && !example.getNickname().isEmpty()) {
             if (noFieldsSpecified == false) {
-                q.append(", ");
+                q.append(" AND ");
             }
-            q.append("nickname = '" + example.getNickname() + "'");
+            q.append("nickname = '" + example.getNickname().replaceAll("'", "\"") + "'");
             noFieldsSpecified = false;
         }
         if (noFieldsSpecified == false) {
-            q.append(", ");
+            q.append(" AND ");
         }
         q.append("ext_or_int = " 
                 + String.valueOf(example.isExt_or_int()).toUpperCase());

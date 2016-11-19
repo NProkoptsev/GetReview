@@ -218,7 +218,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             if (noFieldsSpecified == false) {
                 q.append(" AND ");
             }
-            q.append("text = '" + example.getText() + "'");
+            q.append("text = '" + example.getText().replaceAll("'", "\"") + "'");
             noFieldsSpecified = false;
         }*/
         if (example.getRating() != null) {
