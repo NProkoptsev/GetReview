@@ -27,7 +27,8 @@
     <div class="panel panel-default" ng-repeat="review in vm.reviews" style="margin: 10px">
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-5">{{review.client.fullname}}</div>
+                <div ng-hide="review.client.fullname.length == 0" class="col-md-5">{{review.client.fullname}}</div>
+                <div ng-hide="review.client.fullname.length > 0" class="col-md-5">{{review.client.nickname}}</div>
                 <div class="col-md-3">Source: {{review.source.name}}</div>
                 <div class="col-md-4">Added: {{review.createdDate}}</div>
             </div>

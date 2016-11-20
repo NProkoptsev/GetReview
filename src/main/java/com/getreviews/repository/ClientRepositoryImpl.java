@@ -1,8 +1,6 @@
 package com.getreviews.repository;
 
 import com.getreviews.domain.Client;
-import com.getreviews.domain.Source;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -14,11 +12,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 
@@ -44,34 +38,37 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public Page<Client> findAll(Pageable pageable) {
-            List<Client> items = jdbcTemplate.query("select id, fullname, nickname, ext_or_int from client limit ? offset ?", rowMapper,
-                pageable.getPageSize(), pageable.getPageNumber()*pageable.getPageSize());
-            Page<Client> page = new PageImpl<Client>(items, pageable, count());
-            return page;
+        List<Client> items = jdbcTemplate.query("select id, fullname, nickname, ext_or_int from client limit ? offset ?", rowMapper,
+            pageable.getPageSize(), pageable.getPageNumber() * pageable.getPageSize());
+        Page<Client> page = new PageImpl<Client>(items, pageable, count());
+        return page;
     }
 
     @Override
     public <S extends Client> S save(S entity) {
-        final String sql = 
-                "insert into client (fullname, nickname, ext_or_int) values (?, ?, ?)";
+        final String sql =
+            "insert into client (fullname, nickname, ext_or_int) values (?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        
-        PreparedStatementCreator psCreator = 
-                new PreparedStatementCreator() {
-            @Override
-            public PreparedStatement createPreparedStatement(
+
+        PreparedStatementCreator psCreator =
+            new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(
                     Connection con) throws SQLException {
-                PreparedStatement ps = con.prepareStatement(
+                    PreparedStatement ps = con.prepareStatement(
                         sql, Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, entity.getFullname());
-                ps.setString(2, entity.getNickname());
-                ps.setBoolean(3, entity.isExt_or_int());
-                return ps;
-            }
-        };
-        
+                    ps.setString(1, entity.getFullname());
+                    ps.setString(2, entity.getNickname());
+                    if (entity.isExt_or_int() == null)
+                        ps.setBoolean(3, false);
+                    else
+                        ps.setBoolean(3, entity.isExt_or_int());
+                    return ps;
+                }
+            };
+
         jdbcTemplate.update(psCreator, keyHolder);
-        
+
         entity.setId((long) keyHolder.getKeys().get("id"));
         return entity;
     }
@@ -95,7 +92,7 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public Iterable<Client> findAll() {
-        List<Client> clients= jdbcTemplate.query("select id, fullname, nickname, ext_or_int from client", rowMapper);
+        List<Client> clients = jdbcTemplate.query("select id, fullname, nickname, ext_or_int from client", rowMapper);
         return clients;
     }
 
@@ -106,7 +103,7 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public long count() {
-        return jdbcTemplate.queryForObject("select count(*) from client", Long.class) ;
+        return jdbcTemplate.queryForObject("select count(*) from client", Long.class);
     }
 
     @Override
@@ -132,7 +129,7 @@ public class ClientRepositoryImpl implements ClientRepository {
     @Override
     public Client findOne(Client example) {
         List<Client> src = findAll(example);
-        
+
         if (src.size() == 0) {
             return null;
         } else {
@@ -145,10 +142,10 @@ public class ClientRepositoryImpl implements ClientRepository {
         if (example == null) {
             return null;
         }
-        
+
         boolean noFieldsSpecified = true;
         StringBuilder q = new StringBuilder(
-                "select id, fullname, nickname, ext_or_int from client WHERE ");
+            "select id, fullname, nickname, ext_or_int from client WHERE ");
 
         if (example.getId() != null) {
             q.append("id = " + example.getId());
@@ -171,10 +168,10 @@ public class ClientRepositoryImpl implements ClientRepository {
         if (noFieldsSpecified == false) {
             q.append(" AND ");
         }
-        q.append("ext_or_int = " 
-                + String.valueOf(example.isExt_or_int()).toUpperCase());
+        q.append("ext_or_int = "
+            + String.valueOf(example.isExt_or_int()).toUpperCase());
         noFieldsSpecified = false;
-        
+
         List<Client> cls = jdbcTemplate.query(q.toString(), rowMapper);
         return cls;
     }
