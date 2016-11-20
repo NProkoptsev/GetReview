@@ -3,6 +3,18 @@
     <h2>{{vm.item.name}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="item-detail.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  data-translate="getReviewsApp.review.home.createLabel">
+                        Create new Item
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
     <dl class="dl-horizontal jh-entity-details">
         <dt><span data-translate="getReviewsApp.item.description">Description</span></dt>
         <dd>

@@ -68,6 +68,7 @@
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                     $translatePartialLoader.addPart('item');
+                    $translatePartialLoader.addPart('review');
                     return $translate.refresh();
                 }],
                 entity: ['$stateParams', 'Item', function($stateParams, Item) {
@@ -103,6 +104,36 @@
                     }
                 }).result.then(function() {
                     $state.go('^', {}, { reload: false });
+                }, function() {
+                    $state.go('^');
+                });
+            }]
+        }).state('item-detail.new', {
+            parent: 'item-detail',
+            url: '/detail/new',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/item/item-newreview-dialog.html',
+                    controller: 'ItemNewReviewDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: ['Item', function(Item) {
+                            return Item.get({id : $stateParams.id}).$promise;
+                        }],
+                        translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                            $translatePartialLoader.addPart('review');
+                            $translatePartialLoader.addPart('item');
+                            $translatePartialLoader.addPart('global');
+                            return $translate.refresh();
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('^', {}, { reload: 'item-detail' });
                 }, function() {
                     $state.go('^');
                 });

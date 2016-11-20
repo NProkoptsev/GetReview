@@ -15,11 +15,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 /**
@@ -86,29 +82,34 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public <S extends Review> S save(S entity) {
-        final String sql = 
-                "insert into review (text, rating, source_id, client_id, item_id)"
+        final String sql =
+            "insert into review (text, rating, source_id, client_id, item_id)"
                 + " values (?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        
-        PreparedStatementCreator psCreator = 
-                new PreparedStatementCreator() {
-            @Override
-            public PreparedStatement createPreparedStatement(
+
+        PreparedStatementCreator psCreator =
+            new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(
                     Connection con) throws SQLException {
-                PreparedStatement ps = con.prepareStatement(
+                    PreparedStatement ps = con.prepareStatement(
                         sql, Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, entity.getText());
-                ps.setDouble(2, entity.getRating());
-                ps.setLong(3, entity.getSource().getId());
-                ps.setLong(4, entity.getClient().getId());
-                ps.setLong(5, entity.getItem().getId());
-                return ps;
-            }
-        };
-        
+                    ps.setString(1, entity.getText());
+                    ps.setDouble(2, entity.getRating());
+                    ps.setLong(3, entity.getSource().getId());
+                    if (entity.getClient() != null)
+                        ps.setLong(4, entity.getClient().getId());
+                    else {
+                        Long clientID = jdbcTemplate.queryForObject("select id from client where nickname = ?", new Object[]{entity.getClientLogin()}, Long.class);
+                        ps.setLong(4, clientID);
+                    }
+                    ps.setLong(5, entity.getItem().getId());
+                    return ps;
+                }
+            };
+
         jdbcTemplate.update(psCreator, keyHolder);
-        
+
         entity.setId((long) keyHolder.getKeys().get("id"));
         return entity;
     }
@@ -138,7 +139,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     @Override
     public List<Review> findAll() {
         List<Review> reviews = jdbcTemplate.query(
-                "select id, text, rating, source_id, client_id, item_id from review", partialRowMapper);
+            "select id, text, rating, source_id, client_id, item_id from review", partialRowMapper);
         return reviews;
     }
 
@@ -150,7 +151,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     @Override
     public Page<Review> findAll(Pageable pageable) {
         List<Review> items = jdbcTemplate.query("select id, text, rating, source_id, client_id, item_id from review limit ? offset ?", partialRowMapper,
-            pageable.getPageSize(), pageable.getPageNumber()*pageable.getPageSize());
+            pageable.getPageSize(), pageable.getPageNumber() * pageable.getPageSize());
         Page<Review> page = new PageImpl<Review>(items, pageable, count());
         return page;
     }
@@ -192,7 +193,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     @Override
     public Review findOne(Review example) {
         List<Review> rvs = findAll(example);
-        
+
         if (rvs.size() == 0) {
             return null;
         } else {
@@ -205,10 +206,10 @@ public class ReviewRepositoryImpl implements ReviewRepository {
         if (example == null) {
             return null;
         }
-        
+
         boolean noFieldsSpecified = true;
         StringBuilder q = new StringBuilder(
-                "select id, text, rating, source_id, client_id, item_id from review WHERE ");
+            "select id, text, rating, source_id, client_id, item_id from review WHERE ");
 
         if (example.getId() != null) {
             q.append("id = " + example.getId());
@@ -249,7 +250,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             q.append("item_id = " + example.getItem().getId());
             noFieldsSpecified = false;
         }
-        
+
         List<Review> rvs = jdbcTemplate.query(q.toString(), partialRowMapper);
         return rvs;
     }
