@@ -215,4 +215,15 @@ public class ItemRepositoryImpl implements ItemRepository {
         List<Item> items = jdbcTemplate.query(q.toString(), rowMapper);
         return items;
     }
+
+    @Override
+    public Page<Item> findByText(Pageable pageable, String text) {
+        List<Item> items = jdbcTemplate.query("SELECT id, name, description FROM item WHERE fts @@ to_tsquery('russian', ?) limit ? offset ?",
+            new Object[]{String.join("&",text.split(" +")) + ":ab",pageable.getPageSize(), pageable.getPageNumber()*pageable.getPageSize() },
+            rowMapper);
+        Long count = jdbcTemplate.queryForObject("select count(*) from item WHERE fts @@ to_tsquery('russian', ?)",
+            new Object[]{String.join("&",text.split(" +")) + ":ab"}, Long.class);
+        Page<Item> page = new PageImpl<Item>(items, pageable, count);
+        return page;
+    }
 }
