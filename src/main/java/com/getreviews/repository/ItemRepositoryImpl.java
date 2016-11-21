@@ -1,5 +1,6 @@
 package com.getreviews.repository;
 
+import com.getreviews.domain.Image;
 import com.getreviews.domain.Item;
 import com.getreviews.domain.Source;
 
@@ -13,22 +14,38 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 public class ItemRepositoryImpl implements ItemRepository {
 
     private RowMapper<Item> rowMapper = new RowMapper<Item>() {
+
+        public boolean hasColumn(ResultSet rs, String columnName) throws SQLException {
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columns = rsmd.getColumnCount();
+            for (int x = 1; x <= columns; x++) {
+                if (columnName.equals(rsmd.getColumnName(x))) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         @Override
         public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
             Item item = new Item();
             item.setId(rs.getLong("id"));
             item.setName(rs.getString("name"));
             item.setDescription(rs.getString("description"));
+
+            //TODO bad code, better two have distinct mappers for different queries
+            if(hasColumn(rs, "im_url")){
+                Image image = new Image();
+                image.setUrl(rs.getString("im_url"));
+                item.addImage(image);
+            }
+
             return item;
         }
     };
@@ -67,7 +84,10 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public Page<Item> findAll(Pageable pageable) {
-        List<Item> items = jdbcTemplate.query("select id, name, description from item limit ? offset ?", rowMapper,
+        List<Item> items = jdbcTemplate.query("select it.id as id, name, description, im.url as im_url " +
+                "from item it LEFT OUTER JOIN image im " +
+                "on im.item_id = it.id  " +
+                "limit ? offset ?", rowMapper,
             pageable.getPageSize(), pageable.getPageNumber()*pageable.getPageSize());
         Page<Item> page = new PageImpl<Item>(items, pageable, count());
         return page;
