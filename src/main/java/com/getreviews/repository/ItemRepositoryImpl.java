@@ -85,8 +85,8 @@ public class ItemRepositoryImpl implements ItemRepository {
     @Override
     public Page<Item> findAll(Pageable pageable) {
         List<Item> items = jdbcTemplate.query("select it.id as id, name, description, im.url as im_url " +
-                "from item it LEFT OUTER JOIN image im " +
-                "on im.item_id = it.id  " +
+                "from item it LEFT OUTER JOIN image im on im.item_id = it.id WHERE im.id \n" +
+                "in (SELECT image.id FROM image where image.item_id = it.id limit 1) " +
                 "limit ? offset ?", rowMapper,
             pageable.getPageSize(), pageable.getPageNumber()*pageable.getPageSize());
         Page<Item> page = new PageImpl<Item>(items, pageable, count());
