@@ -16,7 +16,16 @@
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
 
+        vm.search = "";
+
+        if(pagingParams.search)
+            vm.search = pagingParams.search;
+
         loadAll();
+
+        $scope.search = function(){
+            $state.go('item', {search: vm.search});
+        };
 
         function loadAll () {
             Item.query({
