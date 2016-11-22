@@ -30,7 +30,7 @@ import java.util.Optional;
 public class ClientResource {
 
     private final Logger log = LoggerFactory.getLogger(ClientResource.class);
-        
+
     @Inject
     private ClientRepository clientRepository;
 
@@ -133,6 +133,15 @@ public class ClientResource {
         log.debug("REST request to delete Client : {}", id);
         clientRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("client", id.toString())).build();
+    }
+
+    @RequestMapping(value = "/clientscount",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public Long getClientsCount() {
+        log.debug("REST request to total count of Clients");
+        return clientRepository.count();
     }
 
 }

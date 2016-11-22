@@ -169,4 +169,13 @@ public class ItemResource {
         List<Item> items = itemRepository.getFourRandomItems();
         return items;
     }
+
+    @RequestMapping(value = "/itemscount",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public Long getItemsCount() {
+        log.debug("REST request to total count of Items");
+        return itemRepository.count();
+    }
 }

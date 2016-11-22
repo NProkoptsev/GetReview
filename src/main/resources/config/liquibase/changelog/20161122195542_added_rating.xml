@@ -22,7 +22,7 @@
 
     <changeSet id="2" author="me">
         <sql endDelimiter="/">
-            update item i set rating = (select avg(rating) from review r where i.id = r.item_id group by item_id order by item_id);
+            update item i set rating = (select avg(rating) from review r where i.id = r.item_id);
             /
         </sql>
     </changeSet>
