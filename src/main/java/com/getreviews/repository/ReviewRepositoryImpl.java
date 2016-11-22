@@ -27,7 +27,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     private final String FULL_QUERY = "select r.id, r.text, r.rating, " +
         "r.source_id, s.url, s.name as \"source_name\", s.description, " +
         "r.client_id, c.fullname, c.nickname, c.ext_or_int, " +
-        "r.item_id, i.name as \"item_name\", i.description " +
+        "r.item_id, i.name as \"item_name\", i.description , r.created, r.updated " +
         "from review r " +
         "join source s on r.source_id = s.id " +
         "join client c on r.client_id = c.id " +
@@ -40,6 +40,8 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             review.setId(rs.getLong("id"));
             review.setText(rs.getString("text"));
             review.setRating(rs.getFloat("rating"));
+            review.setCreatedDate(rs.getTimestamp("created"));
+            review.setUpdatedDate(rs.getTimestamp("updated"));
             Source source = new Source();
             source.setId(rs.getLong("source_id"));
             source.setUrl(rs.getString("url"));
@@ -67,6 +69,8 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             review.setId(rs.getLong("id"));
             review.setText(rs.getString("text"));
             review.setRating(rs.getFloat("rating"));
+            review.setCreatedDate(rs.getTimestamp("created"));
+            review.setUpdatedDate(rs.getTimestamp("updated"));
             Source source = new Source();
             source.setId(rs.getLong("source_id"));
             review.setSource(source);
@@ -82,10 +86,20 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public <S extends Review> S save(S entity) {
-        final String sql =
-            "insert into review (text, rating, source_id, client_id, item_id)"
-                + " values (?, ?, ?, ?, ?)";
+
+        String sql;
         KeyHolder keyHolder = new GeneratedKeyHolder();
+        final Long id = entity.getId();
+
+        if (id == null) {
+            sql =
+                "insert into review (text, rating, source_id, client_id, item_id)"
+                    + " values (?, ?, ?, ?, ?)";
+        } else {
+            sql =
+                "update review set text = ?, rating = ?, source_id = ?, client_id = ?, item_id = ?"
+            + " where id = ?";
+        }
 
         PreparedStatementCreator psCreator =
             new PreparedStatementCreator() {
@@ -104,6 +118,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
                         ps.setLong(4, clientID);
                     }
                     ps.setLong(5, entity.getItem().getId());
+                    if (id != null) ps.setLong(6, entity.getId());
                     return ps;
                 }
             };
@@ -139,7 +154,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     @Override
     public List<Review> findAll() {
         List<Review> reviews = jdbcTemplate.query(
-            "select id, text, rating, source_id, client_id, item_id from review", partialRowMapper);
+            "select id, text, rating, source_id, client_id, item_id, created, updated from review", partialRowMapper);
         return reviews;
     }
 
@@ -150,7 +165,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public Page<Review> findAll(Pageable pageable) {
-        List<Review> items = jdbcTemplate.query("select id, text, rating, source_id, client_id, item_id from review limit ? offset ?", partialRowMapper,
+        List<Review> items = jdbcTemplate.query("select id, text, rating, source_id, client_id, item_id, created, updated from review limit ? offset ?", partialRowMapper,
             pageable.getPageSize(), pageable.getPageNumber() * pageable.getPageSize());
         Page<Review> page = new PageImpl<Review>(items, pageable, count());
         return page;
@@ -209,7 +224,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
         boolean noFieldsSpecified = true;
         StringBuilder q = new StringBuilder(
-            "select id, text, rating, source_id, client_id, item_id from review WHERE ");
+            "select id, text, rating, source_id, client_id, item_id, created, updated from review WHERE ");
 
         if (example.getId() != null) {
             q.append("id = " + example.getId());
@@ -248,6 +263,20 @@ public class ReviewRepositoryImpl implements ReviewRepository {
                 q.append(" AND ");
             }
             q.append("item_id = " + example.getItem().getId());
+            noFieldsSpecified = false;
+        }
+        if (example.getCreatedDate() != null) {
+            if (noFieldsSpecified == false) {
+                q.append(" AND ");
+            }
+            q.append("created = " + example.getCreatedDate());
+            noFieldsSpecified = false;
+        }
+        if (example.getUpdatedDate() != null) {
+            if (noFieldsSpecified == false) {
+                q.append(" AND ");
+            }
+            q.append("created = " + example.getUpdatedDate());
             noFieldsSpecified = false;
         }
 
