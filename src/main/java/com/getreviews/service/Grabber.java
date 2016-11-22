@@ -361,8 +361,8 @@ public class Grabber {
             Item item, boolean itemExisted) {
         Review review = new Review();
         review.setItem(item);
-        if (r.getGrade() < 0) {
-            r.setGrade(-1 * r.getGrade());
+        if (r.getSource().getName().equals("Yandex Market")) {
+            r.setGrade(r.getGrade() + 3);
         }
         review.setRating((float) r.getGrade());
         String text = "";
