@@ -15,9 +15,6 @@
         vm.item = entity;
         vm.clear = clear;
         vm.save = save;
-        vm.review = {}
-        vm.review.item_id = vm.item.id;
-        vm.review.source_id = 3;
         $timeout(function () {
             angular.element('.form-group:eq(1)>input').focus();
         });
