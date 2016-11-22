@@ -2,8 +2,6 @@ package com.getreviews.repository;
 
 import com.getreviews.domain.Image;
 import com.getreviews.domain.Item;
-import com.getreviews.domain.Source;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,55 +19,50 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     private RowMapper<Item> rowMapper = new RowMapper<Item>() {
 
-        public boolean hasColumn(ResultSet rs, String columnName) throws SQLException {
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int columns = rsmd.getColumnCount();
-            for (int x = 1; x <= columns; x++) {
-                if (columnName.equals(rsmd.getColumnName(x))) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         @Override
         public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
             Item item = new Item();
             item.setId(rs.getLong("id"));
             item.setName(rs.getString("name"));
             item.setDescription(rs.getString("description"));
-
-            //TODO bad code, better two have distinct mappers for different queries
-            if(hasColumn(rs, "im_url")){
-                Image image = new Image();
-                image.setUrl(rs.getString("im_url"));
-                item.addImage(image);
-            }
-
+            return item;
+        }
+    };
+    private RowMapper<Item> fullRowMapper = new RowMapper<Item>() {
+        @Override
+        public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Item item = new Item();
+            item.setId(rs.getLong("id"));
+            item.setName(rs.getString("name"));
+            item.setDescription(rs.getString("description"));
+            Image image = new Image();
+            image.setUrl(rs.getString("im_url"));
+            item.addImage(image);
             return item;
         }
     };
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+
     @Override
     public <S extends Item> S save(S entity) {
         final String sql =
-                "insert into item (name, description) values (?, ?)";
+            "insert into item (name, description) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         PreparedStatementCreator psCreator =
-                new PreparedStatementCreator() {
-            @Override
-            public PreparedStatement createPreparedStatement(
+            new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(
                     Connection con) throws SQLException {
-                PreparedStatement ps = con.prepareStatement(
+                    PreparedStatement ps = con.prepareStatement(
                         sql, Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, entity.getName());
-                ps.setString(2, entity.getDescription());
-                return ps;
-            }
-        };
+                    ps.setString(1, entity.getName());
+                    ps.setString(2, entity.getDescription());
+                    return ps;
+                }
+            };
 
         jdbcTemplate.update(psCreator, keyHolder);
 
@@ -85,10 +78,10 @@ public class ItemRepositoryImpl implements ItemRepository {
     @Override
     public Page<Item> findAll(Pageable pageable) {
         List<Item> items = jdbcTemplate.query("select it.id as id, name, description, im.url as im_url " +
-                "from item it LEFT OUTER JOIN image im on im.item_id = it.id WHERE im.id \n" +
-                "in (SELECT image.id FROM image where image.item_id = it.id limit 1) " +
-                "limit ? offset ?", rowMapper,
-            pageable.getPageSize(), pageable.getPageNumber()*pageable.getPageSize());
+                "from item it LEFT OUTER JOIN image im on im.item_id = it.id WHERE im.id " +
+                "in (SELECT image.id FROM image where image.item_id = it.id limit 1) or im.id is null " +
+                "limit ? offset ?", fullRowMapper,
+            pageable.getPageSize(), pageable.getPageNumber() * pageable.getPageSize());
         Page<Item> page = new PageImpl<Item>(items, pageable, count());
         return page;
     }
@@ -144,6 +137,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     /**
      * Find the source object by the given example.
+     *
      * @param example
      * @return
      */
@@ -155,7 +149,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
         boolean noFieldsSpecified = true;
         StringBuilder q = new StringBuilder(
-                "select id, name, description from item WHERE ");
+            "select id, name, description from item WHERE ");
 
         if (example.getId() != null) {
             q.append("id = " + example.getId());
@@ -183,6 +177,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     /**
      * Find the source object by the given example.
+     *
      * @param example
      * @return
      */
@@ -205,7 +200,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
         boolean noFieldsSpecified = true;
         StringBuilder q = new StringBuilder(
-                "select id, name, description from item WHERE ");
+            "select id, name, description from item WHERE ");
 
         if (example.getName() != null && !example.getName().isEmpty()) {
             q.append("name LIKE '%" + example.getName().replaceAll("'", "\"") + "%'");
@@ -218,11 +213,15 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public Page<Item> findByText(Pageable pageable, String text) {
-        List<Item> items = jdbcTemplate.query("SELECT id, name, description FROM item WHERE fts @@ to_tsquery('russian', ?) limit ? offset ?",
-            new Object[]{String.join("&",text.split(" +")) + ":ab",pageable.getPageSize(), pageable.getPageNumber()*pageable.getPageSize() },
-            rowMapper);
+        List<Item> items = jdbcTemplate.query("select it.id as id, name, description, im.url as im_url " +
+                "from item it LEFT OUTER JOIN image im on im.item_id = it.id WHERE (im.id " +
+                "in (SELECT image.id FROM image where image.item_id = it.id limit 1) or im.id is null) " +
+                "and fts @@ to_tsquery('russian', ?) limit ? offset ?",
+            new Object[]{String.join("&", text.split(" +")) + ":ab", pageable.getPageSize(), pageable.getPageNumber() * pageable.getPageSize()},
+            fullRowMapper);
+
         Long count = jdbcTemplate.queryForObject("select count(*) from item WHERE fts @@ to_tsquery('russian', ?)",
-            new Object[]{String.join("&",text.split(" +")) + ":ab"}, Long.class);
+            new Object[]{String.join("&", text.split(" +")) + ":ab"}, Long.class);
         Page<Item> page = new PageImpl<Item>(items, pageable, count);
         return page;
     }

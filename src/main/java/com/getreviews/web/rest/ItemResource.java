@@ -143,7 +143,11 @@ public class ItemResource {
     public ResponseEntity<List<Item>> getItemByText(Pageable pageable, @PathVariable String text)
         throws URISyntaxException {
         log.debug("REST request to get a page of Items");
-        Page<Item> page = itemRepository.findByText(pageable, text);
+        Page<Item> page;
+        if (!text.equals(""))
+            page = itemRepository.findByText(pageable, text);
+        else
+            page = itemRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/items/search");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
