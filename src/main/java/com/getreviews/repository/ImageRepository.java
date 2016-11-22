@@ -15,4 +15,6 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface ImageRepository extends CrudRepository<Image,Long> {
     public Page<Image> findAll(Pageable pageable);
+
+    List<Image> findByItemId(Long itemId);
 }

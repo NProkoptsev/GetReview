@@ -1,41 +1,168 @@
+<div id="content">
+    <div class="container">
 
-<div>
-    <h2>{{vm.item.name}}</h2>
-    <hr>
-    <jhi-alert-error></jhi-alert-error>
-    <div class="container-fluid">
+        <jhi-alert-error></jhi-alert-error>
+
         <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="item-detail.new" >
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span  data-translate="getReviewsApp.review.home.createLabel">
+            <!-- Product Info Start -->
+            <div class="product-info">
+                <div class="col-sm-8">
+                    <div class="inner-box ads-details-wrapper">
+                        <h2>{{vm.item.name}}</h2>
+                        <p class="item-intro">Added <span class="date"> 20 Mar  2:27 am</span></p>
+                        <div id="owl-demo" class="owl-carousel owl-theme">
+                            <div class="item">
+                                <img src="content/img/productinfo/img1.jpg" alt="">
+                            </div>
+                            <div class="item">
+                                <img src="content/img/productinfo/img2.jpg" alt="">
+                            </div>
+                            <div class="item">
+                                <img src="content/img/productinfo/img3.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="Ads-Details">
+                        <h2 class="title-2"><strong>Description</strong></h2>
+                        <div class="row">
+                            <div class="ads-details-info col-md-8">
+                                {{vm.item.description}}
+                            </div>
+                            <div class="col-md-4">
+                                <aside class="panel panel-body panel-details">
+                                    <div>Average rating:</div>
+                                    <h3>4.3</h3>
+                                    <!--<ul>-->
+                                        <!--<li>-->
+                                            <!--<p class=" no-margin "><strong>Price:</strong> $ 1,045</p>-->
+                                        <!--</li>-->
+                                        <!--<li>-->
+                                            <!--<p class="no-margin"><strong>Type:</strong> <a href="#">Electronics</a>, <a href="#">For sale</a></p>-->
+                                        <!--</li>-->
+                                        <!--<li>-->
+                                            <!--<p class="no-margin"><strong>Location:</strong> <a href="#">New York</a></p>-->
+                                        <!--</li>-->
+                                        <!--<li>-->
+                                            <!--<p class=" no-margin "><strong>Condition:</strong> New</p>-->
+                                        <!--</li>-->
+                                        <!--<li>-->
+                                            <!--<p class="no-margin"><strong>Brand:</strong> <a href="#">Apple</a></p>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                </aside>
+
+                                <div class="ads-action">
+                                    <ul class="list-border">
+                                        <li>
+                                            <a href="#"> <i class=" fa fa-heart"></i> Save </a> </li>
+                                        <li>
+                                            <a href="#"> <i class="fa fa-share-alt"></i> Share </a>
+                                            <div class="social-link">
+                                                <a class="twitter" target="_blank" data-original-title="twitter" href="#" data-toggle="tooltip" data-placement="top"><i class="fa fa-twitter"></i></a>
+                                                <a class="facebook" target="_blank" data-original-title="facebook" href="#" data-toggle="tooltip" data-placement="top"><i class="fa fa-facebook"></i></a>
+                                                <a class="google" target="_blank" data-original-title="google-plus" href="#" data-toggle="tooltip" data-placement="top"><i class="fa fa-google"></i></a>
+                                                <a class="linkedin" target="_blank" data-original-title="linkedin" href="#" data-toggle="tooltip" data-placement="top"><i class="fa fa-linkedin"></i></a>
+                                            </div>
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin:10px 5px">Reviews:</h3>
+
+                    <div class="row" style="margin:0 0 20px 0">
+                        <div class="col-xs-4 col-xs-offset-7">
+                            <button class="btn btn-primary" ui-sref="item-detail.new" >
+                                <span class="glyphicon glyphicon-plus"></span>
+                                <span  data-translate="getReviewsApp.review.home.createLabel">
                         Create new Item
                     </span>
-                </button>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default" ng-repeat="review in vm.reviews">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div ng-if="review.client.fullname == null" class="col-md-6">{{review.client.nickname}}</div>
+                                <div ng-if="review.client.fullname.length > 0" class="col-md-6">{{review.client.fullname}}</div>
+                                <div class="col-md-4">Added: {{review.createdDate | date : format}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="h3 col-md-6" style="font-weight:bold">{{review.rating}}</div>
+                                <div class="col-md-6">Source: {{review.source.name}}</div>
+                            </div>
+                            <div>{{review.text}}</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-4">
+                    <div class="inner-box">
+                        <div class="widget-title">
+                            <h4>Advertisement</h4>
+                        </div>
+                        <img src="content/img/img1.png" alt="">
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <div class="inner-box">
+                        <div class="widget-title">
+                            <h4>Links</h4>
+                        </div>
+
+                        <ul class="featured-list">
+                            <li>
+                                <img alt="" src="content/img/featured/img1.jpg">
+                                <div class="hover">
+                                    <a href="#"><span>$49</span></a>
+                                </div>
+                            </li>
+                            <li>
+                                <img alt="" src="content/img/featured/img2.jpg">
+                                <div class="hover">
+                                    <a href="#"><span>$49</span></a>
+                                </div>
+                            </li>
+                            <li>
+                                <img alt="" src="content/img/featured/img3.jpg">
+                                <div class="hover">
+                                    <a href="#"><span>$49</span></a>
+                                </div>
+                            </li>
+                            <li>
+                                <img alt="" src="content/img/featured/img4.jpg">
+                                <div class="hover">
+                                    <a href="#"><span>$49</span></a>
+                                </div>
+                            </li>
+                            <li>
+                                <img alt="" src="content/img/featured/img5.jpg">
+                                <div class="hover">
+                                    <a href="#"><span>$49</span></a>
+                                </div>
+                            </li>
+                            <li>
+                                <img alt="" src="content/img/featured/img6.jpg">
+                                <div class="hover">
+                                    <a href="#"><span>$49</span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+            <!-- Product Info End -->
         </div>
     </div>
-    <dl class="dl-horizontal jh-entity-details">
-        <dt><span data-translate="getReviewsApp.item.description">Description</span></dt>
-        <dd>
-            <span>{{vm.item.description}}</span>
-        </dd>
-    </dl>
+</div>
+<!-- End Content -->
 
-    <h3>Reviews:</h3>
-
-    <div class="panel panel-default" ng-repeat="review in vm.reviews" style="margin: 10px">
-        <div class="panel-body">
-            <div class="row">
-                <div ng-hide="review.client.fullname.length == 0" class="col-md-5">{{review.client.fullname}}</div>
-                <div ng-hide="review.client.fullname.length > 0" class="col-md-5">{{review.client.nickname}}</div>
-                <div class="col-md-3">Source: {{review.source.name}}</div>
-                <div class="col-md-4">Added: {{review.createdDate}}</div>
-            </div>
-            <div class="h4">{{review.rating}}</div>
-            <div>{{review.text}}</div>
-        </div>
-    </div>
+<div>
 
     <button type="submit"
             ui-sref="{{ vm.previousState }}"
@@ -47,4 +174,5 @@
         <span class="glyphicon glyphicon-pencil"></span>
         <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
     </button>
+
 </div>
