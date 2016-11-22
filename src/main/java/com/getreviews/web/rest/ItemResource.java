@@ -91,10 +91,18 @@ public class ItemResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<Item>> getAllItems(Pageable pageable)
+    public ResponseEntity<List<Item>> getAllItems(Pageable pageable, @RequestParam(value="search", required = false) String search)
         throws URISyntaxException {
         log.debug("REST request to get a page of Items");
-        Page<Item> page = itemRepository.findAll(pageable);
+//        Page<Item> page = itemRepository.findAll(pageable);
+//
+
+        Page<Item> page;
+        if (search!=null && !search.isEmpty())
+            page = itemRepository.findByText(pageable, search);
+        else
+            page = itemRepository.findAll(pageable);
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/items");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
