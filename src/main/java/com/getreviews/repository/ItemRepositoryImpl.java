@@ -104,7 +104,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public Iterable<Item> findAll() {
-        List<Item> items = jdbcTemplate.query("select id, name, description from item", rowMapper);
+        List<Item> items = jdbcTemplate.query("select id, name, description, rating from item", rowMapper);
         return items;
     }
 
@@ -152,7 +152,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
 
         PreparedStatementHelper psh = new PreparedStatementHelper(
-                "select id, name, description from item WHERE");
+                "select id, name, description, rating from item WHERE");
         psh.put("id", example.getId());
         psh.put("name", example.getName());
         psh.put("description", example.getDescription());
