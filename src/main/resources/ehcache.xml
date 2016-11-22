@@ -72,5 +72,9 @@
     </cache>
 
 
+    <cache name="com.getreviews.domain.Category"
+        timeToLiveSeconds="3600">
+    </cache>
+
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>

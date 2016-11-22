@@ -32,6 +32,9 @@ public class Item implements Serializable {
     @Column(name = "description", length = 10000)
     private String description;
 
+    @Column(name = "category_id")
+    private Long category_id;
+
     @OneToMany(mappedBy = "item")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -163,5 +166,13 @@ public class Item implements Serializable {
             ", name='" + name + "'" +
             ", description='" + description + "'" +
             '}';
+    }
+
+    public Long getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(Long category_id) {
+        this.category_id = category_id;
     }
 }

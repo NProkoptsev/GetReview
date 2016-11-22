@@ -13,6 +13,7 @@
                 "client": "Client",
                 "source": "Source",
                 "image": "Image",
+                "category": "Category",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
