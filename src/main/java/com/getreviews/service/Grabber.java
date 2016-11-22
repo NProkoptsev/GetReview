@@ -173,7 +173,7 @@ public class Grabber {
         initSources();
         OzonGrabber grabber = new OzonGrabberService(false);
         if (ignoreHistory == true) {
-            System.out.println("History is ignoresd");
+            System.out.println("History is ignored");
         } else {
             grabber.readBrokenLinks();
             grabber.readNoReviewsList();
@@ -271,7 +271,6 @@ public class Grabber {
         
         @Override
         public void saveItem(String itemId, dmd.project.objects.Item item) {
-            System.out.println("SAVING ITEM");
             saveToItem(item);
         }
     }
@@ -307,7 +306,6 @@ public class Grabber {
             item = itemRepository.findOneByExample(item);
             if (item == null) {
                 // Create and save new item
-                System.out.println("CREATING NEW ITEM");
                 itemExisted = false;
                 
                 item = new Item();

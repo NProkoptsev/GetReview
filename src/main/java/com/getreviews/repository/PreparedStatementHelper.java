@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 
 
 public class PreparedStatementHelper {
-    protected Map<String, String> fields = new HashMap<>();
+    protected Map<String, Object> fields = new HashMap<>();
     protected String sql;
     
     /**
@@ -36,22 +36,12 @@ public class PreparedStatementHelper {
                 || fieldName.isEmpty() || fieldValue == null) {
             return;
         }
-        
-        // String
-        if (fieldValue instanceof String) {
-            if (!((String) fieldValue).isEmpty()) {
-                fields.put(fieldName, "'" + fieldValue + "'");
-            }
-            
-        // Boolean
-        } else if (fieldValue instanceof Boolean) {
-            fields.put(
-                    fieldName, fieldValue.toString().toUpperCase());
-            
-        // Any other type
-        } else {
-            fields.put(fieldName, fieldValue.toString());
+        // Empty string
+        if (fieldValue instanceof String && ((String) fieldValue).isEmpty()) {
+            return;
         }
+        
+        fields.put(fieldName, fieldValue);
     }
     
     
@@ -66,11 +56,11 @@ public class PreparedStatementHelper {
             return null;
         }
         
-        List<String> values = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
         StringBuilder sb = new StringBuilder(sql);
         boolean firstInserted = false;
         
-        for (Entry<String, String> entry : fields.entrySet()) {
+        for (Entry<String, Object> entry : fields.entrySet()) {
             sb.append(" ");
             if (firstInserted == true) {
                 sb.append("AND ");
@@ -82,8 +72,6 @@ public class PreparedStatementHelper {
             values.add(entry.getValue());
         }
         
-        System.out.println("QUERY: " + sb.toString());
-        
         PreparedStatementCreator psCreator =
                 new PreparedStatementCreator() {
                     @Override
@@ -92,9 +80,22 @@ public class PreparedStatementHelper {
                         PreparedStatement ps = con.prepareStatement(
                                 sb.toString());
                         for (int i = 0; i < values.size(); i++) {
-                            ps.setString(i + 1, values.get(i));
-                            System.out.println("ps.setString(" + (i + 1) + ", " 
-                                    + values.get(i)+ ");");
+                            // Boolean
+                            if (values.get(i) instanceof Boolean) {
+                                ps.setBoolean(i + 1, (boolean) values.get(i));
+                            // Long
+                            } else if (values.get(i) instanceof Long) {
+                                ps.setLong(i + 1, (long) values.get(i));
+                            // Integer
+                            } else if (values.get(i) instanceof Integer) {
+                                ps.setInt(i + 1, (int) values.get(i));
+                            // Float
+                            } else if (values.get(i) instanceof Float) {
+                                ps.setFloat(i + 1, (float) values.get(i));
+                            // String
+                            } else {
+                                ps.setString(i + 1, values.get(i).toString());
+                            }
                         }
                         return ps;
                     }

@@ -22,7 +22,6 @@ public class SourceRepositoryImpl implements SourceRepository {
             source.setId(rs.getLong("id"));
             source.setUrl(rs.getString("url"));
             source.setName(rs.getString("name"));
-            source.setDescription(rs.getString("description"));
             return source;
         }
     };
