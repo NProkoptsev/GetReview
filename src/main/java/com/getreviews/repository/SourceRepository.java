@@ -19,9 +19,9 @@ public interface SourceRepository extends CrudRepository<Source,Long> {
      * @param example
      * @return
      */
-    public Source findOne(Source example);
+    public Source findOneByExample(Source example);
     
-    public List<Source> findAll(Source example);
+    public List<Source> findAllByExample(Source example);
 
     public Page<Source> findAll(Pageable pageable);
 }

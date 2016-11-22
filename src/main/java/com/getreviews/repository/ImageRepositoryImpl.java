@@ -39,12 +39,12 @@ public class ImageRepositoryImpl implements ImageRepository {
     JdbcTemplate jdbcTemplate;
 
     @Override
-    public <S extends Image> S save(S entity) {       
-        final String sql = 
+    public <S extends Image> S save(S entity) {
+        final String sql =
                 "insert into image (url, item_id) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        
-        PreparedStatementCreator psCreator = 
+
+        PreparedStatementCreator psCreator =
                 new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(
@@ -56,9 +56,9 @@ public class ImageRepositoryImpl implements ImageRepository {
                 return ps;
             }
         };
-        
+
         jdbcTemplate.update(psCreator, keyHolder);
-        
+
         entity.setId((long) keyHolder.getKeys().get("id"));
         return entity;
     }
@@ -92,6 +92,14 @@ public class ImageRepositoryImpl implements ImageRepository {
             pageable.getPageSize(), pageable.getPageNumber()*pageable.getPageSize());
         Page<Image> page = new PageImpl<Image>(items, pageable, count());
         return page;
+    }
+
+    @Override
+    public List<Image> findByItemId(Long itemId){
+        List<Image> images = jdbcTemplate.query("select id, url, item_id from image where image.item_id = ?",
+            new Object[] {itemId},
+            rowMapper);
+        return images;
     }
 
     @Override

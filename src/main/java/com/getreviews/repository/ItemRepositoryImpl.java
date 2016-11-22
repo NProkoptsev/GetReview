@@ -13,7 +13,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ItemRepositoryImpl implements ItemRepository {
 
@@ -139,53 +141,39 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     /**
      * Find the source object by the given example.
-     *
      * @param example
      * @return
      */
     @Override
-    public List<Item> findAll(Item example) {
+    public List<Item> findAllByExample(Item example) {
         if (example == null) {
             return null;
         }
 
-        boolean noFieldsSpecified = true;
-        StringBuilder q = new StringBuilder(
-            "select id, name, description, rating from item WHERE ");
 
-        if (example.getId() != null) {
-            q.append("id = " + example.getId());
-            noFieldsSpecified = false;
-        }
-        if (example.getName() != null && !example.getName().isEmpty()) {
-            if (noFieldsSpecified == false) {
-                q.append(" AND ");
-            }
-            q.append("name = '" + example.getName().replaceAll("'", "\"") + "'");
-            noFieldsSpecified = false;
-        }
-        if (example.getDescription() != null && !example.getDescription().isEmpty()) {
-            if (noFieldsSpecified == false) {
-                q.append(" AND ");
-            }
-            q.append("description = '" + example.getDescription().replaceAll("'", "\"") + "'");
-            noFieldsSpecified = false;
+        PreparedStatementHelper psh = new PreparedStatementHelper(
+                "select id, name, description from item WHERE");
+        psh.put("id", example.getId());
+        psh.put("name", example.getName());
+        psh.put("description", example.getDescription());
+
+        if (psh.statementCreator() == null) {
+            return null;
         }
 
-        List<Item> items = jdbcTemplate.query(q.toString(), rowMapper);
+        List<Item> items = jdbcTemplate.query(psh.statementCreator(), rowMapper);
         return items;
     }
 
 
     /**
      * Find the source object by the given example.
-     *
      * @param example
      * @return
      */
     @Override
-    public Item findOne(Item example) {
-        List<Item> src = findAll(example);
+    public Item findOneByExample(Item example) {
+        List<Item> src = findAllByExample(example);
 
         if (src.size() == 0) {
             return null;

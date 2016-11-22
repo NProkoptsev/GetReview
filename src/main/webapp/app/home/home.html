@@ -12,11 +12,11 @@
                         <div class="advanced-search">
                             <form class="search-form" method="get">
                                 <div class="col-md-9 col-sm-6 search-col">
-                                    <input class="form-control keyword" name="keyword" value="" placeholder="Enter Keyword" type="text">
+                                    <input class="form-control keyword" name="keyword" ng-model="keywords" value="" placeholder="Enter Keyword" type="text">
                                     <i class="fa fa-search"></i>
                                 </div>
                                 <div class="col-md-3 col-sm-6 search-col">
-                                    <button class="btn btn-common btn-search btn-block"><strong>Search</strong></button>
+                                    <button class="btn btn-common btn-search btn-block" ng-click="search()"><strong>Search</strong></button>
                                 </div>
                             </form>
                         </div>

@@ -3,9 +3,9 @@
 
     angular
         .module('getReviewsApp', [
-            'ngStorage', 
+            'ngStorage',
             'tmh.dynamicLocale',
-            'pascalprecht.translate', 
+            'pascalprecht.translate',
             'ngResource',
             'ngCookies',
             'ngAria',
@@ -20,7 +20,28 @@
         ])
         .run(run);
 
+    // angular.module('getReviewsApp')
+    //     .directive('onFinishRender', [ "$timeout" ,function ($timeout) {
+    //         return {
+    //             restrict: 'A',
+    //             link: function (scope, element, attr) {
+    //                 if (scope.$last === true) {
+    //                     $timeout(function () {
+    //                         scope.$emit(attr.onFinishRender);
+    //                     });
+    //                 }
+    //             }
+    //         }
+    //     }]);
+
     run.$inject = ['stateHandler', 'translationHandler'];
+
+    angular.module('getReviewsApp')
+        .run(['$rootScope', function ($rootScope) {
+            $rootScope.$on('$stateChangeSuccess', function() {
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
+            });
+        }]);
 
     function run(stateHandler, translationHandler) {
         stateHandler.initialize();

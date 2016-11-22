@@ -82,7 +82,7 @@ public class Saver {
         
         Source source = new Source();
         source.setName(r.getSource().getName());
-        source = sourceRepository.findOne(source);
+        source = sourceRepository.findOneByExample(source);
         review.setSource(source);
         
         review = reviewRepository.save(review);
