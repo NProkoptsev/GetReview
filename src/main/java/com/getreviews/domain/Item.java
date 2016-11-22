@@ -80,6 +80,16 @@ public class Item implements Serializable {
         return images;
     }
 
+    /**
+     * @return just one image url
+     */
+    public String getImageUrl() {
+        if(images ==null || images.isEmpty())
+            return null;
+
+        return images.stream().findFirst().get().getUrl();
+    }
+
     public Item images(Set<Image> images) {
         this.images = images;
         return this;

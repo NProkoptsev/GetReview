@@ -39,29 +39,32 @@
 This application was generated using JHipster 3.9.1, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v3.9.1](https://jhipster.github.io/documentation-archive/v3.9.1).
 
 ## Grabber
-dmd.project.objects - package of grabber's object model
-dmd.project.grabber - package of grabber's classes
 
-com.getreviews.service.Grabber - grabber itself
-Import preserialized pack of objects:
+Import preserialized pack of objects: 
+
 /grabber/local - only objects, which were found in both shops
+
 /grabber/local?import_all=true - all the objects, grabbed from Ozon and Yandex
 
 Grab objects from Ozon (online):
 
 /grabber/ozon - default categories will be grabbed online
 
-GET-parameters:
-cat=catid - grab the item from the specified category. catid (int) can be copied from any category page from ozon.ru
-depth=int - if category is specified, amount of pages from this category to be grabbed
-start=itemid&finifh=itemid - should be specified both, the range of items' ids to be parsed, , itemid should be like: 135000016
-ignoreHistory=boolean - if true is specified, the history will be ignored, i.e. even broken links will be revisited (it can be used to faster parse short range of items)
+/grabber/ozon?cat=CAT_ID - grab the items from the specified category. catid (int) can be copied from any category page from ozon.ru
+
+/grabber/ozon?cat=CAT_ID&depth=X - if category is specified, depth means amount of pages from this category to be grabbed (there are usually 20 items per page)
+
+/grabber/ozon?start=ITEMID&finifh=ITEMID - should be specified both, the range of items' ids to be parsed, itemid should be 9-digit number and start from 135
+
+?ignoreHistory=true - the history will be ignored, i.e. even broken links will be revisited (it can be used to faster parse short range of items)
 
 Grab objects from Yandex (online):
-/grabber/yandex - category of electronics will be parsed
-GET-parameters:
-cat_name=rus_name - name of category to be parsed
-depth=int - amount of pages within the category to be parsed (max = 50 due to api limitations)
+
+/grabber/yandex - default categories will be parsed
+
+/grabber/yandex/cat_name=RUS_NAME - parse items from the specified category's name
+
+depth=X - X is amount of pages within the category to be parsed (max = 50 due to api limitations), there are usually 30 items per page
 
 ## Development
 

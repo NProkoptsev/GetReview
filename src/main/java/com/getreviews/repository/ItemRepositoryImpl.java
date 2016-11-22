@@ -1,5 +1,6 @@
 package com.getreviews.repository;
 
+import com.getreviews.domain.Image;
 import com.getreviews.domain.Item;
 import com.getreviews.domain.Source;
 
@@ -13,22 +14,38 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 public class ItemRepositoryImpl implements ItemRepository {
 
     private RowMapper<Item> rowMapper = new RowMapper<Item>() {
+
+        public boolean hasColumn(ResultSet rs, String columnName) throws SQLException {
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columns = rsmd.getColumnCount();
+            for (int x = 1; x <= columns; x++) {
+                if (columnName.equals(rsmd.getColumnName(x))) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         @Override
         public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
             Item item = new Item();
             item.setId(rs.getLong("id"));
             item.setName(rs.getString("name"));
             item.setDescription(rs.getString("description"));
+
+            //TODO bad code, better two have distinct mappers for different queries
+            if(hasColumn(rs, "im_url")){
+                Image image = new Image();
+                image.setUrl(rs.getString("im_url"));
+                item.addImage(image);
+            }
+
             return item;
         }
     };
@@ -67,7 +84,10 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public Page<Item> findAll(Pageable pageable) {
-        List<Item> items = jdbcTemplate.query("select id, name, description from item limit ? offset ?", rowMapper,
+        List<Item> items = jdbcTemplate.query("select it.id as id, name, description, im.url as im_url " +
+                "from item it LEFT OUTER JOIN image im on im.item_id = it.id WHERE im.id \n" +
+                "in (SELECT image.id FROM image where image.item_id = it.id limit 1) " +
+                "limit ? offset ?", rowMapper,
             pageable.getPageSize(), pageable.getPageNumber()*pageable.getPageSize());
         Page<Item> page = new PageImpl<Item>(items, pageable, count());
         return page;
@@ -194,5 +214,16 @@ public class ItemRepositoryImpl implements ItemRepository {
 
         List<Item> items = jdbcTemplate.query(q.toString(), rowMapper);
         return items;
+    }
+
+    @Override
+    public Page<Item> findByText(Pageable pageable, String text) {
+        List<Item> items = jdbcTemplate.query("SELECT id, name, description FROM item WHERE fts @@ to_tsquery('russian', ?) limit ? offset ?",
+            new Object[]{String.join("&",text.split(" +")) + ":ab",pageable.getPageSize(), pageable.getPageNumber()*pageable.getPageSize() },
+            rowMapper);
+        Long count = jdbcTemplate.queryForObject("select count(*) from item WHERE fts @@ to_tsquery('russian', ?)",
+            new Object[]{String.join("&",text.split(" +")) + ":ab"}, Long.class);
+        Page<Item> page = new PageImpl<Item>(items, pageable, count);
+        return page;
     }
 }

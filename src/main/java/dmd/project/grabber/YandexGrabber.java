@@ -83,7 +83,7 @@ public class YandexGrabber {
         source.setId(2);
         source.setUrl("https://market.yandex.ru");
         
-        File dir = new File(LOCAL_DIR);
+        File dir = new File(LOCAL_DIR + File.separator + "json");
         if (!dir.exists()) {
             dir.mkdirs();
         }

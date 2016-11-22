@@ -108,7 +108,7 @@ public class Grabber {
         initSources();
         
         if (importAll == false) {
-            try {                
+            try {
                 // Deserialize
                 FileInputStream fis = new FileInputStream(
                         "grabber" + File.separator + "common_items.ser");
@@ -118,7 +118,9 @@ public class Grabber {
                 for (dmd.project.objects.Item obj : objs) {
                     Item item = saveToItem(obj);
                 }
-                returnMessage = objs.size() + " items have been exported";
+                returnMessage = "Items have been exported";
+                
+                ois.close();
                 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -126,9 +128,11 @@ public class Grabber {
             }
         } else {
             Collection<dmd.project.objects.Item> ozonItems = 
-                    Merger.getObjects("grabber/GrabberOzon/objects.ser").values();
+                    Merger.getObjects("grabber" + File.separator
+                            + "GrabberOzon" + File.separator + "objects.ser").values();
             Collection<dmd.project.objects.Item> yandexItems = 
-                    Merger.getObjects("grabber/GrabberYandex/objects.ser").values();
+                    Merger.getObjects("grabber" + File.separator
+                            + "GrabberYandex" + File.separator + "objects.ser").values();
             Set<String> common = new HashSet<>();
             
             for (dmd.project.objects.Item yandexItem : yandexItems) {
@@ -196,7 +200,6 @@ public class Grabber {
             grabber.fetchItems("1155471", 50); // Техника для дома
             grabber.fetchItems("1135615", 50); // Мультиварки
             grabber.fetchItems("1133732", 50); // Блендеры и миксеры
-            grabber.fetchItems("1133693", 50); // Клавиатуры и мыши
         }
         if (categoryId != null) {
             int p = 1;
@@ -242,14 +245,16 @@ public class Grabber {
             excludedCats.add("Одежда, обувь и аксессуары");
             
             // Categories with hard-coded depth
-            /*pages.put("Телевизоры и плазменные панели", 20);
-            pages.put("Мобильные телефоны", 50);
+            pages.put("Телевизоры и плазменные панели", 20);
+            pages.put("Мобильные телефоны", 20);
             pages.put("Художественная литература", 20);
-            pages.put("USB Flash drive", 50);
-            */
+            pages.put("USB Flash drive", 20);
+            
             // Grab and save
-            //grabber.fetchItems(excludedCats, pages);        
+            //grabber.fetchItems(excludedCats, pages);
             grabber.fetchItems("Электроника", pages);
+            grabber.fetchItems("Досуг и развлечения", pages);
+            grabber.fetchItems("Компьютерная техника", pages);
             
         } else {
             if (depth != null) {
@@ -259,7 +264,7 @@ public class Grabber {
         }
         
         // Save cagtegories list and no reviews list
-        grabber.serialize();
+        //grabber.serialize();
         
         return ResponseEntity.ok().body("Queries to api was made: " 
                 + grabber.getOnlineQueriesCount());

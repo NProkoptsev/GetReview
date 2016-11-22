@@ -86,6 +86,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public <S extends Review> S save(S entity) {
+
         String sql;
         KeyHolder keyHolder = new GeneratedKeyHolder();
         final Long id = entity.getId();
@@ -110,7 +111,12 @@ public class ReviewRepositoryImpl implements ReviewRepository {
                     ps.setString(1, entity.getText());
                     ps.setDouble(2, entity.getRating());
                     ps.setLong(3, entity.getSource().getId());
-                    ps.setLong(4, entity.getClient().getId());
+                    if (entity.getClient() != null)
+                        ps.setLong(4, entity.getClient().getId());
+                    else {
+                        Long clientID = jdbcTemplate.queryForObject("select id from client where nickname = ?", new Object[]{entity.getClientLogin()}, Long.class);
+                        ps.setLong(4, clientID);
+                    }
                     ps.setLong(5, entity.getItem().getId());
                     if (id != null) ps.setLong(6, entity.getId());
                     return ps;

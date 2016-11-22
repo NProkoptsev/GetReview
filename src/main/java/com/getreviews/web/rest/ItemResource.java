@@ -2,7 +2,6 @@ package com.getreviews.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.getreviews.domain.Item;
-
 import com.getreviews.repository.ItemRepository;
 import com.getreviews.web.rest.util.HeaderUtil;
 import com.getreviews.web.rest.util.PaginationUtil;
@@ -31,7 +30,7 @@ import java.util.Optional;
 public class ItemResource {
 
     private final Logger log = LoggerFactory.getLogger(ItemResource.class);
-        
+
     @Inject
     private ItemRepository itemRepository;
 
@@ -136,4 +135,16 @@ public class ItemResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("item", id.toString())).build();
     }
 
+
+    @RequestMapping(value = "/items/search/{text}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<Item>> getItemByText(Pageable pageable, @PathVariable String text)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Items");
+        Page<Item> page = itemRepository.findByText(pageable, text);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/items/search");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 }

@@ -16,10 +16,12 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface ItemRepository extends CrudRepository<Item,Long> {
     public Page<Item> findAll(Pageable pageable);
-    
+
     public Item findOne(Item example);
-    
+
     public List<Item> findAll(Item example);
-    
+
     public List<Item> findAllLike(Item example);
+
+    public Page<Item> findByText(Pageable pageable, String text);
 }
