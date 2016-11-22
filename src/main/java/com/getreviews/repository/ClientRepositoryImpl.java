@@ -127,8 +127,8 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public Client findOne(Client example) {
-        List<Client> src = findAll(example);
+    public Client findOneByExample(Client example) {
+        List<Client> src = findAllByExample(example);
 
         if (src.size() == 0) {
             return null;
@@ -138,41 +138,24 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public List<Client> findAll(Client example) {
+    public List<Client> findAllByExample(Client example) {
         if (example == null) {
             return null;
         }
 
-        boolean noFieldsSpecified = true;
-        StringBuilder q = new StringBuilder(
-            "select id, fullname, nickname, ext_or_int from client WHERE ");
-
-        if (example.getId() != null) {
-            q.append("id = " + example.getId());
-            noFieldsSpecified = false;
+        PreparedStatementHelper psh = new PreparedStatementHelper(
+                "select id, fullname, nickname, ext_or_int from client WHERE");
+        psh.put("id", example.getId());
+        psh.put("fullname", example.getFullname());
+        psh.put("nickname", example.getNickname());
+        psh.put("ext_or_int", example.isExt_or_int());
+        
+        if (psh.statementCreator() == null) {
+            return null;
         }
-        if (example.getFullname() != null && !example.getFullname().isEmpty()) {
-            if (noFieldsSpecified == false) {
-                q.append(" AND ");
-            }
-            q.append("fullname = " + example.getFullname());
-            noFieldsSpecified = false;
-        }
-        if (example.getNickname() != null && !example.getNickname().isEmpty()) {
-            if (noFieldsSpecified == false) {
-                q.append(" AND ");
-            }
-            q.append("nickname = '" + example.getNickname().replaceAll("'", "\"") + "'");
-            noFieldsSpecified = false;
-        }
-        if (noFieldsSpecified == false) {
-            q.append(" AND ");
-        }
-        q.append("ext_or_int = "
-            + String.valueOf(example.isExt_or_int()).toUpperCase());
-        noFieldsSpecified = false;
-
-        List<Client> cls = jdbcTemplate.query(q.toString(), rowMapper);
+        
+        List<Client> cls = jdbcTemplate.query(
+                psh.statementCreator(), rowMapper);
         return cls;
     }
 }

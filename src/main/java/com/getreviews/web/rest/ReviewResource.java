@@ -31,7 +31,7 @@ import java.util.Optional;
 public class ReviewResource {
 
     private final Logger log = LoggerFactory.getLogger(ReviewResource.class);
-        
+
     @Inject
     private ReviewRepository reviewRepository;
 
@@ -143,13 +143,14 @@ public class ReviewResource {
     public List<Review> getReviewsByItem(@PathVariable Long itemId){
 
         return reviewRepository.findByItemId(itemId);
+    }
 
-//        ArrayList<Review> reviews = new ArrayList<>();
-//        Review review = new Review();
-//        review.setId(1002L);
-//        review.setText("Test");
-//        reviews.add(review);
-
-//        return reviews;
+    @RequestMapping(value = "/reviewscount",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public Long getItemsCount() {
+        log.debug("REST request to total count of Review");
+        return reviewRepository.count();
     }
 }

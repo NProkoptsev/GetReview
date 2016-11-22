@@ -13,7 +13,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ItemRepositoryImpl implements ItemRepository {
 
@@ -25,6 +27,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             item.setId(rs.getLong("id"));
             item.setName(rs.getString("name"));
             item.setDescription(rs.getString("description"));
+            item.setRating(rs.getDouble("rating"));
             return item;
         }
     };
@@ -38,6 +41,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             Image image = new Image();
             image.setUrl(rs.getString("im_url"));
             item.addImage(image);
+            item.setRating(rs.getDouble("rating"));
             return item;
         }
     };
@@ -77,7 +81,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public Page<Item> findAll(Pageable pageable) {
-        List<Item> items = jdbcTemplate.query("select it.id as id, name, description, im.url as im_url " +
+        List<Item> items = jdbcTemplate.query("select it.id as id, name, description, rating, im.url as im_url " +
                 "from item it LEFT OUTER JOIN image im on im.item_id = it.id WHERE im.id " +
                 "in (SELECT image.id FROM image where image.item_id = it.id limit 1) or im.id is null " +
                 "limit ? offset ?", fullRowMapper,
@@ -88,7 +92,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public Item findOne(Long aLong) {
-        Item item = jdbcTemplate.queryForObject("select id, name, description from item WHERE id=?",
+        Item item = jdbcTemplate.queryForObject("select id, name, description, rating from item WHERE id=?",
             new Object[]{aLong}, rowMapper);
         return item;
     }
@@ -137,53 +141,39 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     /**
      * Find the source object by the given example.
-     *
      * @param example
      * @return
      */
     @Override
-    public List<Item> findAll(Item example) {
+    public List<Item> findAllByExample(Item example) {
         if (example == null) {
             return null;
         }
 
-        boolean noFieldsSpecified = true;
-        StringBuilder q = new StringBuilder(
-            "select id, name, description from item WHERE ");
 
-        if (example.getId() != null) {
-            q.append("id = " + example.getId());
-            noFieldsSpecified = false;
-        }
-        if (example.getName() != null && !example.getName().isEmpty()) {
-            if (noFieldsSpecified == false) {
-                q.append(" AND ");
-            }
-            q.append("name = '" + example.getName().replaceAll("'", "\"") + "'");
-            noFieldsSpecified = false;
-        }
-        if (example.getDescription() != null && !example.getDescription().isEmpty()) {
-            if (noFieldsSpecified == false) {
-                q.append(" AND ");
-            }
-            q.append("description = '" + example.getDescription().replaceAll("'", "\"") + "'");
-            noFieldsSpecified = false;
+        PreparedStatementHelper psh = new PreparedStatementHelper(
+                "select id, name, description from item WHERE");
+        psh.put("id", example.getId());
+        psh.put("name", example.getName());
+        psh.put("description", example.getDescription());
+
+        if (psh.statementCreator() == null) {
+            return null;
         }
 
-        List<Item> items = jdbcTemplate.query(q.toString(), rowMapper);
+        List<Item> items = jdbcTemplate.query(psh.statementCreator(), rowMapper);
         return items;
     }
 
 
     /**
      * Find the source object by the given example.
-     *
      * @param example
      * @return
      */
     @Override
-    public Item findOne(Item example) {
-        List<Item> src = findAll(example);
+    public Item findOneByExample(Item example) {
+        List<Item> src = findAllByExample(example);
 
         if (src.size() == 0) {
             return null;
@@ -200,7 +190,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
         boolean noFieldsSpecified = true;
         StringBuilder q = new StringBuilder(
-            "select id, name, description from item WHERE ");
+            "select id, name, description, rating from item WHERE ");
 
         if (example.getName() != null && !example.getName().isEmpty()) {
             q.append("name LIKE '%" + example.getName().replaceAll("'", "\"") + "%'");
@@ -212,8 +202,17 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
+    public List<Item> getFourRandomItems() {
+        List<Item> items = jdbcTemplate.query("select it.id as id, name, description, rating, im.url as im_url " +
+            "from item it JOIN image im on im.item_id = it.id " +
+            "WHERE im.id in (SELECT image.id FROM image where image.item_id = it.id limit 1) and it.rating > 3 " +
+            "order by random() limit 4", fullRowMapper);
+        return items;
+    }
+
+    @Override
     public Page<Item> findByText(Pageable pageable, String text) {
-        List<Item> items = jdbcTemplate.query("select it.id as id, name, description, im.url as im_url " +
+        List<Item> items = jdbcTemplate.query("select it.id as id, name, description, rating, im.url as im_url " +
                 "from item it LEFT OUTER JOIN image im on im.item_id = it.id WHERE (im.id " +
                 "in (SELECT image.id FROM image where image.item_id = it.id limit 1) or im.id is null) " +
                 "and fts @@ to_tsquery('russian', ?) limit ? offset ?",

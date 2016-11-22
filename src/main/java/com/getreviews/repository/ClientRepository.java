@@ -14,9 +14,9 @@ import org.springframework.data.repository.CrudRepository;
 @SuppressWarnings("unused")
 public interface ClientRepository extends CrudRepository<Client,Long> {
     
-    public Client findOne(Client example);
+    public Client findOneByExample(Client example);
     
-    public List<Client> findAll(Client example);
+    public List<Client> findAllByExample(Client example);
 
     public Page<Client> findAll(Pageable pageable);
 }
