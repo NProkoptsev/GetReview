@@ -32,6 +32,8 @@ public class Item implements Serializable {
     @Column(name = "description", length = 10000)
     private String description;
 
+    private Double rating;
+
     @OneToMany(mappedBy = "item")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -163,5 +165,13 @@ public class Item implements Serializable {
             ", name='" + name + "'" +
             ", description='" + description + "'" +
             '}';
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 }

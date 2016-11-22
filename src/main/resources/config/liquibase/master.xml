@@ -17,4 +17,6 @@
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <include file="classpath:config/liquibase/changelog/20161121210747_added_trigger_Time.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161122154842_added_fullTextSearch.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161122213642_added_initial_objects.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161122195542_added_rating.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>

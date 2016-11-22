@@ -151,4 +151,14 @@ public class ItemResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/items/search");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/randomitems",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public List<Item> getFourRandomItems() {
+        log.debug("REST request to get 4 random Items");
+        List<Item> items = itemRepository.getFourRandomItems();
+        return items;
+    }
 }
