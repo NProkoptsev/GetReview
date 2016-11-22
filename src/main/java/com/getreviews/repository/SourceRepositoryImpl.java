@@ -58,35 +58,23 @@ public class SourceRepositoryImpl implements SourceRepository {
      * @return
      */
     @Override
-    public List<Source> findAll(Source example) {  
+    public List<Source> findAllByExample(Source example) {  
         if (example == null) {
             return null;
         }
         
-        boolean noFieldsSpecified = true;
-        StringBuilder q = new StringBuilder(
-                "select id, url, name, description from source WHERE ");
-
-        if (example.getId() != null) {
-            q.append("id = " + example.getId());
-            noFieldsSpecified = false;
-        }
-        if (example.getUrl() != null && !example.getUrl().isEmpty()) {
-            if (noFieldsSpecified == false) {
-                q.append(" AND ");
-            }
-            q.append("url = " + example.getUrl());
-            noFieldsSpecified = false;
-        }
-        if (example.getName() != null && !example.getName().isEmpty()) {
-            if (noFieldsSpecified == false) {
-                q.append(" AND ");
-            }
-            q.append("name = '" + example.getName() + "'");
-            noFieldsSpecified = false;
-        }
+        PreparedStatementHelper psh = new PreparedStatementHelper(
+                "select id, url, name from source WHERE");
+        psh.put("id", example.getId());
+        psh.put("url", example.getUrl());
+        psh.put("name", example.getName());
         
-        List<Source> src = jdbcTemplate.query(q.toString(), rowMapper);
+        if (psh.statementCreator() == null) {
+            return null;
+        }
+
+        List<Source> src = jdbcTemplate.query(
+                psh.statementCreator(), rowMapper);
         return src;
     }
     
@@ -97,8 +85,8 @@ public class SourceRepositoryImpl implements SourceRepository {
      * @return
      */
     @Override
-    public Source findOne(Source example) {  
-        List<Source> src = findAll(example);
+    public Source findOneByExample(Source example) {  
+        List<Source> src = findAllByExample(example);
         
         if (src.size() == 0) {
             return null;

@@ -17,7 +17,7 @@ public interface ReviewRepository extends CrudRepository<Review, Long> {
     List<Review> findByItemId(Long itemId);
     public Page<Review> findAll(Pageable pageable);
     
-    public Review findOne(Review example);
+    public Review findOneByExample(Review example);
     
-    public List<Review> findAll(Review example);
+    public List<Review> findAllByExample(Review example);
 }
