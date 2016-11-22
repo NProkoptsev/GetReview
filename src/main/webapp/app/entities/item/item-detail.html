@@ -11,14 +11,8 @@
                         <h2>{{vm.item.name}}</h2>
                         <p class="item-intro">Added <span class="date"> 20 Mar  2:27 am</span></p>
                         <div id="owl-demo" class="owl-carousel owl-theme">
-                            <div class="item">
-                                <img src="content/img/productinfo/img1.jpg" alt="">
-                            </div>
-                            <div class="item">
-                                <img src="content/img/productinfo/img2.jpg" alt="">
-                            </div>
-                            <div class="item">
-                                <img src="content/img/productinfo/img3.jpg" alt="">
+                            <div setowl ng-repeat="image in vm.images" class="item">
+                                <img class="item-img" src="{{image.url}}" alt="">
                             </div>
                         </div>
                     </div>
