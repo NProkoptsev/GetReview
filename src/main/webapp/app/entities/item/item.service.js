@@ -25,6 +25,11 @@
                 params: {subResource: 'reviews'},
                 method: 'GET',
                 isArray: true
+            },
+            'images': {
+                params: {subResource: 'images'},
+                method: 'GET',
+                isArray: true
             }
         });
     }

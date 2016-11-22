@@ -206,8 +206,8 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     }
 
     @Override
-    public Review findOne(Review example) {
-        List<Review> rvs = findAll(example);
+    public Review findOneByExample(Review example) {
+        List<Review> rvs = findAllByExample(example);
 
         if (rvs.size() == 0) {
             return null;
@@ -217,70 +217,31 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     }
 
     @Override
-    public List<Review> findAll(Review example) {
+    public List<Review> findAllByExample(Review example) {
         if (example == null) {
             return null;
         }
-
-        boolean noFieldsSpecified = true;
-        StringBuilder q = new StringBuilder(
-            "select id, text, rating, source_id, client_id, item_id, created, updated from review WHERE ");
-
-        if (example.getId() != null) {
-            q.append("id = " + example.getId());
-            noFieldsSpecified = false;
+        
+        PreparedStatementHelper psh = new PreparedStatementHelper(
+                "select id, text, rating, source_id, client_id, item_id, " 
+                        + "created, updated from review WHERE");
+        psh.put("id", example.getId());
+        psh.put("text", example.getText());
+        psh.put("rating", example.getRating());
+        try {
+            psh.put("source_id", example.getSource().getId());
+            psh.put("client_id", example.getClient().getId());
+            psh.put("item_id", example.getItem().getId());
+        } catch (NullPointerException e) {
+            // do nothing
         }
-        /*if (example.getText() != null && !example.getText().isEmpty()) {
-            if (noFieldsSpecified == false) {
-                q.append(" AND ");
-            }
-            q.append("text = '" + example.getText().replaceAll("'", "\"") + "'");
-            noFieldsSpecified = false;
-        }*/
-        if (example.getRating() != null) {
-            if (noFieldsSpecified == false) {
-                q.append(" AND ");
-            }
-            q.append("rating = " + example.getRating());
-            noFieldsSpecified = false;
-        }
-        if (example.getSource() != null) {
-            if (noFieldsSpecified == false) {
-                q.append(" AND ");
-            }
-            q.append("source_id = " + example.getSource().getId());
-            noFieldsSpecified = false;
-        }
-        if (example.getClient() != null) {
-            if (noFieldsSpecified == false) {
-                q.append(" AND ");
-            }
-            q.append("client_id = " + example.getClient().getId());
-            noFieldsSpecified = false;
-        }
-        if (example.getItem() != null) {
-            if (noFieldsSpecified == false) {
-                q.append(" AND ");
-            }
-            q.append("item_id = " + example.getItem().getId());
-            noFieldsSpecified = false;
-        }
-        if (example.getCreatedDate() != null) {
-            if (noFieldsSpecified == false) {
-                q.append(" AND ");
-            }
-            q.append("created = " + example.getCreatedDate());
-            noFieldsSpecified = false;
-        }
-        if (example.getUpdatedDate() != null) {
-            if (noFieldsSpecified == false) {
-                q.append(" AND ");
-            }
-            q.append("created = " + example.getUpdatedDate());
-            noFieldsSpecified = false;
+        
+        if (psh.statementCreator() == null) {
+            return null;
         }
 
-        List<Review> rvs = jdbcTemplate.query(q.toString(), partialRowMapper);
+        List<Review> rvs = jdbcTemplate.query(
+                psh.statementCreator(), partialRowMapper);
         return rvs;
     }
 }

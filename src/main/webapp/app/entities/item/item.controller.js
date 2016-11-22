@@ -9,20 +9,30 @@
 
     function ItemController ($scope, $state, Item, ParseLinks, AlertService, pagingParams, paginationConstants) {
         var vm = this;
-        
+
         vm.loadPage = loadPage;
         vm.predicate = pagingParams.predicate;
         vm.reverse = pagingParams.ascending;
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
 
+        vm.search = "";
+
+        if(pagingParams.search)
+            vm.search = pagingParams.search;
+
         loadAll();
+
+        $scope.search = function(){
+            $state.go('item', {search: vm.search});
+        };
 
         function loadAll () {
             Item.query({
                 page: pagingParams.page - 1,
                 size: vm.itemsPerPage,
-                sort: sort()
+                sort: sort(),
+                search: pagingParams.search
             }, onSuccess, onError);
             function sort() {
                 var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];

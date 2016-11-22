@@ -3,29 +3,19 @@ package com.getreviews.service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
-
 import javax.inject.Inject;
-
-import org.springframework.core.task.TaskExecutor;
-import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.codahale.metrics.annotation.Timed;
 import com.getreviews.domain.Client;
 import com.getreviews.domain.Image;
@@ -73,7 +63,7 @@ public class Grabber {
     public void initSources() {
         Source source = new Source();
         source.setName("Ozon.ru");
-        source = sourceRepository.findOne(source);
+        source = sourceRepository.findOneByExample(source);
         if (source == null) {
             source = new Source();
             source.setName("Ozon.ru");
@@ -85,7 +75,7 @@ public class Grabber {
         
         source = new Source();
         source.setName("Yandex Market");
-        source = sourceRepository.findOne(source);
+        source = sourceRepository.findOneByExample(source);
         if (source == null) {
             source = new Source();
             source.setName("Yandex Market");
@@ -183,7 +173,7 @@ public class Grabber {
         initSources();
         OzonGrabber grabber = new OzonGrabberService(false);
         if (ignoreHistory == true) {
-            System.out.println("History is ignoresd");
+            System.out.println("History is ignored");
         } else {
             grabber.readBrokenLinks();
             grabber.readNoReviewsList();
@@ -281,7 +271,6 @@ public class Grabber {
         
         @Override
         public void saveItem(String itemId, dmd.project.objects.Item item) {
-            System.out.println("SAVING ITEM");
             saveToItem(item);
         }
     }
@@ -314,10 +303,9 @@ public class Grabber {
         if (similiarItems.size() == 1) {
             item = similiarItems.get(0);
         } else {
-            item = itemRepository.findOne(item);
+            item = itemRepository.findOneByExample(item);
             if (item == null) {
                 // Create and save new item
-                System.out.println("CREATING NEW ITEM");
                 itemExisted = false;
                 
                 item = new Item();
@@ -373,8 +361,8 @@ public class Grabber {
             Item item, boolean itemExisted) {
         Review review = new Review();
         review.setItem(item);
-        if (r.getGrade() < 0) {
-            r.setGrade(-1 * r.getGrade());
+        if (r.getSource().getName().equals("Yandex Market")) {
+            r.setGrade(r.getGrade() + 3);
         }
         review.setRating((float) r.getGrade());
         String text = "";
@@ -402,7 +390,7 @@ public class Grabber {
         
         Review rvw = null;
         if (itemExisted == true) {
-            rvw = reviewRepository.findOne(review);
+            rvw = reviewRepository.findOneByExample(review);
         }
         if (rvw != null) {
             review = rvw;
@@ -431,7 +419,7 @@ public class Grabber {
                 || user.getNickname().isEmpty()) {
             client.setNickname("Anonymous");
             client.setExt_or_int(true);
-            client = clientRepository.findOne(client);
+            client = clientRepository.findOneByExample(client);
             if (client == null) {
                 client = new Client();
                 client.setNickname("Anonymous");

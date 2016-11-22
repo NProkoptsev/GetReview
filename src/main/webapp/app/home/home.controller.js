@@ -18,6 +18,10 @@
             getAccount();
         });
 
+        $scope.search = function(){
+            $state.go('item', {search: $scope.keywords});
+        };
+
         getAccount();
 
         function getAccount() {

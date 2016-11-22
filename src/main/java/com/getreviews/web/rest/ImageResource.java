@@ -3,6 +3,7 @@ package com.getreviews.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.getreviews.domain.Image;
 
+import com.getreviews.domain.Review;
 import com.getreviews.repository.ImageRepository;
 import com.getreviews.web.rest.util.HeaderUtil;
 import com.getreviews.web.rest.util.PaginationUtil;
@@ -30,7 +31,7 @@ import java.util.Optional;
 public class ImageResource {
 
     private final Logger log = LoggerFactory.getLogger(ImageResource.class);
-        
+
     @Inject
     private ImageRepository imageRepository;
 
@@ -100,6 +101,18 @@ public class ImageResource {
     }
 
     /**
+     * GET  /images : get images for item
+     */
+
+    @RequestMapping(value = "/items/{itemId}/images",
+        method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Timed
+    public List<Image> getReviewsByItem(@PathVariable Long itemId){
+        return imageRepository.findByItemId(itemId);
+    }
+
+    /**
      * GET  /images/:id : get the "id" image.
      *
      * @param id the id of the image to retrieve
@@ -134,5 +147,4 @@ public class ImageResource {
         imageRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("image", id.toString())).build();
     }
-
 }

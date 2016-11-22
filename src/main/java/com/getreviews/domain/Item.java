@@ -34,6 +34,7 @@ public class Item implements Serializable {
 
     @Column(name = "category_id")
     private Long category_id;
+    private Double rating;
 
     @OneToMany(mappedBy = "item")
     @JsonIgnore
@@ -174,5 +175,12 @@ public class Item implements Serializable {
 
     public void setCategory_id(Long category_id) {
         this.category_id = category_id;
+    }
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 }

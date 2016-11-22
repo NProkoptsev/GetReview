@@ -2538,3 +2538,12 @@ textarea:focus {
   margin-bottom: 0px;
   vertical-align: middle;
 }
+
+#owl-demo .item .item-img{
+    display: block;
+    width: auto; !important;
+    margin-left: auto;
+    margin-right: auto;
+    height: auto;
+    max-height: 300px !important;
+}
