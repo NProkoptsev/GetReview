@@ -8,6 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 
@@ -50,8 +51,10 @@ public class Review implements Serializable {
     //another option - generate in DBMS on update (may be as trigger may be as sequence)
     //TODO may be better to add createdDate and updatedDate to all entities via inherit all entities
     //from some new base class Entity
-    private Date createdDate = new Date(); //Just as stub
-    private Date updatedDate = new Date(); //
+
+
+    private Date createdDate;
+    private Date updatedDate;
 
     public Long getId() {
         return id;
@@ -131,16 +134,17 @@ public class Review implements Serializable {
         this.item = item;
         return this;
     }
+
     public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
     public Date getUpdatedDate() {
         return updatedDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     public void setUpdatedDate(Date updatedDate) {
