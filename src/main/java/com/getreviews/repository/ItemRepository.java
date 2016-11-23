@@ -26,4 +26,6 @@ public interface ItemRepository extends CrudRepository<Item,Long> {
     public Page<Item> findByText(Pageable pageable, String text);
 
     public List<Item> getFourRandomItems();
+
+    public Page<Item> findAllByCategory(Pageable pageable, Long category);
 }

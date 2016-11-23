@@ -235,4 +235,19 @@ public class ItemRepositoryImpl implements ItemRepository {
         Page<Item> page = new PageImpl<Item>(items, pageable, count);
         return page;
     }
+
+    @Override
+    public Page<Item> findAllByCategory(Pageable pageable, Long category) {
+        List<Item> items = jdbcTemplate.query("select it.id as id, name, description, rating, category_id, im.url as im_url " +
+                "from item it LEFT OUTER JOIN image im on im.item_id = it.id WHERE (im.id " +
+                "in (SELECT image.id FROM image where image.item_id = it.id limit 1) or im.id is null) " +
+                "and category_id in (select cc.id from category c left outer join category cc " +
+                "on c.id = cc.parent_id where c.id = it.category_id " +
+                "union select c.id) " +
+                "limit ? offset ?", fullRowMapper,
+            pageable.getPageSize(), pageable.getPageNumber() * pageable.getPageSize());
+        Page<Item> page = new PageImpl<Item>(items, pageable, count());
+        return page;
+
+    }
 }
