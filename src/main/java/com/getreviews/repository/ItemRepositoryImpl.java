@@ -14,12 +14,12 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.*;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ItemRepositoryImpl implements ItemRepository {
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
     private RowMapper<Item> rowMapper = new RowMapper<Item>() {
 
         @Override
@@ -52,9 +52,6 @@ public class ItemRepositoryImpl implements ItemRepository {
             return item;
         }
     };
-
-    @Autowired
-    JdbcTemplate jdbcTemplate;
 
     @Override
     public <S extends Item> S save(S entity) {
@@ -152,6 +149,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     /**
      * Find the source object by the given example.
+     *
      * @param example
      * @return
      */
@@ -163,7 +161,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
 
         PreparedStatementHelper psh = new PreparedStatementHelper(
-                "select id, name, description, rating, category_id from item WHERE");
+            "select id, name, description, rating, category_id from item WHERE");
         psh.put("id", example.getId());
         psh.put("name", example.getName());
         psh.put("description", example.getDescription());
@@ -173,13 +171,14 @@ public class ItemRepositoryImpl implements ItemRepository {
         }
 
         List<Item> items = jdbcTemplate
-                .query(psh.statementCreator(), rowMapper);
+            .query(psh.statementCreator(), rowMapper);
         return items;
     }
 
 
     /**
      * Find the source object by the given example.
+     *
      * @param example
      * @return
      */
@@ -242,11 +241,11 @@ public class ItemRepositoryImpl implements ItemRepository {
         List<Item> items = jdbcTemplate.query("select it.id as id, name, description, rating, category_id, im.url as im_url " +
                 "from item it LEFT OUTER JOIN image im on im.item_id = it.id WHERE (im.id " +
                 "in (SELECT image.id FROM image where image.item_id = it.id limit 1) or im.id is null) " +
-                "and category_id in (select cc.id from category c left outer join category cc " +
-                "on c.id = cc.parent_id where c.id = it.category_id " +
-                "union select c.id) " +
+                "and category_id in (select c.id from category c join category cc " +
+                "on c.parent_id = cc.id where cc.id = ? " +
+                "union select ? from category) " +
                 "limit ? offset ?", fullRowMapper,
-            pageable.getPageSize(), pageable.getPageNumber() * pageable.getPageSize());
+            category, category, pageable.getPageSize(), pageable.getPageNumber() * pageable.getPageSize());
         Page<Item> page = new PageImpl<Item>(items, pageable, count());
         return page;
 
