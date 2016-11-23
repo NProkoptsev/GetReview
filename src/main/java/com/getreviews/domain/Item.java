@@ -33,7 +33,7 @@ public class Item implements Serializable {
     private String description;
 
     @Column(name = "category_id")
-    private Long category_id;
+    private Category category;
     private Double rating;
 
     @OneToMany(mappedBy = "item")
@@ -169,18 +169,20 @@ public class Item implements Serializable {
             '}';
     }
 
-    public Long getCategory_id() {
-        return category_id;
-    }
 
-    public void setCategory_id(Long category_id) {
-        this.category_id = category_id;
-    }
     public Double getRating() {
         return rating;
     }
 
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
