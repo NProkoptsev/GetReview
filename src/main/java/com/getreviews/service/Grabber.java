@@ -56,11 +56,12 @@ public class Grabber {
     
     
     Map<String, Source> sources = new HashMap<>();
+    Map<String, String> categories = new HashMap<>();
 
     /**
      * if sources don't exist - create
      */
-    public void initSources() {
+    public void initSourcesAndCategories() {
         Source source = new Source();
         source.setName("Ozon.ru");
         source = sourceRepository.findOneByExample(source);
@@ -84,6 +85,11 @@ public class Grabber {
             source = sourceRepository.save(source);
         }
         sources.put(source.getName(), source);
+        
+        // Init categories
+        categories.put("смартфон", "smartphones");
+        categories.put("телевизор", "TV");
+        categories.put("планшет", "tablets");        
     }
     
     
@@ -95,7 +101,7 @@ public class Grabber {
             @RequestParam(value="import_all", required=false) boolean importAll) {
         String returnMessage = "";
         List<dmd.project.objects.Item> objs = null;
-        initSources();
+        initSourcesAndCategories();
         
         if (importAll == false) {
             try {
@@ -170,7 +176,7 @@ public class Grabber {
             @RequestParam(value="start", required=false) String startId,
             @RequestParam(value="finish", required=false) String finishId,
             @RequestParam(value="ignore_history", required=false) boolean ignoreHistory) {
-        initSources();
+        initSourcesAndCategories();
         OzonGrabber grabber = new OzonGrabberService(false);
         if (ignoreHistory == true) {
             System.out.println("History is ignored");
@@ -221,7 +227,7 @@ public class Grabber {
     public ResponseEntity<String> grabYandex(
             @RequestParam(value="cat_name", required=false) String categoryName,
             @RequestParam(value="depth", required=false) Integer depth) {
-        initSources();
+        initSourcesAndCategories();
         YandexGrabber grabber = new YandexGrabberService(true);
         grabber.saveResponsesLocally(true); //!!!
         grabber.readCategories();        
@@ -311,6 +317,13 @@ public class Grabber {
                 item = new Item();
                 item.setName(obj.getName());
                 item.setDescription(obj.getDescription());
+                
+                if (categories.containsKey(obj.getType())) {
+                    
+                } else {
+                    
+                }
+                
                 item = itemRepository.save(item);
             }
         }
@@ -383,7 +396,7 @@ public class Grabber {
         // CONS!
         
         if (sources.size() == 0) {
-            initSources();
+            initSourcesAndCategories();
         }
         Source source = sources.get(r.getSource().getName());
         review.setSource(source);
