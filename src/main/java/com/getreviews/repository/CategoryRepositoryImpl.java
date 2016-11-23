@@ -2,6 +2,8 @@ package com.getreviews.repository;
 
 import com.getreviews.domain.Category;
 import com.getreviews.domain.Client;
+import com.getreviews.domain.Item;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -41,7 +43,10 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public Category findOne(Long aLong) {
-        return null;
+        Category category = jdbcTemplate.queryForObject(
+                "select id, name, image, parent_id from category WHERE id=?",
+                    new Object[]{aLong}, rowMapper);
+        return category;
     }
 
     @Override
@@ -51,7 +56,8 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public Iterable<Category> findAll() {
-        List<Category> categories = jdbcTemplate.query("select id, name, image, parent_id from category", rowMapper);
+        List<Category> categories = jdbcTemplate.query(
+                "select id, name, image, parent_id from category", rowMapper);
         return categories;
     }
 
