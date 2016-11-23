@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.codahale.metrics.annotation.Timed;
+import com.getreviews.domain.Category;
 import com.getreviews.domain.Client;
 import com.getreviews.domain.Image;
 import com.getreviews.domain.Item;
 import com.getreviews.domain.Review;
 import com.getreviews.domain.Source;
+import com.getreviews.repository.CategoryRepository;
 import com.getreviews.repository.ClientRepository;
 import com.getreviews.repository.ImageRepository;
 import com.getreviews.repository.ItemRepository;
@@ -54,13 +56,16 @@ public class Grabber {
     @Inject
     private SourceRepository sourceRepository;
     
+    @Inject
+    private CategoryRepository categoryRepository;
     
     Map<String, Source> sources = new HashMap<>();
+    Map<String, Category> categories = new HashMap<>();
 
     /**
      * if sources don't exist - create
      */
-    public void initSources() {
+    public void initSourcesAndCategories() {
         Source source = new Source();
         source.setName("Ozon.ru");
         source = sourceRepository.findOneByExample(source);
@@ -84,6 +89,11 @@ public class Grabber {
             source = sourceRepository.save(source);
         }
         sources.put(source.getName(), source);
+        
+        // Init categories
+        categories.put("смартфон", categoryRepository.findOne(2L));
+        categories.put("телевизор", categoryRepository.findOne(3L));
+        categories.put("планшет", categoryRepository.findOne(4L));        
     }
     
     
@@ -95,7 +105,7 @@ public class Grabber {
             @RequestParam(value="import_all", required=false) boolean importAll) {
         String returnMessage = "";
         List<dmd.project.objects.Item> objs = null;
-        initSources();
+        initSourcesAndCategories();
         
         if (importAll == false) {
             try {
@@ -170,7 +180,7 @@ public class Grabber {
             @RequestParam(value="start", required=false) String startId,
             @RequestParam(value="finish", required=false) String finishId,
             @RequestParam(value="ignore_history", required=false) boolean ignoreHistory) {
-        initSources();
+        initSourcesAndCategories();
         OzonGrabber grabber = new OzonGrabberService(false);
         if (ignoreHistory == true) {
             System.out.println("History is ignored");
@@ -221,7 +231,7 @@ public class Grabber {
     public ResponseEntity<String> grabYandex(
             @RequestParam(value="cat_name", required=false) String categoryName,
             @RequestParam(value="depth", required=false) Integer depth) {
-        initSources();
+        initSourcesAndCategories();
         YandexGrabber grabber = new YandexGrabberService(true);
         grabber.saveResponsesLocally(true); //!!!
         grabber.readCategories();        
@@ -311,6 +321,14 @@ public class Grabber {
                 item = new Item();
                 item.setName(obj.getName());
                 item.setDescription(obj.getDescription());
+                
+                if (categories.containsKey(obj.getType().toLowerCase())) {
+                    item.setCategory(categories.get(
+                            obj.getType().toLowerCase()));
+                } else {
+                    item.setCategory(null);
+                }
+                
                 item = itemRepository.save(item);
             }
         }
@@ -364,7 +382,12 @@ public class Grabber {
         if (r.getSource().getName().equals("Yandex Market")) {
             r.setGrade(r.getGrade() + 3);
         }
-        review.setRating((float) r.getGrade());
+        if (r.getGrade() > 5) {
+            review.setRating((float) 5);
+        } else {
+            review.setRating((float) r.getGrade());
+        }
+        
         String text = "";
         if (r.getPros() != null) {
             text += r.getPros();
@@ -383,7 +406,7 @@ public class Grabber {
         // CONS!
         
         if (sources.size() == 0) {
-            initSources();
+            initSourcesAndCategories();
         }
         Source source = sources.get(r.getSource().getName());
         review.setSource(source);

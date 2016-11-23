@@ -172,7 +172,8 @@ public class ItemRepositoryImpl implements ItemRepository {
             return null;
         }
 
-        List<Item> items = jdbcTemplate.query(psh.statementCreator(), rowMapper);
+        List<Item> items = jdbcTemplate
+                .query(psh.statementCreator(), rowMapper);
         return items;
     }
 
