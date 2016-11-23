@@ -5,9 +5,9 @@
         .module('getReviewsApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$http'];
 
-    function HomeController ($scope, Principal, LoginService, $state) {
+    function HomeController ($scope, Principal, LoginService, $state, $http) {
         var vm = this;
 
         vm.account = null;
@@ -21,6 +21,13 @@
         $scope.search = function(){
             $state.go('item', {search: $scope.keywords});
         };
+
+        vm.randomItems = [];
+
+        $http.get("/api/randomitems")
+            .then(function(response) {
+                vm.randomItems = response.data;
+            });
 
         getAccount();
 
