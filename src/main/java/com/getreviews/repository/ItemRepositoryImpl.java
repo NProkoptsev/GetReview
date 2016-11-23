@@ -217,7 +217,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         List<Item> items = jdbcTemplate.query("select it.id as id, name, description, rating, category_id, im.url as im_url " +
             "from item it JOIN image im on im.item_id = it.id " +
             "WHERE im.id in (SELECT image.id FROM image where image.item_id = it.id limit 1) and it.rating > 3 " +
-            "order by random() limit 4", fullRowMapper);
+            "order by random() limit 8", fullRowMapper);
         return items;
     }
 

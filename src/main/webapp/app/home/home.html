@@ -371,103 +371,26 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 wow fadeIn" data-wow-delay="0.5s" style="-webkit-animation-name: none; -moz-animation-name: none; animation-name: none;-webkit-animation-delay: 0.5s; -moz-animation-delay: 0.5s; animation-delay: 0.5s;">
-                        <h3 class="section-title">Featured Listings</h3>
+                        <h3 class="section-title">Featured Reviews</h3>
                         <div id="new-products" class="owl-carousel owl-theme" style="opacity: 1; display: block;">
-                            <div class="owl-wrapper-outer"><div class="owl-wrapper" style="width: 3760px; left: 0px; display: block; transition: all 800ms ease; transform: translate3d(-235px, 0px, 0px);"><div class="owl-item" style="width: 235px;"><div class="item">
-                                <div class="product-item">
-                                    <div class="carousel-thumb">
-                                        <img src="content/img/product/img1.jpg" alt="">
-                                        <div class="overlay">
-                                            <a href="ads-details.html"><i class="fa fa-link"></i></a>
-                                        </div>
-                                    </div>
-                                    <a href="ads-details.html" class="item-name">Lorem ipsum dolor sit</a>
-                                    <span class="price">$150</span>
-                                </div>
-                            </div></div><div class="owl-item" style="width: 235px;"><div class="item">
-                                <div class="product-item">
-                                    <div class="carousel-thumb">
-                                        <img src="content/img/product/img2.jpg" alt="">
-                                        <div class="overlay">
-                                            <a href="ads-details.html"><i class="fa fa-link"></i></a>
-                                        </div>
-                                    </div>
-                                    <a href="ads-details.html" class="item-name">Sed diam nonummy</a>
-                                    <span class="price">4.5</span>
-                                </div>
-                            </div></div><div class="owl-item" style="width: 235px;"><div class="item">
-                                <div class="product-item">
-                                    <div class="carousel-thumb">
-                                        <img src="content/img/product/img3.jpg" alt="">
-                                        <div class="overlay">
-                                            <a href="ads-details.html"><i class="fa fa-link"></i></a>
-                                        </div>
-                                    </div>
-                                    <a href="ads-details.html" class="item-name">Feugiat nulla facilisis</a>
-                                    <span class="price">3.4</span>
-                                </div>
-                            </div></div><div class="owl-item" style="width: 235px;"><div class="item">
-                                <div class="product-item">
-                                    <div class="carousel-thumb">
-                                        <img src="content/img/product/img4.jpg" alt="">
-                                        <div class="overlay">
-                                            <a href="ads-details.html"><i class="fa fa-link"></i></a>
-                                        </div>
-                                    </div>
-                                    <a href="ads-details.html" class="item-name">Lorem ipsum dolor sit</a>
-                                    <span class="price">4.3</span>
-                                </div>
-                            </div></div><div class="owl-item" style="width: 235px;"><div class="item">
-                                <div class="product-item">
-                                    <div class="carousel-thumb">
-                                        <img src="content/img/product/img5.jpg" alt="">
-                                        <div class="overlay">
-                                            <a href="ads-details.html"><i class="fa fa-link"></i></a>
-                                        </div>
-                                    </div>
-                                    <a href="ads-details.html" class="item-name">Sed diam nonummy</a>
-                                    <span class="price">2.6</span>
-                                </div>
-                            </div></div><div class="owl-item" style="width: 235px;"><div class="item">
-                                <div class="product-item">
-                                    <div class="carousel-thumb">
-                                        <img src="content/img/product/img6.jpg" alt="">
-                                        <div class="overlay">
-                                            <a href="ads-details.html"><i class="fa fa-link"></i></a>
-                                        </div>
-                                    </div>
-                                    <a href="ads-details.html" class="item-name">Praesent luptatum zzril</a>
-                                    <span class="price">$169</span>
-                                </div>
-                            </div></div><div class="owl-item" style="width: 235px;"><div class="item">
-                                <div class="product-item">
-                                    <div class="carousel-thumb">
-                                        <img src="content/img/product/img7.jpg" alt="">
-                                        <div class="overlay">
-                                            <a href="ads-details.html"><i class="fa fa-link"></i></a>
-                                        </div>
-                                    </div>
-                                    <a href="ads-details.html" class="item-name">Lorem ipsum dolor sit</a>
-                                    <span class="price">$79</span>
-                                </div>
-                            </div></div><div class="owl-item" style="width: 235px;"><div class="item">
-                                <div class="product-item">
-                                    <div class="carousel-thumb">
-                                        <img src="content/img/product/img8.jpg" alt="">
-                                        <div class="overlay">
-                                            <a href="ads-details.html"><i class="fa fa-link"></i></a>
-                                        </div>
-                                    </div>
-                                    <a href="ads-details.html" class="item-name">Sed diam nonummy</a>
-                                    <span class="price">$149</span>
-                                </div>
-                            </div></div></div></div>
+                            <div class="owl-wrapper-outer"><div class="owl-wrapper" style="width: 3760px; left: 0px; display: block; transition: all 800ms ease; transform: translate3d(-235px, 0px, 0px);">
 
+                                <div class="owl-item" style="width: 235px;" ng-repeat="item in vm.randomItems"><div class="item">
+                                    <div class="product-item">
+                                        <div class="carousel-thumb" style="max-height: 235px; height: 235px">
+                                            <img src="{{item.imageUrl}}" style="max-height: 200px;" alt="">
+                                            <div class="overlay">
+                                                <a ui-sref="item-detail({id:item.id})"><i class="fa fa-link"></i></a>
+                                            </div>
+                                        </div>
+                                        <a ui-sref="item-detail({id:item.id})" class="item-name">{{item.name}}</a>
+                                        <span class="price">{{item.rating | number : 2}}</span>
+                                        </div>
+                                    </div>
+                                </div>
 
-
-
-
-
+                            </div>
+                            </div>
 
                             <div class="owl-controls clickable"><div class="owl-pagination"><div class="owl-page active"><span class=""></span></div><div class="owl-page"><span class=""></span></div></div><div class="owl-buttons"><div class="owl-prev"><i class="fa fa-angle-left"></i></div><div class="owl-next"><i class="fa fa-angle-right"></i></div></div></div></div>
                     </div>
