@@ -32,6 +32,8 @@ public class Item implements Serializable {
     @Column(name = "description", length = 10000)
     private String description;
 
+    @Column(name = "category_id")
+    private Category category;
     private Double rating;
 
     @OneToMany(mappedBy = "item")
@@ -167,11 +169,20 @@ public class Item implements Serializable {
             '}';
     }
 
+
     public Double getRating() {
         return rating;
     }
 
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

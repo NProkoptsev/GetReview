@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <property name="now" value="now()" dbms="mysql,h2"/>
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+    <property name="now" value="sysdate" dbms="oracle"/>
+
+    <property name="autoIncrement" value="true" dbms="mysql,h2,postgresql,oracle"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle"/>
+
+    <changeSet id="1" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (1,'electronics','electronics.png',NULL)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="2" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (2,'smartphones','',1)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="3" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (3,'TV','',1)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="4" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (4,'tablets','',1)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="5" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (5,'smart watches','',1)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="6" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (6,'cameras','',1)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="7" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (7,'game consoles','',1)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="8" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (8,'home','home.png',NULL)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="9" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (9,'garden','',8)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="10" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (10,'repairs','',8)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="11" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (11,'tableware and kitchen','',8)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="12" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (12,'household goods','',8)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="13" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (13,'household chemicals','',8)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="14" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (14,'furniture','',8)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="15" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (15,'services','services.png',NULL)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="16" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (16,'beauty saloon','',15)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="17" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (17,'health','',15)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="18" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (18,'lawyers','',15)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="19" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (19,'repairs','',15)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="20" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (20,'autoservice','',15)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="21" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (21,'education','',15)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="22" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (22,'clothes','clothes.png',NULL)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="23" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (23,'shoes','',22)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="24" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (24,'t-shirts','',22)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="25" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (25,'cardigans','',22)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="26" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (26,'pants','',22)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="27" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (27,'bags','',22)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="28" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (28,'accessories','',22)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="29" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (29,'entertainment','entertainment.png',NULL)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="30" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (30,'musical instruments','musical_instruments.png',29)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="31" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (31,'books','',29)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="32" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (32,'music','',29)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="33" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (33,'movies','',29)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="34" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (34,'tickets','',29)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="35" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (35,'hobby','',29)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="36" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (36,'beauty and health','beauty_and_health.png',NULL)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="37" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (37,'perfumery','',36)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="38" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (38,'makeup','',36)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="39" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (39,'hair care','',36)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="40" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (40,'body care','',36)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="41" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (41,'equipment','',36)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="42" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (42,'facials','',36)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="43" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (43,'automotives','automotives.png',NULL)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="44" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (44,'DVS','',43)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="45" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (45,'wheel disks','',43)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="46" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (46,'tires','',43)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="47" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (47,'repair parts','',43)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="48" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (48,'audio and video','',43)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="49" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (49,'accessories','',43)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="50" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (50,'sport and recreation','sport_and_recreation.png',NULL)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="51" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (51,'trainers','',50)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="52" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (52,'hunting and fishing','',50)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="53" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (53,'tourism','',50)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="54" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (54,'water sports','',50)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="55" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (55,'cycle racing','',50)
+            /
+        </sql>
+    </changeSet>
+
+    <changeSet id="56" author="me">
+        <sql endDelimiter="/">
+            insert into category
+            values (56,'skateboarding','',50)
+            /
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
