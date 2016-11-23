@@ -1,5 +1,6 @@
 package com.getreviews.repository;
 
+import com.getreviews.domain.Category;
 import com.getreviews.domain.Image;
 import com.getreviews.domain.Item;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,9 @@ public class ItemRepositoryImpl implements ItemRepository {
             item.setName(rs.getString("name"));
             item.setDescription(rs.getString("description"));
             item.setRating(rs.getDouble("rating"));
-            item.setCategory_id(rs.getLong("category_id"));
+            Category category = new Category();
+            category.setId(rs.getLong("category_id"));
+            item.setCategory(category);
             return item;
         }
     };
@@ -43,7 +46,9 @@ public class ItemRepositoryImpl implements ItemRepository {
             image.setUrl(rs.getString("im_url"));
             item.addImage(image);
             item.setRating(rs.getDouble("rating"));
-            item.setCategory_id(rs.getLong("category_id"));
+            Category category = new Category();
+            category.setId(rs.getLong("category_id"));
+            item.setCategory(category);
             return item;
         }
     };
@@ -66,7 +71,10 @@ public class ItemRepositoryImpl implements ItemRepository {
                         sql, Statement.RETURN_GENERATED_KEYS);
                     ps.setString(1, entity.getName());
                     ps.setString(2, entity.getDescription());
-                    ps.setLong(3, entity.getCategory_id());
+                    if (entity.getCategory() != null)
+                        ps.setLong(3, entity.getCategory().getId());
+                    else
+                        ps.setNull(3, java.sql.Types.BIGINT);
                     return ps;
                 }
             };
