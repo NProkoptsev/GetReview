@@ -91,9 +91,9 @@ public class CategoryResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Category> getAllCategories() {
+    public List<Category> getAllCategories(@RequestParam(name = "top",required = false) boolean topLevelOnly) {
         log.debug("REST request to get a page of Categories");
-        List<Category> categories = (List<Category>)categoryRepository.findAll();
+        List<Category> categories = categoryRepository.findAll(topLevelOnly);
         return categories;
     }
 

@@ -5,9 +5,9 @@
         .module('getReviewsApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$http'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$http', 'Category'];
 
-    function HomeController ($scope, Principal, LoginService, $state, $http) {
+    function HomeController ($scope, Principal, LoginService, $state, $http, Category) {
         var vm = this;
 
         vm.account = null;
@@ -47,6 +47,16 @@
             .then(function(response) {
                 vm.membersCount = response.data;
             });
+
+        vm.topCategories = [];
+
+        vm.topCategories = Category.query({
+            top: true
+        });
+
+        vm.allCategories = [];
+
+        vm.allCategories = Category.query();
 
         getAccount();
 
