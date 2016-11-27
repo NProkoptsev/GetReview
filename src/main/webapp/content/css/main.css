@@ -99,20 +99,20 @@ h3.block-title {
 /*====================================================
 		bootstrap default style overriding
 	====================================================*/
-.btn {
-  padding: 16px 22px;
-  color: #fff;
-  border-radius: 4px;
-  position: relative;
-  -webkit-transition: all .3s linear;
-  -moz-transition: all .3s linear;
-  -ms-transition: all .3s linear;
-  -o-transition: all .3s linear;
-  transition: all .3s linear;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 2px 5px 0 rgba(0, 0, 0, 0.15);
-  border: none;
-  text-transform: uppercase;
-}
+/*.btn {*/
+  /*padding: 16px 22px;*/
+  /*color: #fff;*/
+  /*border-radius: 4px;*/
+  /*position: relative;*/
+  /*-webkit-transition: all .3s linear;*/
+  /*-moz-transition: all .3s linear;*/
+  /*-ms-transition: all .3s linear;*/
+  /*-o-transition: all .3s linear;*/
+  /*transition: all .3s linear;*/
+  /*box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 2px 5px 0 rgba(0, 0, 0, 0.15);*/
+  /*border: none;*/
+  /*text-transform: uppercase;*/
+/*}*/
 .btn:focus,
 .btn:hover {
   color: #fff;
@@ -224,13 +224,13 @@ h3.block-title {
   padding: 0px !important;
 }
 select.form-control {
-  border: 0;
+  /*border: 0;*/
   outline: 1px solid #ddd;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075);
   border-radius: 0;
 }
 select.form-control:focus {
-  border: 0;
+  /*border: 0;*/
   outline: 1px solid #ddd;
   background-color: #fff;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075);
@@ -413,16 +413,26 @@ nav#menu span.fa.fa-bars:hover {
 .navbar-default .navbar-offcanvas .navmenu-nav > .active > a:focus {
   color: #3498db;
 }
-.close {
-  background: transparent;
-  padding: 8px 12px;
-  opacity: 1;
-}
+/*.close {*/
+  /*background: transparent;*/
+  /*padding: 8px 12px;*/
+  /*opacity: 1;*/
+/*}*/
 .close i {
   background: #E74C3C;
   color: #fff;
   padding: 6px;
   font-size: 16px;
+}
+.close {
+    float: right;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
 }
 /* ==========================================================================
    Custom Component
@@ -2369,7 +2379,7 @@ table.add-manage-table > tbody > tr > th {
 }
 .form-control {
   background-color: #FFF;
-  border: 1px solid transparent;
+  /*border: 1px solid transparent;*/
   border-radius: 0;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075);
   color: #444;

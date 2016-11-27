@@ -15,9 +15,9 @@
         </div>
         <div class="form-group">
             <label class="control-label" data-translate="getReviewsApp.review.text" for="field_text">Text</label>
-            <input type="text" class="form-control" name="text" id="field_text"
+            <textarea class="form-control" name="text" id="field_text"
                    ng-model="vm.review.text"
-                   ng-maxlength="10000"/>
+                      ng-maxlength="10000"></textarea>
             <div ng-show="editForm.text.$invalid">
                 <p class="help-block"
                    ng-show="editForm.text.$error.maxlength" data-translate="entity.validation.maxlength"
