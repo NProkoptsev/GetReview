@@ -93,7 +93,9 @@ public class Grabber {
         // Init categories
         categories.put("смартфон", categoryRepository.findOne(2L));
         categories.put("телевизор", categoryRepository.findOne(3L));
-        categories.put("планшет", categoryRepository.findOne(4L));        
+        categories.put("планшет", categoryRepository.findOne(4L));
+        categories.put("бытовой пылесос", categoryRepository.findOne(8L));
+        //categories.put("художественная литература", categoryRepository.findOne(31L));
     }
     
     

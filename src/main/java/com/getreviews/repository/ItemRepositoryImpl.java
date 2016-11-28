@@ -208,20 +208,29 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public List<Item> findAllLike(Item example) {
-        if (example == null) {
+        if (example == null|| example.getName() == null 
+                || example.getName().isEmpty()) {
             return null;
         }
 
-        boolean noFieldsSpecified = true;
-        StringBuilder q = new StringBuilder(
-            "select id, name, description, rating, category_id, created from item WHERE ");
+        String sql = "select id, name, description, rating, category_id " 
+                    + "from item WHERE name LIKE ?";
+        
+        PreparedStatementCreator psCreator =
+                new PreparedStatementCreator() {
+                    @Override
+                    public PreparedStatement createPreparedStatement(
+                        Connection con) throws SQLException {
+                        PreparedStatement ps = con.prepareStatement(
+                            sql, Statement.RETURN_GENERATED_KEYS);
+                        ps.setString(1, "%" + example
+                                .getName().replaceAll("'", "\"") + "%");
+                        return ps;
+                    }
+                };
 
-        if (example.getName() != null && !example.getName().isEmpty()) {
-            q.append("name LIKE '%" + example.getName().replaceAll("'", "\"") + "%'");
-            noFieldsSpecified = false;
-        }
-
-        List<Item> items = jdbcTemplate.query(q.toString(), rowMapper);
+        List<Item> items = jdbcTemplate
+                .query(psCreator, rowMapper);
         return items;
     }
 
