@@ -52,47 +52,10 @@
                             </div>
                             <div class="categories-list">
                                 <ul>
-                                    <li>
-                                        <a href="#">
+                                    <li ng-repeat="category in vm.topCategories">
+                                        <a ui-sref="item({category:category.id})">
                                             <i class="fa fa-desktop"></i>
-                                            Electronics <span class="category-counter">(9)</span>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-wrench"></i>
-                                            Services <span class="category-counter">(8)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-github-alt"></i>
-                                            Pets <span class="category-counter">(2)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-leaf"></i>
-                                            Fashion <span class="category-counter">(3)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-home"></i>
-                                            Real Estate <span class="category-counter">(4)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-black-tie"></i>
-                                            Jobs <span class="category-counter">(5)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-cutlery"></i>
-                                            Hotel & Travels <span class="category-counter">(5)</span>
+                                            {{category.name}}
                                         </a>
                                     </li>
                                 </ul>

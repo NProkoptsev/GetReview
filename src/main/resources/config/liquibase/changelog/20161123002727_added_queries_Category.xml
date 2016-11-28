@@ -461,4 +461,11 @@
         </sql>
     </changeSet>
 
+    <changeSet id="57" author="me">
+        <sql endDelimiter="/">
+            ALTER SEQUENCE category_id_seq RESTART WITH 400
+            /
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
