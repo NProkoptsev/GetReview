@@ -1,0 +1,25 @@
+{
+    "getReviewsApp": {
+        "sale" : {
+            "home": {
+                "title": "Sales",
+                "createLabel": "Создать новый Sale",
+                "createOrEditLabel": "Создать или отредактировать Sale",
+                "search": "Найти Sale"
+            },
+            "created": "Новый Sale создан с идентификатором {{ param }}",
+            "updated": "Sale обновлен с идентификатором {{ param }}",
+            "deleted": "Sale удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Sale {{ id }}?"
+            },
+            "detail": {
+                "title": "Sale"
+            },
+            "description": "Description",
+            "start_time": "Start Time",
+            "end_time": "End Time",
+            "item": "Item"
+        }
+    }
+}

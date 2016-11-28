@@ -36,5 +36,16 @@
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
 
+        <createTable tableName="item_sale">
+            <column name="sales_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="items_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="items_id, sales_id" tableName="item_sale"/>
+
     </changeSet>
 </databaseChangeLog>

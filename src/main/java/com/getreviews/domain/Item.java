@@ -46,6 +46,13 @@ public class Item implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Review> reviews = new HashSet<>();
 
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "item_sale",
+        joinColumns = @JoinColumn(name="items_id", referencedColumnName="ID"),
+        inverseJoinColumns = @JoinColumn(name="sales_id", referencedColumnName="ID"))
+    private Set<Sale> sales = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -138,6 +145,31 @@ public class Item implements Serializable {
 
     public void setReviews(Set<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public Set<Sale> getSales() {
+        return sales;
+    }
+
+    public Item sales(Set<Sale> sales) {
+        this.sales = sales;
+        return this;
+    }
+
+    public Item addSale(Sale sale) {
+        sales.add(sale);
+        sale.getItems().add(this);
+        return this;
+    }
+
+    public Item removeSale(Sale sale) {
+        sales.remove(sale);
+        sale.getItems().remove(this);
+        return this;
+    }
+
+    public void setSales(Set<Sale> sales) {
+        this.sales = sales;
     }
 
     @Override
