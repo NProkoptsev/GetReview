@@ -213,7 +213,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             return null;
         }
 
-        String sql = "select id, name, description, rating, category_id " 
+        String sql = "select id, name, description, rating, category_id, created " 
                     + "from item WHERE name LIKE ?";
         
         PreparedStatementCreator psCreator =
