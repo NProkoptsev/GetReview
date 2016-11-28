@@ -26,7 +26,7 @@
         function save() {
             vm.isSaving = true;
             Principal.identity().then(function (user) {
-                vm.review.clientLogin = user.login;
+                // vm.review.clientLogin = user.login;
                 vm.review.item = {}
                 vm.review.source = {}
                 vm.review.item.id = vm.item.id;

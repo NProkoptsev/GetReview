@@ -4,6 +4,7 @@ import com.getreviews.domain.Client;
 import com.getreviews.domain.Item;
 import com.getreviews.domain.Review;
 import com.getreviews.domain.Source;
+import com.getreviews.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -13,9 +14,15 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -113,7 +120,8 @@ public class ReviewRepositoryImpl implements ReviewRepository {
                     if (entity.getClient() != null)
                         ps.setLong(4, entity.getClient().getId());
                     else {
-                        Long clientID = jdbcTemplate.queryForObject("select id from client where nickname = ?", new Object[]{entity.getClientLogin()}, Long.class);
+                        String currentUserLogin = SecurityUtils.getCurrentUserLogin();
+                        Long clientID = jdbcTemplate.queryForObject("select id from client where nickname = ?", new Object[]{currentUserLogin}, Long.class);
                         ps.setLong(4, clientID);
                     }
                     ps.setLong(5, entity.getItem().getId());
