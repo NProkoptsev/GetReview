@@ -46,9 +46,18 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public <S extends Client> S save(S entity) {
-        final String sql =
-            "insert into client (fullname, nickname, ext_or_int) values (?, ?, ?)";
+
+        String sql;
         KeyHolder keyHolder = new GeneratedKeyHolder();
+        final Long id = entity.getId();
+
+        if (id == null) {
+            sql =
+                "insert into client (fullname, nickname, ext_or_int) values (?, ?, ?)";
+        } else {
+            sql =
+                "update client set fullname = ?, nickname = ?, ext_or_int = ? where id = ?";
+        }
 
         PreparedStatementCreator psCreator =
             new PreparedStatementCreator() {
@@ -63,6 +72,7 @@ public class ClientRepositoryImpl implements ClientRepository {
                         ps.setBoolean(3, false);
                     else
                         ps.setBoolean(3, entity.isExt_or_int());
+                    if (id != null) ps.setLong(4, entity.getId());
                     return ps;
                 }
             };
@@ -149,11 +159,11 @@ public class ClientRepositoryImpl implements ClientRepository {
         psh.put("fullname", example.getFullname());
         psh.put("nickname", example.getNickname());
         psh.put("ext_or_int", example.isExt_or_int());
-        
+
         if (psh.statementCreator() == null) {
             return null;
         }
-        
+
         List<Client> cls = jdbcTemplate.query(
                 psh.statementCreator(), rowMapper);
         return cls;

@@ -55,9 +55,18 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public <S extends Item> S save(S entity) {
-        final String sql =
-            "insert into item (name, description, category_id) values (?, ?, ?)";
+
+        String sql;
         KeyHolder keyHolder = new GeneratedKeyHolder();
+        final Long id = entity.getId();
+
+        if (id == null) {
+            sql =
+                "insert into item (name, description, category_id) values (?, ?, ?)";
+        } else {
+            sql =
+                "update item set name = ?, description = ?, category_id = ? where id = ?";
+        }
 
         PreparedStatementCreator psCreator =
             new PreparedStatementCreator() {
@@ -72,6 +81,7 @@ public class ItemRepositoryImpl implements ItemRepository {
                         ps.setLong(3, entity.getCategory().getId());
                     else
                         ps.setNull(3, java.sql.Types.BIGINT);
+                    if (id != null) ps.setLong(4, entity.getId());
                     return ps;
                 }
             };
