@@ -2,8 +2,10 @@ package com.getreviews.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 
+import com.getreviews.domain.Client;
 import com.getreviews.domain.PersistentToken;
 import com.getreviews.domain.User;
+import com.getreviews.repository.ClientRepository;
 import com.getreviews.repository.PersistentTokenRepository;
 import com.getreviews.repository.UserRepository;
 import com.getreviews.security.SecurityUtils;
@@ -51,6 +53,9 @@ public class AccountResource {
     @Inject
     private MailService mailService;
 
+    @Inject
+    private ClientRepository clientRepository;
+
     /**
      * POST  /register : register the user.
      *
@@ -75,14 +80,18 @@ public class AccountResource {
                     User user = userService.createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),
                     managedUserVM.getFirstName(), managedUserVM.getLastName(), managedUserVM.getEmail().toLowerCase(),
                     managedUserVM.getLangKey());
-                    String baseUrl = request.getScheme() + // "http"
-                    "://" +                                // "://"
-                    request.getServerName() +              // "myhost"
-                    ":" +                                  // ":"
-                    request.getServerPort() +              // "80"
-                    request.getContextPath();              // "/myContextPath" or "" if deployed in root context
-
-                    mailService.sendActivationEmail(user, baseUrl);
+                    Client client = new Client();
+                    StringBuilder stringBuilder = new StringBuilder();
+                    if (user.getFirstName() != null) {
+                        stringBuilder.append(user.getFirstName());
+                    }
+                    if (user.getLastName() != null)
+                        stringBuilder.append(" " + user.getLastName());
+                    if (stringBuilder.toString() != "")
+                        client.setFullname(stringBuilder.toString());
+                    client.setNickname(user.getLogin());
+                    client.setExt_or_int(true);
+                    clientRepository.save(client);
                     return new ResponseEntity<>(HttpStatus.CREATED);
                 })
         );

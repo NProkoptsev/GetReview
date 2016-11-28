@@ -5,9 +5,11 @@
         .module('getReviewsApp')
         .controller('ItemController', ItemController);
 
-    ItemController.$inject = ['$scope', '$state', 'Item', 'ParseLinks', 'AlertService', 'pagingParams', 'paginationConstants'];
+    ItemController.$inject = ['$scope', '$state', 'Item', 'ParseLinks', 'AlertService',
+        'pagingParams', 'paginationConstants', 'Category'];
 
-    function ItemController ($scope, $state, Item, ParseLinks, AlertService, pagingParams, paginationConstants) {
+    function ItemController ($scope, $state, Item, ParseLinks, AlertService,
+                             pagingParams, paginationConstants, Category) {
         var vm = this;
 
         vm.loadPage = loadPage;
@@ -15,6 +17,11 @@
         vm.reverse = pagingParams.ascending;
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
+
+        vm.topCategories = [];
+        vm.topCategories = Category.query(
+            { top: true }
+        );
 
         vm.search = "";
 
