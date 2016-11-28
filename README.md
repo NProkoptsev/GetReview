@@ -1,9 +1,17 @@
 # GetReviews
 
+## GetReviews prototype usage
+
+User: login - user, password - user
+
+Admin: login - admin, password - admin
+
+To fill DB with grabbed data - see Grabber part below
+
 ## GetReviews Setup
 
-* Setup ViertualBox
-* https://www.vagrantup.com/
+* Setup VirtualBox
+* Setup vagrant (https://www.vagrantup.com/)
 * clone GetReviews
 * run "vagrant up" in GetReviews folder
 * vagrant ssh
@@ -13,10 +21,10 @@
 * sudo apt-get update 
 * sudo apt-get -y install postgresql postgresql-contrib
 * sudo vim /etc/postgresql/9.5/main/pg_hba.conf
-** set all from "md5", "peer" to "trust"
-** add "host    all             all             all                     trust"
+  * set all from "md5", "peer" to "trust"
+  * add "host    all             all             all                     trust"
 * sudo vim /etc/postgresql/9.5/main/postgresql.conf
-** listen_addresses = '*'
+  * listen_addresses = '*'
 * sudo -u postgres createuser GetReviews
 * sudo /etc/init.d/postgresql restart
 
@@ -34,15 +42,11 @@
 ### possible solution for gradle errors
 * rm /home/vagrant/.gradle/caches -r -f
 
-## JHipster manual
-
-This application was generated using JHipster 3.9.1, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v3.9.1](https://jhipster.github.io/documentation-archive/v3.9.1).
-
 ## Grabber
 
-Import preserialized pack of objects: 
+Import preserialized pack of objects (run localhost:8080/RESOURCE, where RESOURCE - below): 
 
-/grabber/local - only objects, which were found in both shops
+/grabber/local - only objects, which were found in both shops (**use this by default**)
 
 /grabber/local?import_all=true - all the objects, grabbed from Ozon and Yandex
 
@@ -66,7 +70,7 @@ Grab objects from Yandex (online):
 
 depth=X - X is amount of pages within the category to be parsed (max = 50 due to api limitations), there are usually 30 items per page
 
-## Development
+# Development docs
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 1. [Node.js][]: We use Node to run a development web server and build the project.
