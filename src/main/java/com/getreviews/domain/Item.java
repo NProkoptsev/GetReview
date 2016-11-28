@@ -7,6 +7,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -35,7 +36,7 @@ public class Item implements Serializable {
     @Column(name = "category_id")
     private Category category;
     private Double rating;
-
+    private Date createdDate;
     @OneToMany(mappedBy = "item")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -184,5 +185,13 @@ public class Item implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 }
