@@ -19,7 +19,8 @@
             "name": "Name",
             "description": "Description",
             "image": "Image",
-            "review": "Review"
+            "review": "Review",
+            "sale": "Sale"
         }
     }
 }

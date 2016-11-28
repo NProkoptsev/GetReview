@@ -14,46 +14,27 @@
     <property name="floatType" value="float" dbms="mysql, oracle"/>
 
     <!--
-        Added the entity Review.
+        Added the entity Sale.
     -->
-    <changeSet id="20161031152746-1" author="jhipster">
-        <createTable tableName="review">
+    <changeSet id="20161128171324-1" author="jhipster">
+        <createTable tableName="sale">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="rating" type="${floatType}">
+            <column name="description" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             
-            <column name="text" type="varchar(10000)">
+            <column name="start_time" type="date">
                 <constraints nullable="true" />
             </column>
             
-            <column name="source_id" type="bigint">
+            <column name="end_time" type="date">
                 <constraints nullable="true" />
             </column>
-
-            <column name="client_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-
-            <column name="item_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-
+            
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
-        
-        <createTable tableName="review_sale">
-            <column name="sales_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="reviews_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="reviews_id, sales_id" tableName="review_sale"/>
         
     </changeSet>
 </databaseChangeLog>

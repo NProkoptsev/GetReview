@@ -39,7 +39,7 @@
                         <h3 class="section-title">Browse Categories</h3>
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs-12" ng-repeat="category in vm.topCategories">
-                        <div class="category-box border-2 wow fadeInUpQuick" data-wow-delay="0.6s">
+                        <div class="category-box border-{{$index+1}} wow fadeInUpQuick" data-wow-delay="0.6s">
                             <div class="icon">
                                 <a ui-sref="item({category:category.id})"><i class="lnr lnr-laptop-phone color-{{$index+1}}"></i></a>
                             </div>
@@ -85,8 +85,7 @@
 
                             </div>
                             </div>
-
-                            <div class="owl-controls clickable"><div class="owl-pagination"><div class="owl-page active"><span class=""></span></div><div class="owl-page"><span class=""></span></div></div><div class="owl-buttons"><div class="owl-prev"><i class="fa fa-angle-left"></i></div><div class="owl-next"><i class="fa fa-angle-right"></i></div></div></div></div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -2,9 +2,9 @@
 
 describe('Controller Tests', function() {
 
-    describe('Item Management Detail Controller', function() {
+    describe('Sale Management Detail Controller', function() {
         var $scope, $rootScope;
-        var MockEntity, MockPreviousState, MockItem, MockImage, MockReview, MockSale;
+        var MockEntity, MockPreviousState, MockSale, MockItem;
         var createController;
 
         beforeEach(inject(function($injector) {
@@ -12,10 +12,8 @@ describe('Controller Tests', function() {
             $scope = $rootScope.$new();
             MockEntity = jasmine.createSpy('MockEntity');
             MockPreviousState = jasmine.createSpy('MockPreviousState');
-            MockItem = jasmine.createSpy('MockItem');
-            MockImage = jasmine.createSpy('MockImage');
-            MockReview = jasmine.createSpy('MockReview');
             MockSale = jasmine.createSpy('MockSale');
+            MockItem = jasmine.createSpy('MockItem');
             
 
             var locals = {
@@ -23,20 +21,18 @@ describe('Controller Tests', function() {
                 '$rootScope': $rootScope,
                 'entity': MockEntity,
                 'previousState': MockPreviousState,
-                'Item': MockItem,
-                'Image': MockImage,
-                'Review': MockReview,
-                'Sale': MockSale
+                'Sale': MockSale,
+                'Item': MockItem
             };
             createController = function() {
-                $injector.get('$controller')("ItemDetailController", locals);
+                $injector.get('$controller')("SaleDetailController", locals);
             };
         }));
 
 
         describe('Root Scope Listening', function() {
             it('Unregisters root scope listener upon scope destruction', function() {
-                var eventType = 'getReviewsApp:itemUpdate';
+                var eventType = 'getReviewsApp:saleUpdate';
 
                 createController();
                 expect($rootScope.$$listenerCount[eventType]).toEqual(1);

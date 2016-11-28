@@ -221,26 +221,35 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public List<Item> findAllLike(Item example) {
-        if (example == null) {
+        if (example == null|| example.getName() == null 
+                || example.getName().isEmpty()) {
             return null;
         }
 
-        boolean noFieldsSpecified = true;
-        StringBuilder q = new StringBuilder(
-            "select id, name, description, rating, category_id, created from item WHERE ");
+        String sql = "select id, name, description, rating, category_id, created " 
+                    + "from item WHERE name LIKE ?";
+        
+        PreparedStatementCreator psCreator =
+                new PreparedStatementCreator() {
+                    @Override
+                    public PreparedStatement createPreparedStatement(
+                        Connection con) throws SQLException {
+                        PreparedStatement ps = con.prepareStatement(
+                            sql, Statement.RETURN_GENERATED_KEYS);
+                        ps.setString(1, "%" + example
+                                .getName().replaceAll("'", "\"") + "%");
+                        return ps;
+                    }
+                };
 
-        if (example.getName() != null && !example.getName().isEmpty()) {
-            q.append("name LIKE '%" + example.getName().replaceAll("'", "\"") + "%'");
-            noFieldsSpecified = false;
-        }
-
-        List<Item> items = jdbcTemplate.query(q.toString(), rowMapper);
+        List<Item> items = jdbcTemplate
+                .query(psCreator, rowMapper);
         return items;
     }
 
     @Override
     public List<Item> getFourRandomItems() {
-        List<Item> items = jdbcTemplate.query("select it.id as id, name, description, rating, category_id, created im.url as im_url " +
+        List<Item> items = jdbcTemplate.query("select it.id as id, name, description, rating, category_id, created, im.url as im_url " +
             "from item it JOIN image im on im.item_id = it.id " +
             "WHERE im.id in (SELECT image.id FROM image where image.item_id = it.id limit 1) and it.rating > 3 " +
             "order by random() limit 8", fullRowMapper);
@@ -249,7 +258,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public Page<Item> findByText(Pageable pageable, String text) {
-        String sql = "select it.id as id, name, description, rating, category_id, created im.url as im_url " +
+        String sql = "select it.id as id, name, description, rating, category_id, created, im.url as im_url " +
         "from item it LEFT OUTER JOIN image im on im.item_id = it.id WHERE (im.id " +
             "in (SELECT image.id FROM image where image.item_id = it.id limit 1) or im.id is null) " +
             "and fts @@ to_tsquery('russian', ?) order by %s limit ? offset ?";
@@ -268,13 +277,13 @@ public class ItemRepositoryImpl implements ItemRepository {
     @Override
     public Page<Item> findAllByCategory(Pageable pageable, Long category) {
         System.out.println( pageable.getSort().toString());
-        String sql = "select it.id as id, name, description, rating, category_id, created im.url as im_url " +
+        String sql = "select it.id as id, name, description, rating, category_id, created, im.url as im_url " +
             "from item it LEFT OUTER JOIN image im on im.item_id = it.id WHERE (im.id " +
             "in (SELECT image.id FROM image where image.item_id = it.id limit 1) or im.id is null) " +
             "and category_id in (select c.id from category c join category cc " +
             "on c.parent_id = cc.id where cc.id = ? " +
             "union select ? from category) " +
-            "order by % limit ? offset ?";
+            "order by %s limit ? offset ?";
         String sortedSql = String.format(sql, pageable.getSort() != null ?  pageable.getSort().toString().replace(":","") : "id asc");
         List<Item> items = jdbcTemplate.query(sortedSql, fullRowMapper,
             category, category, pageable.getPageSize(), pageable.getPageNumber() * pageable.getPageSize());

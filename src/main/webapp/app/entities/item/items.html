@@ -100,13 +100,11 @@
                             <div class="add-details">
                                 <h5 class="add-title"><a ui-sref="item-detail({id:item.id})">{{item.name}}</a></h5>
                                 <div class="info">
-                                    <span class="add-type">B</span>
+
                                     <span class="date">
                         <i class="fa fa-clock"></i>
-                        {{item.createdDate}}
-                      </span> -
-                                    <span class="category">Electronics</span> -
-                                    <span class="item-location"><i class="fa fa-map-marker"></i>Everywhere</span>
+                        {{item.createdDate | date : format}}
+                      </span>
                                 </div>
                                 <div class="item_desc">
                                     <a ui-sref="item-detail({id:item.id})">{{item.description | words:30}}</a>

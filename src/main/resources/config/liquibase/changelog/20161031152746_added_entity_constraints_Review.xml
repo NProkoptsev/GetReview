@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <databaseChangeLog
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     <!--
         Added the constraints for entity Review.
     -->
     <changeSet id="20161031152746-2" author="jhipster">
-
+        
         <addForeignKeyConstraint baseColumnNames="source_id"
                                  baseTableName="review"
                                  constraintName="fk_review_source_id"
@@ -26,5 +26,16 @@
                                  referencedColumnNames="id"
                                  referencedTableName="item"/>
 
+        <addForeignKeyConstraint baseColumnNames="reviews_id"
+                                 baseTableName="review_sale"
+                                 constraintName="fk_review_sale_reviews_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="review"/>
+        <addForeignKeyConstraint baseColumnNames="sales_id"
+                                 baseTableName="review_sale"
+                                 constraintName="fk_review_sale_sales_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="sale"/>
+        
     </changeSet>
 </databaseChangeLog>

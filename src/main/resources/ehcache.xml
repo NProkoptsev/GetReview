@@ -59,13 +59,6 @@
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="com.getreviews.domain.Item.images"
-           timeToLiveSeconds="3600">
-    </cache>
-
-    <cache name="com.getreviews.domain.Item.reviews"
-           timeToLiveSeconds="3600">
-    </cache>
 
     <cache name="com.getreviews.domain.Client.reviews"
            timeToLiveSeconds="3600">
@@ -73,6 +66,30 @@
 
 
     <cache name="com.getreviews.domain.Category"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.getreviews.domain.Sale"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.getreviews.domain.Sale.reviews"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.getreviews.domain.Sale.items"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.getreviews.domain.Item.images"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.getreviews.domain.Item.reviews"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.getreviews.domain.Item.sales"
         timeToLiveSeconds="3600">
     </cache>
 
