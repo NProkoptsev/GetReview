@@ -36,11 +36,18 @@ public class SourceRepositoryImpl implements SourceRepository {
 
     @Override
     public <S extends Source> S save(S entity) {
+
         String sql;
         KeyHolder keyHolder = new GeneratedKeyHolder();
         final Long id = entity.getId();
 
-        sql = "insert into source (url, name, description) values (?, ?, ?)";
+        if (id == null) {
+            sql =
+                "insert into source (url, name, description) values (?, ?, ?)";
+        } else {
+            sql =
+                "update source set url = ?, name = ?, description = ? where id = ?";
+        }
 
         PreparedStatementCreator psCreator =
             new PreparedStatementCreator() {
@@ -52,13 +59,14 @@ public class SourceRepositoryImpl implements SourceRepository {
                     ps.setString(1, entity.getUrl());
                     ps.setString(2, entity.getName());
                     ps.setString(3, entity.getDescription());
+                    if (id != null) ps.setLong(4, entity.getId());
                     return ps;
                 }
             };
 
         jdbcTemplate.update(psCreator, keyHolder);
 
-        entity.setId((long) keyHolder.getKeys().get("id"));
+        entity.setId((long) keyHolder.getKeys().get("id")+1);
         return entity;
     }
 
@@ -74,25 +82,25 @@ public class SourceRepositoryImpl implements SourceRepository {
                 new Object[]{aLong}, rowMapper);
         return source;
     }
-    
-    
+
+
     /**
      * Find the source object by the given example.
      * @param example
      * @return
      */
     @Override
-    public List<Source> findAllByExample(Source example) {  
+    public List<Source> findAllByExample(Source example) {
         if (example == null) {
             return null;
         }
-        
+
         PreparedStatementHelper psh = new PreparedStatementHelper(
                 "select id, url, name from source WHERE");
         psh.put("id", example.getId());
         psh.put("url", example.getUrl());
         psh.put("name", example.getName());
-        
+
         if (psh.statementCreator() == null) {
             return null;
         }
@@ -101,17 +109,17 @@ public class SourceRepositoryImpl implements SourceRepository {
                 psh.statementCreator(), rowMapper);
         return src;
     }
-    
-    
+
+
     /**
      * Find the source object by the given example.
      * @param example
      * @return
      */
     @Override
-    public Source findOneByExample(Source example) {  
+    public Source findOneByExample(Source example) {
         List<Source> src = findAllByExample(example);
-        
+
         if (src.size() == 0) {
             return null;
         } else {

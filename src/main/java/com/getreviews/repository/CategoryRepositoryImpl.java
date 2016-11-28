@@ -4,10 +4,12 @@ import com.getreviews.domain.Category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 /**
@@ -30,7 +32,37 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public <S extends Category> S save(S entity) {
-        return null;
+
+        String sql;
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        final Long id = entity.getId();
+
+        if (id == null) {
+            sql =
+                "insert into category (name, image) values (?, ?)";
+        } else {
+            sql =
+                "update category set name = ?, image = ? where id = ?";
+        }
+
+        PreparedStatementCreator psCreator =
+            new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(
+                    Connection con) throws SQLException {
+                    PreparedStatement ps = con.prepareStatement(
+                        sql, Statement.RETURN_GENERATED_KEYS);
+                    ps.setString(1, entity.getName());
+                    ps.setString(2, entity.getImage());
+                    if (id != null) ps.setLong(3, entity.getId());
+                    return ps;
+                }
+            };
+
+        jdbcTemplate.update(psCreator, keyHolder);
+
+        entity.setId((long) keyHolder.getKeys().get("id"));
+        return entity;
     }
 
     @Override
