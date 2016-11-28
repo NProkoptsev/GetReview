@@ -89,7 +89,7 @@ public class SaleRepositoryImpl implements SaleRepository {
     @Override
     public Iterable<Sale> findAll() {
         List<Sale> sales = jdbcTemplate.query(
-            "select id, start_time, end_time from sale", rowMapper);
+            "select id, start_time, end_time, description from sale", rowMapper);
         return sales;
     }
 
