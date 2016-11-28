@@ -21,4 +21,5 @@
     <include file="classpath:config/liquibase/changelog/20161123002727_added_queries_Category.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161122213642_added_initial_objects.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161122195542_added_rating.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161128214742_added_item_created_time.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>

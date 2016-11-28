@@ -43,7 +43,7 @@ public class Review implements Serializable {
     @ManyToOne
     private Item item;
 
-    private String clientLogin;
+//    private String clientLogin;
 
     //TODO implement saving
     //e.g. implementation option, see @CreateDate and @LastModifiedDate
@@ -179,8 +179,8 @@ public class Review implements Serializable {
             ", text='" + text + "'" +
             '}';
     }
-
-    public String getClientLogin() {
-        return clientLogin;
-    }
+//
+//    public String getClientLogin() {
+//        return clientLogin;
+//    }
 }

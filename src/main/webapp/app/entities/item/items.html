@@ -6,11 +6,13 @@
                 <div class="advanced-search">
                     <form class="search-form" method="get">
                         <div class="col-md-9 col-sm-6 search-col">
-                            <input class="form-control keyword" name="keyword" ng-model="vm.search" placeholder="Enter Keyword" type="text">
+                            <input class="form-control keyword" name="keyword" ng-model="vm.search"
+                                   placeholder="Enter Keyword" type="text">
                             <i class="fa fa-search"></i>
                         </div>
                         <div class="col-md-3 col-sm-6 search-col">
-                            <button class="btn btn-common btn-search btn-block" ng-click="search()"><strong>Search</strong></button>
+                            <button class="btn btn-common btn-search btn-block" ng-click="search()">
+                                <strong>Search</strong></button>
                         </div>
                     </form>
                 </div>
@@ -29,9 +31,9 @@
 
     <div class="row" style="padding: 10px 0 0 10px">
         <div class="col-md-4 col-md-offset-8">
-            <button class="btn btn-primary" ui-sref="item.new" >
+            <button class="btn btn-primary" ui-sref="item.new">
                 <span class="glyphicon glyphicon-plus"></span>
-                <span  data-translate="getReviewsApp.item.home.createLabel">
+                <span data-translate="getReviewsApp.item.home.createLabel">
                     Create new Item
                 </span>
             </button>
@@ -74,15 +76,12 @@
                 <div class="product-filter">
                     <div class="short-name">
                         <span>Sort By</span>
-                        <form class="name-ordering" method="post">
-                            <label>
-                                <select name="order" class="orderby">
-                                    <option selected="selected" value="menu-order">Sort by</option>
-                                    <option value="popularity">Price: Low to High</option>
-                                    <option value="popularity">Price: High to Low</option>
-                                </select>
-                            </label>
-                        </form>
+                        <select ng-model="vm.sort" ng-change="vm.transition()">
+                            <option value="name,asc">Name: Low to High</option>
+                            <option value="name,desc">Name: High to Low</option>
+                            <option value="rating,asc">Rating: Low to High</option>
+                            <option value="rating,desc">Rating: High to Low</option>
+                        </select>
                     </div>
                 </div>
                 <!-- Product filter End -->
@@ -102,7 +101,7 @@
                                     <span class="add-type">B</span>
                                     <span class="date">
                         <i class="fa fa-clock"></i>
-                        16:22:13 2016-02-29
+                        {{item.createdDate}}
                       </span> -
                                     <span class="category">Electronics</span> -
                                     <span class="item-location"><i class="fa fa-map-marker"></i>Everywhere</span>
@@ -142,15 +141,17 @@
                 <!-- Start Pagination -->
                 <div class="pagination-bar">
                     <!--<ul class="pagination">-->
-                        <!--<li class="active"><a href="#">1</a></li>-->
-                        <!--<li><a href="#">2</a></li>-->
-                        <!--<li><a href="#">3</a></li>-->
-                        <!--<li><a href="#">4</a></li>-->
-                        <!--<li><a href="#"> ...</a></li>-->
-                        <!--<li><a class="pagination-btn" href="#">Next »</a></li>-->
+                    <!--<li class="active"><a href="#">1</a></li>-->
+                    <!--<li><a href="#">2</a></li>-->
+                    <!--<li><a href="#">3</a></li>-->
+                    <!--<li><a href="#">4</a></li>-->
+                    <!--<li><a href="#"> ...</a></li>-->
+                    <!--<li><a class="pagination-btn" href="#">Next »</a></li>-->
                     <!--</ul>-->
-                    <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-                    <uib-pagination class="pagination-sm" total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                    <jhi-item-count page="vm.page" total="vm.queryCount"
+                                    items-per-page="vm.itemsPerPage"></jhi-item-count>
+                    <uib-pagination class="pagination-sm" total-items="vm.totalItems" ng-model="vm.page"
+                                    ng-change="vm.transition()"></uib-pagination>
                 </div>
                 <!-- End Pagination -->
             </div>
