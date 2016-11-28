@@ -100,7 +100,6 @@ public class ReviewRepositoryImpl implements ReviewRepository {
                 "update review set text = ?, rating = ?, source_id = ?, client_id = ?, item_id = ?"
             + " where id = ?";
         }
-
         PreparedStatementCreator psCreator =
             new PreparedStatementCreator() {
                 @Override
@@ -221,9 +220,9 @@ public class ReviewRepositoryImpl implements ReviewRepository {
         if (example == null) {
             return null;
         }
-        
+
         PreparedStatementHelper psh = new PreparedStatementHelper(
-                "select id, text, rating, source_id, client_id, item_id, " 
+                "select id, text, rating, source_id, client_id, item_id, "
                         + "created, updated from review WHERE");
         psh.put("id", example.getId());
         psh.put("text", example.getText());
@@ -235,7 +234,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
         } catch (NullPointerException e) {
             // do nothing
         }
-        
+
         if (psh.statementCreator() == null) {
             return null;
         }
