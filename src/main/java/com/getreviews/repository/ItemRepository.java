@@ -28,4 +28,6 @@ public interface ItemRepository extends CrudRepository<Item,Long> {
     public List<Item> getFourRandomItems();
 
     public Page<Item> findAllByCategory(Pageable pageable, Long category);
+
+    List<Long> countByCategory();
 }

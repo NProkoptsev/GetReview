@@ -140,6 +140,19 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
+    public List<Long> countByCategory() {
+        List<Long> counts =
+            jdbcTemplate.query("select count(coalesce(parent_id, category_id)) as count " +
+                "from item i join category c on c.id=i.category_id group by coalesce(parent_id, category_id)", new RowMapper<Long>() {
+                @Override
+                public Long mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    return rs.getLong("count");
+                }
+            });
+        return counts;
+    }
+
+    @Override
     public void delete(Long aLong) {
         jdbcTemplate.update("delete from item where id = ?", aLong);
     }
