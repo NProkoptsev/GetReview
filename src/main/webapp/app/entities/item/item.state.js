@@ -11,7 +11,7 @@
         $stateProvider
         .state('item', {
             parent: 'entity',
-            url: '/item?page&sort&search',
+            url: '/item?page&sort&search&category',
             data: {
                 authorities: ['ROLE_USER'],
                 pageTitle: 'getReviewsApp.item.home.title'
@@ -41,7 +41,8 @@
                         sort: $stateParams.sort,
                         predicate: PaginationUtil.parsePredicate($stateParams.sort),
                         ascending: PaginationUtil.parseAscending($stateParams.sort),
-                        search: $stateParams.search
+                        search: $stateParams.search,
+                        category: $stateParams.category
                     };
                 }],
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {

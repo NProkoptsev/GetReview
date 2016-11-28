@@ -32,7 +32,8 @@
                 page: pagingParams.page - 1,
                 size: vm.itemsPerPage,
                 sort: sort(),
-                search: pagingParams.search
+                search: pagingParams.search,
+                category: pagingParams.category
             }, onSuccess, onError);
             function sort() {
                 var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];

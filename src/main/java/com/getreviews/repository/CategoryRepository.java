@@ -2,8 +2,6 @@ package com.getreviews.repository;
 
 import com.getreviews.domain.Category;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -15,4 +13,5 @@ import java.util.List;
 public interface CategoryRepository extends CrudRepository<Category,Long> {
 
 
+    List<Category> findAll(boolean topLevelOnly);
 }

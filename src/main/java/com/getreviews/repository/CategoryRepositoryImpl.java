@@ -1,11 +1,8 @@
 package com.getreviews.repository;
 
 import com.getreviews.domain.Category;
-import com.getreviews.domain.Client;
-import com.getreviews.domain.Item;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -90,5 +87,15 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public List<Category> findAll(boolean topLevelOnly) {
+        String sql = "select id, name, image, parent_id from category";
+        if(topLevelOnly)
+            sql += " where parent_id IS NULL";
+        List<Category> categories = jdbcTemplate.query(
+            sql, rowMapper);
+        return categories;
     }
 }
