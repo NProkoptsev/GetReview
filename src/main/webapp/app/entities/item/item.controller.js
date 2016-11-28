@@ -11,7 +11,7 @@
         var vm = this;
 
         vm.loadPage = loadPage;
-        vm.predicate = pagingParams.predicate;
+        vm.sort = pagingParams.sort;
         vm.reverse = pagingParams.ascending;
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
@@ -36,8 +36,8 @@
                 category: pagingParams.category
             }, onSuccess, onError);
             function sort() {
-                var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];
-                if (vm.predicate !== 'id') {
+                var result = [vm.sort];
+                if (vm.sort !== 'id') {
                     result.push('id');
                 }
                 return result;
@@ -62,8 +62,8 @@
         function transition () {
             $state.transitionTo($state.$current, {
                 page: vm.page,
-                sort: vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc'),
-                search: vm.currentSearch
+                sort: vm.sort,
+                search: vm.search
             });
         }
     }

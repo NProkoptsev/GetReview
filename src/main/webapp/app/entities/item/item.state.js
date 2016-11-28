@@ -29,7 +29,7 @@
                     squash: true
                 },
                 sort: {
-                    value: 'id,asc',
+                    value: 'name,asc',
                     squash: true
                 },
                 search: null
@@ -39,8 +39,6 @@
                     return {
                         page: PaginationUtil.parsePage($stateParams.page),
                         sort: $stateParams.sort,
-                        predicate: PaginationUtil.parsePredicate($stateParams.sort),
-                        ascending: PaginationUtil.parseAscending($stateParams.sort),
                         search: $stateParams.search,
                         category: $stateParams.category
                     };
