@@ -40,9 +40,18 @@ public class ImageRepositoryImpl implements ImageRepository {
 
     @Override
     public <S extends Image> S save(S entity) {
-        final String sql =
-                "insert into image (url, item_id) values (?, ?)";
+
+        String sql;
         KeyHolder keyHolder = new GeneratedKeyHolder();
+        final Long id = entity.getId();
+
+        if (id == null) {
+            sql =
+                "insert into image (url, item_id) values (?, ?)";
+        } else {
+            sql =
+                "update image set url = ?, item_id = ? where id = ?";
+        }
 
         PreparedStatementCreator psCreator =
                 new PreparedStatementCreator() {
@@ -53,6 +62,7 @@ public class ImageRepositoryImpl implements ImageRepository {
                         sql, Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, entity.getUrl());
                 ps.setLong(2, entity.getItem().getId());
+                if (id != null) ps.setLong(3, entity.getId());
                 return ps;
             }
         };

@@ -1,15 +1,17 @@
 package com.getreviews.web.rest;
 
-import com.getreviews.config.Constants;
 import com.codahale.metrics.annotation.Timed;
+import com.getreviews.config.Constants;
+import com.getreviews.domain.Client;
 import com.getreviews.domain.User;
+import com.getreviews.repository.ClientRepository;
 import com.getreviews.repository.UserRepository;
 import com.getreviews.security.AuthoritiesConstants;
 import com.getreviews.service.MailService;
 import com.getreviews.service.UserService;
-import com.getreviews.web.rest.vm.ManagedUserVM;
 import com.getreviews.web.rest.util.HeaderUtil;
 import com.getreviews.web.rest.util.PaginationUtil;
+import com.getreviews.web.rest.vm.ManagedUserVM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -22,15 +24,16 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * REST controller for managing users.
- *
+ * <p>
  * <p>This class accesses the User entity, and needs to fetch its collection of authorities.</p>
  * <p>
  * For a normal use-case, it would be better to have an eager relationship between User and Authority,
@@ -67,6 +70,9 @@ public class UserResource {
     @Inject
     private UserService userService;
 
+    @Inject
+    private ClientRepository clientRepository;
+
     /**
      * POST  /users  : Creates a new user.
      * <p>
@@ -76,7 +82,7 @@ public class UserResource {
      * </p>
      *
      * @param managedUserVM the user to create
-     * @param request the HTTP request
+     * @param request       the HTTP request
      * @return the ResponseEntity with status 201 (Created) and with body the new user, or with status 400 (Bad Request) if the login or email is already in use
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
@@ -99,15 +105,20 @@ public class UserResource {
                 .body(null);
         } else {
             User newUser = userService.createUser(managedUserVM);
-            String baseUrl = request.getScheme() + // "http"
-            "://" +                                // "://"
-            request.getServerName() +              // "myhost"
-            ":" +                                  // ":"
-            request.getServerPort() +              // "80"
-            request.getContextPath();              // "/myContextPath" or "" if deployed in root context
-            mailService.sendCreationEmail(newUser, baseUrl);
+            Client client = new Client();
+            StringBuilder stringBuilder = new StringBuilder();
+            if (newUser.getFirstName() != null) {
+                stringBuilder.append(newUser.getFirstName());
+            }
+            if (newUser.getLastName() != null)
+                stringBuilder.append(" " + newUser.getLastName());
+            if (stringBuilder.toString() != "")
+                client.setFullname(stringBuilder.toString());
+            client.setNickname(newUser.getLogin());
+            client.setExt_or_int(true);
+            clientRepository.save(client);
             return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
-                .headers(HeaderUtil.createAlert( "userManagement.created", newUser.getLogin()))
+                .headers(HeaderUtil.createAlert("userManagement.created", newUser.getLogin()))
                 .body(newUser);
         }
     }
@@ -146,7 +157,7 @@ public class UserResource {
 
     /**
      * GET  /users : get all users.
-     * 
+     *
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and with body all users
      * @throws URISyntaxException if the pagination headers couldn't be generated
@@ -178,9 +189,9 @@ public class UserResource {
     public ResponseEntity<ManagedUserVM> getUser(@PathVariable String login) {
         log.debug("REST request to get User : {}", login);
         return userService.getUserWithAuthoritiesByLogin(login)
-                .map(ManagedUserVM::new)
-                .map(managedUserVM -> new ResponseEntity<>(managedUserVM, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+            .map(ManagedUserVM::new)
+            .map(managedUserVM -> new ResponseEntity<>(managedUserVM, HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     /**
@@ -197,6 +208,6 @@ public class UserResource {
     public ResponseEntity<Void> deleteUser(@PathVariable String login) {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUser(login);
-        return ResponseEntity.ok().headers(HeaderUtil.createAlert( "userManagement.deleted", login)).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert("userManagement.deleted", login)).build();
     }
 }
