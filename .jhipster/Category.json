@@ -1,0 +1,23 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "image",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "parent_id",
+            "fieldType": "Long"
+        }
+    ],
+    "changelogDate": "20161122175622",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "category",
+    "pagination": "pagination"
+}

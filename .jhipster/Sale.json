@@ -1,0 +1,38 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "item",
+            "otherEntityName": "item",
+            "relationshipType": "many-to-many",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "sale"
+        },
+        {
+            "relationshipName": "shop",
+            "otherEntityName": "shop",
+            "relationshipType": "many-to-many",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "sale"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "start_time",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "end_time",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "changelogDate": "20161128171324",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "sale",
+    "pagination": "no"
+}
