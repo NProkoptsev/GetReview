@@ -12,19 +12,19 @@
                                  baseTableName="review"
                                  constraintName="fk_review_source_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="source"/>
+                                 referencedTableName="source" onDelete="CASCADE"/>
 
         <addForeignKeyConstraint baseColumnNames="client_id"
                                  baseTableName="review"
                                  constraintName="fk_review_client_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="client"/>
+                                 referencedTableName="client" onDelete="CASCADE"/>
 
         <addForeignKeyConstraint baseColumnNames="item_id"
                                  baseTableName="review"
                                  constraintName="fk_review_item_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="item"/>
+                                 referencedTableName="item" onDelete="CASCADE"/>
 
         <addForeignKeyConstraint baseColumnNames="reviews_id"
                                  baseTableName="review_sale"
