@@ -183,15 +183,4 @@ public class ItemResource {
         return itemRepository.count();
     }
 
-
-    @RequestMapping(value = "/itemscountbycategory",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public List<Long> getItemsCountByCategories() {
-        log.debug("REST request count of Items by parent categories");
-        return itemRepository.countByCategory();
-    }
-
-
 }

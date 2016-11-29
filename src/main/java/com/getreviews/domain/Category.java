@@ -30,6 +30,8 @@ public class Category implements Serializable {
     @Column(name = "parent_id")
     private Long parent_id;
 
+    private Long count;
+
     public Long getId() {
         return id;
     }
@@ -105,5 +107,13 @@ public class Category implements Serializable {
             ", image='" + image + "'" +
             ", parent_id='" + parent_id + "'" +
             '}';
+    }
+
+    public Long getCount() {
+        return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
     }
 }

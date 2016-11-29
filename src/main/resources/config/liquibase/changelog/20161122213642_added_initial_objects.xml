@@ -20,9 +20,17 @@
         </sql>
     </changeSet>
 
-    <changeSet id="2" author="me">
+        
+    <changeSet id="4" author="me">
         <sql endDelimiter="/">
-            insert into source (id, url, name, description) values (3, 'localhost', 'GetReviews', 'Best review agregator')
+            insert into source (id, url, name, description) values (3, 'localhost', 'GetReviews', 'Best review agregator');
+            /
+        </sql>
+    </changeSet>
+    
+        <changeSet id="5" author="me">
+        <sql endDelimiter="/">
+            ALTER SEQUENCE source_id_seq RESTART WITH 100
             /
         </sql>
     </changeSet>

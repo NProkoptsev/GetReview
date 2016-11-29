@@ -1,7 +1,6 @@
 package com.getreviews.repository;
 
 import com.getreviews.domain.Category;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -26,6 +25,18 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             category.setImage(rs.getString("image"));
             category.setName(rs.getString("name"));
             category.setParent_id(rs.getLong("parent_id"));
+            return category;
+        }
+    };
+
+    private RowMapper<Category> fullRowMapper = new RowMapper<Category>() {
+        public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Category category = new Category();
+            category.setId(rs.getLong("id"));
+            category.setImage(rs.getString("image"));
+            category.setName(rs.getString("name"));
+            category.setParent_id(rs.getLong("parent_id"));
+            category.setCount(rs.getLong("count"));
             return category;
         }
     };
@@ -73,8 +84,8 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Override
     public Category findOne(Long aLong) {
         Category category = jdbcTemplate.queryForObject(
-                "select id, name, image, parent_id from category WHERE id=?",
-                    new Object[]{aLong}, rowMapper);
+            "select id, name, image, parent_id from category WHERE id=?",
+            new Object[]{aLong}, rowMapper);
         return category;
     }
 
@@ -85,8 +96,10 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public Iterable<Category> findAll() {
-        List<Category> categories = jdbcTemplate.query(
-                "select id, name, image, parent_id from category", rowMapper);
+        List<Category> categories = jdbcTemplate.query("select c.id, c.name, c.image, c.parent_id, counts.count as count from category c " +
+            "left join (select coalesce(parent_id, category_id), count(coalesce(parent_id, category_id)) " +
+            "from item i join category cc on cc.id=i.category_id group by coalesce(parent_id, category_id)) as counts(id,count) " +
+            "on c.id = counts.id", fullRowMapper);
         return categories;
     }
 
@@ -103,12 +116,12 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public void delete(Long aLong) {
-
+        this.jdbcTemplate.update("delete from category where id = ?", aLong);
     }
 
     @Override
     public void delete(Category entity) {
-
+        this.jdbcTemplate.update("delete from category where id = ?", entity.getId());
     }
 
     @Override
@@ -123,11 +136,14 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public List<Category> findAll(boolean topLevelOnly) {
-        String sql = "select id, name, image, parent_id from category";
-        if(topLevelOnly)
-            sql += " where parent_id IS NULL";
+        String sql = "select c.id, c.name, c.image, c.parent_id, counts.count as count from category c " +
+        "left join (select coalesce(parent_id, category_id), count(coalesce(parent_id, category_id)) " +
+            "from item i join category cc on cc.id=i.category_id group by coalesce(parent_id, category_id)) as counts(id,count) " +
+            "on c.id = counts.id ";
+        if (topLevelOnly)
+            sql += " where c.parent_id IS NULL";
         List<Category> categories = jdbcTemplate.query(
-            sql, rowMapper);
+            sql, fullRowMapper);
         return categories;
     }
 }
