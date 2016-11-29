@@ -1,4 +1,4 @@
-<div class="container">
+<div>
     <h2 data-translate="getReviewsApp.category.home.title">Categories</h2>
     <jhi-alert></jhi-alert>
     <div class="container-fluid">
@@ -17,11 +17,11 @@
     <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
-                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="name"><span data-translate="getReviewsApp.category.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="image"><span data-translate="getReviewsApp.category.image">Image</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="parent_id"><span data-translate="getReviewsApp.category.parent_id">Parent Id</span> <span class="glyphicon glyphicon-sort"></span></th>
+                <tr>
+                    <th><span data-translate="global.field.id">ID</span></th>
+                    <th><span data-translate="getReviewsApp.category.name">Name</span></th>
+                    <th><span data-translate="getReviewsApp.category.image">Image</span></th>
+                    <th><span data-translate="getReviewsApp.category.parent_id">Parent Id</span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -56,9 +56,5 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-    <div class="text-center">
-        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-        <uib-pagination class="pagination-sm" total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
     </div>
 </div>

@@ -116,12 +116,12 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public void delete(Long aLong) {
-
+        this.jdbcTemplate.update("delete from category where id = ?", aLong);
     }
 
     @Override
     public void delete(Category entity) {
-
+        this.jdbcTemplate.update("delete from category where id = ?", entity.getId());
     }
 
     @Override
