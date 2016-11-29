@@ -27,7 +27,7 @@ import java.util.Optional;
 public class LinkResource {
 
     private final Logger log = LoggerFactory.getLogger(LinkResource.class);
-        
+
     @Inject
     private LinkRepository linkRepository;
 
@@ -88,7 +88,7 @@ public class LinkResource {
     @Timed
     public List<Link> getAllLinks() {
         log.debug("REST request to get all Links");
-        List<Link> links = linkRepository.findAll();
+        List<Link> links = (List<Link>) linkRepository.findAll();
         return links;
     }
 
