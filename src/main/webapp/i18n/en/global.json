@@ -15,6 +15,7 @@
                 "image": "Image",
                 "category": "Category",
                 "sale": "Sale",
+                "bookmark": "Bookmark",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

@@ -9,53 +9,53 @@
 
     function stateConfig($stateProvider) {
         $stateProvider
-        .state('category', {
+        .state('bookmark', {
             parent: 'entity',
-            url: '/category',
+            url: '/bookmark',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'getReviewsApp.category.home.title'
+                pageTitle: 'getReviewsApp.bookmark.home.title'
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/category/categories.html',
-                    controller: 'CategoryController',
+                    templateUrl: 'app/entities/bookmark/bookmarks.html',
+                    controller: 'BookmarkController',
                     controllerAs: 'vm'
                 }
             },
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                    $translatePartialLoader.addPart('category');
+                    $translatePartialLoader.addPart('bookmark');
                     $translatePartialLoader.addPart('global');
                     return $translate.refresh();
                 }]
             }
         })
-        .state('category-detail', {
+        .state('bookmark-detail', {
             parent: 'entity',
-            url: '/category/{id}',
+            url: '/bookmark/{id}',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'getReviewsApp.category.detail.title'
+                pageTitle: 'getReviewsApp.bookmark.detail.title'
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/category/category-detail.html',
-                    controller: 'CategoryDetailController',
+                    templateUrl: 'app/entities/bookmark/bookmark-detail.html',
+                    controller: 'BookmarkDetailController',
                     controllerAs: 'vm'
                 }
             },
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                    $translatePartialLoader.addPart('category');
+                    $translatePartialLoader.addPart('bookmark');
                     return $translate.refresh();
                 }],
-                entity: ['$stateParams', 'Category', function($stateParams, Category) {
-                    return Category.get({id : $stateParams.id}).$promise;
+                entity: ['$stateParams', 'Bookmark', function($stateParams, Bookmark) {
+                    return Bookmark.get({id : $stateParams.id}).$promise;
                 }],
                 previousState: ["$state", function ($state) {
                     var currentStateData = {
-                        name: $state.current.name || 'category',
+                        name: $state.current.name || 'bookmark',
                         params: $state.params,
                         url: $state.href($state.current.name, $state.params)
                     };
@@ -63,22 +63,22 @@
                 }]
             }
         })
-        .state('category-detail.edit', {
-            parent: 'category-detail',
+        .state('bookmark-detail.edit', {
+            parent: 'bookmark-detail',
             url: '/detail/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/category/category-dialog.html',
-                    controller: 'CategoryDialogController',
+                    templateUrl: 'app/entities/bookmark/bookmark-dialog.html',
+                    controller: 'BookmarkDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
-                        entity: ['Category', function(Category) {
-                            return Category.get({id : $stateParams.id}).$promise;
+                        entity: ['Bookmark', function(Bookmark) {
+                            return Bookmark.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
@@ -88,80 +88,78 @@
                 });
             }]
         })
-        .state('category.new', {
-            parent: 'category',
+        .state('bookmark.new', {
+            parent: 'bookmark',
             url: '/new',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/category/category-dialog.html',
-                    controller: 'CategoryDialogController',
+                    templateUrl: 'app/entities/bookmark/bookmark-dialog.html',
+                    controller: 'BookmarkDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
                         entity: function () {
                             return {
-                                name: null,
-                                image: null,
-                                parent_id: null,
+                                date: null,
                                 id: null
                             };
                         }
                     }
                 }).result.then(function() {
-                    $state.go('category', null, { reload: 'category' });
+                    $state.go('bookmark', null, { reload: 'bookmark' });
                 }, function() {
-                    $state.go('category');
+                    $state.go('bookmark');
                 });
             }]
         })
-        .state('category.edit', {
-            parent: 'category',
+        .state('bookmark.edit', {
+            parent: 'bookmark',
             url: '/{id}/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/category/category-dialog.html',
-                    controller: 'CategoryDialogController',
+                    templateUrl: 'app/entities/bookmark/bookmark-dialog.html',
+                    controller: 'BookmarkDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
-                        entity: ['Category', function(Category) {
-                            return Category.get({id : $stateParams.id}).$promise;
+                        entity: ['Bookmark', function(Bookmark) {
+                            return Bookmark.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('category', null, { reload: 'category' });
+                    $state.go('bookmark', null, { reload: 'bookmark' });
                 }, function() {
                     $state.go('^');
                 });
             }]
         })
-        .state('category.delete', {
-            parent: 'category',
+        .state('bookmark.delete', {
+            parent: 'bookmark',
             url: '/{id}/delete',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/category/category-delete-dialog.html',
-                    controller: 'CategoryDeleteController',
+                    templateUrl: 'app/entities/bookmark/bookmark-delete-dialog.html',
+                    controller: 'BookmarkDeleteController',
                     controllerAs: 'vm',
                     size: 'md',
                     resolve: {
-                        entity: ['Category', function(Category) {
-                            return Category.get({id : $stateParams.id}).$promise;
+                        entity: ['Bookmark', function(Bookmark) {
+                            return Bookmark.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('category', null, { reload: 'category' });
+                    $state.go('bookmark', null, { reload: 'bookmark' });
                 }, function() {
                     $state.go('^');
                 });

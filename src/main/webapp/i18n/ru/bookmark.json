@@ -1,0 +1,24 @@
+{
+    "getReviewsApp": {
+        "bookmark" : {
+            "home": {
+                "title": "Bookmarks",
+                "createLabel": "Создать новый Bookmark",
+                "createOrEditLabel": "Создать или отредактировать Bookmark",
+                "search": "Найти Bookmark"
+            },
+            "created": "Новый Bookmark создан с идентификатором {{ param }}",
+            "updated": "Bookmark обновлен с идентификатором {{ param }}",
+            "deleted": "Bookmark удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Bookmark {{ id }}?"
+            },
+            "detail": {
+                "title": "Bookmark"
+            },
+            "date": "Date",
+            "client": "Client",
+            "item": "Item"
+        }
+    }
+}
