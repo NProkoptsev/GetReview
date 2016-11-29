@@ -12,7 +12,8 @@
                                  baseTableName="image"
                                  constraintName="fk_image_item_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="item"/>
+                                 referencedTableName="item"
+                                 onDelete="CASCADE"/>
 
     </changeSet>
 </databaseChangeLog>
