@@ -66,7 +66,7 @@ public class SourceRepositoryImpl implements SourceRepository {
 
         jdbcTemplate.update(psCreator, keyHolder);
 
-        entity.setId((long) keyHolder.getKeys().get("id")+1);
+        entity.setId((long) keyHolder.getKeys().get("id"));
         return entity;
     }
 
