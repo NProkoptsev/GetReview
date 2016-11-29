@@ -13,9 +13,9 @@
     <diskStore path="java.io.tmpdir"/>
 
     <defaultCache
-            eternal="false"
-            overflowToDisk="false"
-            />
+        eternal="false"
+        overflowToDisk="false"
+    />
 
     <cache name="com.getreviews.domain.User"
            timeToLiveSeconds="3600">
@@ -38,25 +38,25 @@
     </cache>
 
     <cache name="com.getreviews.domain.Review"
-        timeToLiveSeconds="3600">
+           timeToLiveSeconds="3600">
     </cache>
 
     <cache name="com.getreviews.domain.Item"
-        timeToLiveSeconds="3600">
+           timeToLiveSeconds="3600">
     </cache>
 
     <cache name="com.getreviews.domain.Client"
-        timeToLiveSeconds="3600">
+           timeToLiveSeconds="3600">
     </cache>
 
 
     <cache name="com.getreviews.domain.Source"
-        timeToLiveSeconds="3600">
+           timeToLiveSeconds="3600">
     </cache>
 
 
     <cache name="com.getreviews.domain.Image"
-        timeToLiveSeconds="3600">
+           timeToLiveSeconds="3600">
     </cache>
 
 
@@ -66,43 +66,47 @@
 
 
     <cache name="com.getreviews.domain.Category"
-        timeToLiveSeconds="3600">
+           timeToLiveSeconds="3600">
     </cache>
 
     <cache name="com.getreviews.domain.Sale"
-        timeToLiveSeconds="3600">
+           timeToLiveSeconds="3600">
     </cache>
 
     <cache name="com.getreviews.domain.Sale.reviews"
-        timeToLiveSeconds="3600">
+           timeToLiveSeconds="3600">
     </cache>
 
     <cache name="com.getreviews.domain.Sale.items"
-        timeToLiveSeconds="3600">
+           timeToLiveSeconds="3600">
     </cache>
 
     <cache name="com.getreviews.domain.Item.images"
-        timeToLiveSeconds="3600">
+           timeToLiveSeconds="3600">
     </cache>
 
     <cache name="com.getreviews.domain.Item.reviews"
-        timeToLiveSeconds="3600">
+           timeToLiveSeconds="3600">
     </cache>
 
     <cache name="com.getreviews.domain.Item.sales"
-        timeToLiveSeconds="3600">
+           timeToLiveSeconds="3600">
     </cache>
 
     <cache name="com.getreviews.domain.Bookmark"
-        timeToLiveSeconds="3600">
+           timeToLiveSeconds="3600">
     </cache>
 
     <cache name="com.getreviews.domain.Shop"
-        timeToLiveSeconds="3600">
+           timeToLiveSeconds="3600">
     </cache>
 
     <cache name="com.getreviews.domain.Acquired_at"
-        timeToLiveSeconds="3600">
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.getreviews.domain.Link"
+           timeToLiveSeconds="3600">
     </cache>
 
     <!-- jhipster-needle-ehcache-add-entry -->

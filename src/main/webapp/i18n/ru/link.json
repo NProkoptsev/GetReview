@@ -1,0 +1,24 @@
+{
+    "getReviewsApp": {
+        "link" : {
+            "home": {
+                "title": "Links",
+                "createLabel": "Создать новый Link",
+                "createOrEditLabel": "Создать или отредактировать Link",
+                "search": "Найти Link"
+            },
+            "created": "Новый Link создан с идентификатором {{ param }}",
+            "updated": "Link обновлен с идентификатором {{ param }}",
+            "deleted": "Link удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Link {{ id }}?"
+            },
+            "detail": {
+                "title": "Link"
+            },
+            "url": "Url",
+            "description": "Description",
+            "item": "Item"
+        }
+    }
+}

@@ -13,15 +13,23 @@
     <include file="classpath:config/liquibase/changelog/20161122175622_added_entity_Category.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161128171324_added_entity_Sale.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161128214657_added_entity_Bookmark.xml" relativeToChangelogFile="false"/>
+
     <include file="classpath:config/liquibase/changelog/20161129131158_added_entity_Shop.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161129131806_added_entity_Acquired_at.xml" relativeToChangelogFile="false"/>
+
+    <include file="classpath:config/liquibase/changelog/20161129132336_added_entity_Link.xml" relativeToChangelogFile="false"/>
+
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20161031152746_added_entity_constraints_Review.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161104160103_added_entity_constraints_Image.xml"
              relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161101124943_added_entity_constraints_Item.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161128214657_added_entity_constraints_Bookmark.xml" relativeToChangelogFile="false"/>
+
     <include file="classpath:config/liquibase/changelog/20161129131806_added_entity_constraints_Acquired_at.xml" relativeToChangelogFile="false"/>
+
+    <include file="classpath:config/liquibase/changelog/20161129132336_added_entity_constraints_Link.xml" relativeToChangelogFile="false"/>
+
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <include file="classpath:config/liquibase/changelog/20161121210747_added_trigger_Time.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161122154842_added_fullTextSearch.xml" relativeToChangelogFile="false"/>
