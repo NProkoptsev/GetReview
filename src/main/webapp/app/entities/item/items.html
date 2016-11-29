@@ -55,7 +55,7 @@
                                     <li ng-repeat="category in vm.topCategories">
                                         <a ui-sref="item({category:category.id})">
                                             <i class="fa fa-desktop"></i>
-                                            {{category.name}}
+                                            {{category.name}} <span class="category-counter">({{category.count}})</span>
                                         </a>
                                     </li>
                                 </ul>
