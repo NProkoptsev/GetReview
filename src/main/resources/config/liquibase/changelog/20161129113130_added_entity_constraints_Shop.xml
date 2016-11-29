@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--
+        Added the constraints for entity Shop.
+    -->
+    <changeSet id="20161129113130-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="shops_id"
+                                 baseTableName="shop_sale"
+                                 constraintName="fk_shop_sale_shops_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="shop"/>
+        <addForeignKeyConstraint baseColumnNames="sales_id"
+                                 baseTableName="shop_sale"
+                                 constraintName="fk_shop_sale_sales_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="sale"/>
+        
+    </changeSet>
+</databaseChangeLog>

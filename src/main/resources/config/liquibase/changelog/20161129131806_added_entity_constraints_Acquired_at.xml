@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--
+        Added the constraints for entity Acquired_at.
+    -->
+    <changeSet id="20161129131806-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="item_id"
+                                 baseTableName="acquired_at"
+                                 constraintName="fk_acquired_at_item_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="item"/>
+
+        <addForeignKeyConstraint baseColumnNames="shop_id"
+                                 baseTableName="acquired_at"
+                                 constraintName="fk_acquired_at_shop_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="shop"/>
+
+    </changeSet>
+</databaseChangeLog>

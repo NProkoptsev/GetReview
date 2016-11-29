@@ -1,0 +1,24 @@
+{
+    "getReviewsApp": {
+        "acquired_at" : {
+            "home": {
+                "title": "Acquired Ats",
+                "createLabel": "Create a new Acquired At",
+                "createOrEditLabel": "Create or edit a Acquired At",
+                "search": "Search for Acquired At"
+            },
+            "created": "A new Acquired At is created with identifier {{ param }}",
+            "updated": "A Acquired At is updated with identifier {{ param }}",
+            "deleted": "A Acquired At is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Acquired At {{ id }}?"
+            },
+            "detail": {
+                "title": "Acquired At"
+            },
+            "price": "Price",
+            "item": "Item",
+            "shop": "Shop"
+        }
+    }
+}

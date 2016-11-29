@@ -1,9 +1,7 @@
 package com.getreviews.repository;
 
-import com.getreviews.domain.Category;
-import com.getreviews.domain.Item;
-import com.getreviews.domain.Review;
 import com.getreviews.domain.Sale;
+import com.getreviews.domain.Shop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -17,37 +15,36 @@ import java.time.ZoneId;
 import java.util.List;
 
 /**
- * Created by grigorijpogorelov on 28.11.16.
+ * Created by grigorijpogorelov on 29.11.16.
  */
-public class SaleRepositoryImpl implements SaleRepository {
+public class ShopRepositoryImpl implements ShopRepository {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
-    private RowMapper<Sale> rowMapper = new RowMapper<Sale>() {
+    private RowMapper<Shop> rowMapper = new RowMapper<Shop>() {
 
         @Override
-        public Sale mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Sale sale = new Sale();
-            sale.setId(rs.getLong("id"));
-            sale.setStart_time(Instant.ofEpochMilli(rs.getDate("start_time").getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
-            sale.setEnd_time(Instant.ofEpochMilli(rs.getDate("end_time").getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
-            sale.setDescription(rs.getString("description"));
-            return sale;
+        public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Shop shop = new Shop();
+            shop.setId(rs.getLong("id"));
+            shop.setName(rs.getString("name"));
+            shop.setDescription(rs.getString("description"));
+            return shop;
         }
     };
 
     @Override
-    public <S extends Sale> S save(S entity) {
+    public <S extends Shop> S save(S entity) {
         String sql;
         KeyHolder keyHolder = new GeneratedKeyHolder();
         final Long id = entity.getId();
 
         if (id == null) {
             sql =
-                "insert into sale (start_time, end_time, description) values (?, ?, ?)";
+                "insert into shop (name, description) values (?, ?)";
         } else {
             sql =
-                "update sale set start_time = ?, end_time = ?, description = ? where id = ?";
+                "update shop set name = ?, description = ? where id = ?";
         }
 
         PreparedStatementCreator psCreator =
@@ -57,10 +54,9 @@ public class SaleRepositoryImpl implements SaleRepository {
                     Connection con) throws SQLException {
                     PreparedStatement ps = con.prepareStatement(
                         sql, Statement.RETURN_GENERATED_KEYS);
-                    ps.setDate(1, Date.valueOf(entity.getStart_time()));
-                    ps.setDate(2, Date.valueOf(entity.getEnd_time()));
-                    ps.setString(3, entity.getDescription());
-                    if (id != null) ps.setLong(4, entity.getId());
+                    ps.setString(1, entity.getName());
+                    ps.setString(2, entity.getDescription());
+                    if (id != null) ps.setLong(3, entity.getId());
                     return ps;
                 }
             };
@@ -72,12 +68,12 @@ public class SaleRepositoryImpl implements SaleRepository {
     }
 
     @Override
-    public <S extends Sale> Iterable<S> save(Iterable<S> entities) {
+    public <S extends Shop> Iterable<S> save(Iterable<S> entities) {
         return null;
     }
 
     @Override
-    public Sale findOne(Long aLong) {
+    public Shop findOne(Long aLong) {
         return null;
     }
 
@@ -87,14 +83,14 @@ public class SaleRepositoryImpl implements SaleRepository {
     }
 
     @Override
-    public Iterable<Sale> findAll() {
-        List<Sale> sales = jdbcTemplate.query(
-            "select id, start_time, end_time, description from sale", rowMapper);
-        return sales;
+    public Iterable<Shop> findAll() {
+        List<Shop> shops = jdbcTemplate.query(
+            "select id, name, description from shop", rowMapper);
+        return shops;
     }
 
     @Override
-    public Iterable<Sale> findAll(Iterable<Long> longs) {
+    public Iterable<Shop> findAll(Iterable<Long> longs) {
         return null;
     }
 
@@ -105,16 +101,16 @@ public class SaleRepositoryImpl implements SaleRepository {
 
     @Override
     public void delete(Long aLong) {
-        jdbcTemplate.update("delete from sale where id = ?", aLong);
+        jdbcTemplate.update("delete from shop where id = ?", aLong);
     }
 
     @Override
-    public void delete(Sale entity) {
+    public void delete(Shop entity) {
 
     }
 
     @Override
-    public void delete(Iterable<? extends Sale> entities) {
+    public void delete(Iterable<? extends Shop> entities) {
 
     }
 

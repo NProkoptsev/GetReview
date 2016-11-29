@@ -16,6 +16,8 @@
                 "category": "Category",
                 "sale": "Sale",
                 "bookmark": "Bookmark",
+                "shop": "Shop",
+                "acquiredAt": "Acquired At",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

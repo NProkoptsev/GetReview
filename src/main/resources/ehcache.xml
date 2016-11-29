@@ -97,5 +97,13 @@
         timeToLiveSeconds="3600">
     </cache>
 
+    <cache name="com.getreviews.domain.Shop"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.getreviews.domain.Acquired_at"
+        timeToLiveSeconds="3600">
+    </cache>
+
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>

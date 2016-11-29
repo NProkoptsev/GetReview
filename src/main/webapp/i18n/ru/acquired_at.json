@@ -1,0 +1,24 @@
+{
+    "getReviewsApp": {
+        "acquired_at" : {
+            "home": {
+                "title": "Acquired Ats",
+                "createLabel": "Создать новый Acquired At",
+                "createOrEditLabel": "Создать или отредактировать Acquired At",
+                "search": "Найти Acquired At"
+            },
+            "created": "Новый Acquired At создан с идентификатором {{ param }}",
+            "updated": "Acquired At обновлен с идентификатором {{ param }}",
+            "deleted": "Acquired At удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Acquired At {{ id }}?"
+            },
+            "detail": {
+                "title": "Acquired At"
+            },
+            "price": "Price",
+            "item": "Item",
+            "shop": "Shop"
+        }
+    }
+}

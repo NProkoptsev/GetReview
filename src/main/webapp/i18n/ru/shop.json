@@ -1,0 +1,23 @@
+{
+    "getReviewsApp": {
+        "shop" : {
+            "home": {
+                "title": "Shops",
+                "createLabel": "Создать новый Shop",
+                "createOrEditLabel": "Создать или отредактировать Shop",
+                "search": "Найти Shop"
+            },
+            "created": "Новый Shop создан с идентификатором {{ param }}",
+            "updated": "Shop обновлен с идентификатором {{ param }}",
+            "deleted": "Shop удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Shop {{ id }}?"
+            },
+            "detail": {
+                "title": "Shop"
+            },
+            "name": "Name",
+            "description": "Description"
+        }
+    }
+}
